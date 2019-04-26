@@ -64,3 +64,5 @@ Many specific interfaces are better than one general purpose interface. The idea
 "Depend on abstractions, not on concretions."
 
 Depend on abstractions, not on concretions. This is the idea of not directly tying concrete objects together, but making them deal with abstractions in order to minimize dependencies between our objects. For example, if you have a high-level object, which depends on two low-level objects - you disconnect these two very concrete classes (i.e., remove the two low-level objects that are very specific), so you remove those connections and then insert a new layer between them, which might be abstract classes that are more basic. Therefore, it allows substitutions and flexibility. You can replace and extend the object. 
+
+Using some or all of the above principles can help keep your code maintainable, testable, and it can reduce the complexity. That's a win-win result in my book!
