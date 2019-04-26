@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-04-25T14:41:53+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Science to Technology</title><subtitle>Welcome to &quot;S2T.&quot; This is a blog that provides my personal journey as a scientist trying to transition into the tech world. Read and see lessons learned thus far. I hope you can find tools and resources that may help you enter/transition into an exciting field!</subtitle><entry><title type="html">A Brief Introduction to Object Oriented Programming</title><link href="http://localhost:4000/2019/04/25/object-oriented-programming.html" rel="alternate" type="text/html" title="A Brief Introduction to Object Oriented Programming" /><published>2019-04-25T00:00:00+01:00</published><updated>2019-04-25T00:00:00+01:00</updated><id>http://localhost:4000/2019/04/25/object-oriented-programming</id><content type="html" xml:base="http://localhost:4000/2019/04/25/object-oriented-programming.html">&lt;h2 id=&quot;what-is-object-oriented-programming&quot;&gt;What is Object Oriented Programming?&lt;/h2&gt;
+&lt;p&gt;Object oriented programming (OOP) is a pattern of programming in which the solution to a programming problem is modelled as a collection of collaborating objects.&lt;/p&gt;
+
+&lt;p&gt;Prior to the development of OOP, procedural programming divided a program into a set of functions. The data was stored in variables and the functions operated on that data. It was relatively simple, however, complications would arise when functions were changed. For example, another function may depend on the function that was changed, which could lead to the code becoming difficult to maintain. Essentially, OOP came about to help with this and other programming problems. Some benefits of using OOP include: reducing complexity, isolating the impact of changes made to code, eliminating redundant code, and refactoring code (e.g., condensing lengthy if/else statements). It also reduces development time by supporting programming by customization.&lt;/p&gt;
+
+&lt;h4 id=&quot;why-use-oop-in-python&quot;&gt;Why use OOP in Python?&lt;/h4&gt;
+&lt;p&gt;In Python, you could use OOP to build a data type(s) that matches real world objects. You can re-use and build upon code. You can work with abstract objects related to your domain.&lt;/p&gt;
+
+&lt;p&gt;Python is an object oriented language. For example, its class model supports polymorphism, operator overloading, and multiple inheritance (see: &lt;a href=&quot;http://shop.oreilly.com/product/0636920028154.do&quot;&gt;Learning Python&lt;/a&gt; by Mark Lutz). But OOP is an option in Python, you don’t need to become an OOP expert and immediately start applying it because Python supports a procedural programming mode as well.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-are-the-four-core-principles-of-oop&quot;&gt;What are the four core principles of OOP?&lt;/h2&gt;
+&lt;p&gt;It is often said that there are four main concepts in OOP, which are: encapsulation, abstraction, inheritance, and polymorphism. 
+I generally try to find a mnemonic way to remember things. What came to mind when I first learned this was, apple (a from apple is the first letter in &lt;em&gt;abstraction&lt;/em&gt;) pie, or even ‘a pie.’&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;A - abstraction&lt;/li&gt;
+  &lt;li&gt;P - polymorphism&lt;/li&gt;
+  &lt;li&gt;I  - inheritance&lt;/li&gt;
+  &lt;li&gt;E – encapsulation&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;While it worked for me to remember these concepts, lets look at these concepts in a logical order to better understand them.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Encapsulation&lt;/strong&gt; – It wraps up the data and code into a single unit (i.e., a class). This keeps the data and code safe from outside interference and misuse.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Abstraction&lt;/strong&gt; – This can be thought of as an extension of encapsulation. Abstraction is the process of hiding unnecessary details from the user. Essentially, it hides the complexity and provides only essential information to the user.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Inheritance&lt;/strong&gt; – It’s the process of creating a new object or class (called a derived class or subclass or child class) from an existing object or class (called a base class or super class or parent class), while retaining similar implementation. The derived class inherits all of the capabilities of the base class, but it can be extended and refined. Basically, the derived class is a more specialized one and it provides reusability. There are multiple types of inheritance, which include: single, multiple, multi-level, hierarchical, and hybrid. These types are based on the paradigm and specific language.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Polymorphism&lt;/strong&gt; – The word means ‘having many forms’. It refers to the ability to process objects differently depending on their data type or class (I really like this definition found here: &lt;a href=&quot;https://www.webopedia.com/TERM/P/polymorphism.html&quot;&gt;Polymorphism&lt;/a&gt;). One is able to redefine methods for derived classes. It essentially describes the concept that objects of different types can be accessed through the same interface. And each type can provide its own, independent implementation of this interface.&lt;/p&gt;
+
+&lt;p&gt;These OOP concepts can help our work become organized, modular and maintainable. They help us to omit repetition, keep data safe, and make our work user friendly.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-are-the-solid-principles&quot;&gt;What are the SOLID Principles?&lt;/h2&gt;
+&lt;p&gt;SOLID is an acronym for five class design principles that are intended to help a software design become more understandable, flexible, and easier to maintain. SOLID can be used as a checklist, something worth revisiting to help you create a well-made class design, but each part may not be necessary to implement.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/Users/sa4312/jekyll/myjekyllblog/assets/img/solid.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Robert C. Martin (known as &lt;a href=&quot;https://en.wikipedia.org/wiki/Robert_C._Martin&quot;&gt;“Uncle Bob”&lt;/a&gt;) defined principles of OOD, which can be found here: &lt;a href=&quot;http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod&quot;&gt;SOLID principles&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4 id=&quot;single-responsibility-principle-srp&quot;&gt;&lt;strong&gt;Single responsibility principle&lt;/strong&gt; (&lt;a href=&quot;https://drive.google.com/file/d/0ByOwmqah_nuGNHEtcU5OekdDMkk/view&quot;&gt;SRP&lt;/a&gt;)&lt;/h4&gt;
+&lt;p&gt;“A class should have one, and only one, reason to change.”&lt;/p&gt;
+
+&lt;p&gt;An object/class should have one primary responsibility. The object should have one reason to exist and that reason should be encapsulated within the class. It can have different behaviors, but those behaviors are oriented around that sole reason for existence. One may not want to create god objects that try to do too many different things.&lt;/p&gt;
+
+&lt;h4 id=&quot;openclosed-principle-ocp&quot;&gt;&lt;strong&gt;Open/closed principle&lt;/strong&gt; (&lt;a href=&quot;https://drive.google.com/file/d/0BwhCYaYDn8EgN2M5MTkwM2EtNWFkZC00ZTI3LWFjZTUtNTFhZGZiYmUzODc1/view&quot;&gt;OCP&lt;/a&gt;)&lt;/h4&gt;
+&lt;p&gt;“You should be able to extend a classes behavior, without modifying it.”&lt;/p&gt;
+
+&lt;p&gt;A system should be open for extension, but closed for modification. For example, if you want to add a feature, you could do this by writing new code, without modifying the existing code. Robert Martin provides an updated definition of the initial one provided by (Meyer 1988).&lt;/p&gt;
+
+&lt;h4 id=&quot;liskov-substitution-principle-lsp&quot;&gt;&lt;strong&gt;Liskov substitution principle&lt;/strong&gt; (&lt;a href=&quot;https://drive.google.com/file/d/0BwhCYaYDn8EgNzAzZjA5ZmItNjU3NS00MzQ5LTkwYjMtMDJhNDU5ZTM0MTlh/view&quot;&gt;LSP&lt;/a&gt;)&lt;/h4&gt;
+&lt;p&gt;“Derived classes must be substitutable for their base classes.”&lt;/p&gt;
+
+&lt;p&gt;Objects in a program should be replaceable with instances of their subclasses (or child classes or derived classes, whichever term you use for them) without altering the correctness of the program. So, you should be able to treat the child classes like their parent classes. As Robert Martin states, “Functions that use pointers or references to base classes must be able to use objects of derived classes without knowing it.”&lt;/p&gt;
+
+&lt;h4 id=&quot;interface-segregation-principle-isp&quot;&gt;&lt;strong&gt;Interface segregation principle&lt;/strong&gt; (&lt;a href=&quot;https://drive.google.com/file/d/0BwhCYaYDn8EgOTViYjJhYzMtMzYxMC00MzFjLWJjMzYtOGJiMDc5N2JkYmJi/view&quot;&gt;ISP&lt;/a&gt;)&lt;/h4&gt;
+&lt;p&gt;“Make fine grained interfaces that are client specific.”&lt;/p&gt;
+
+&lt;p&gt;Many specific interfaces are better than one general purpose interface. The idea of the interface here is having formalized lists of method names that a class can choose to support. And those lists of methods should be as small as possible and if they start to get bigger, then they should be split up into smaller interfaces as classes can choose to implement multiple smaller interfaces. A class should not have to support enormous lists of methods that it doesn’t need.&lt;/p&gt;
+
+&lt;h4 id=&quot;dependency-inversion-principle-dip&quot;&gt;&lt;strong&gt;Dependency Inversion Principle&lt;/strong&gt; (&lt;a href=&quot;https://drive.google.com/file/d/0BwhCYaYDn8EgMjdlMWIzNGUtZTQ0NC00ZjQ5LTkwYzQtZjRhMDRlNTQ3ZGMz/view&quot;&gt;DIP&lt;/a&gt;)&lt;/h4&gt;
+&lt;p&gt;“Depend on abstractions, not on concretions.”&lt;/p&gt;
+
+&lt;p&gt;Depend on abstractions, not on concretions. This is the idea of not directly tying concrete objects together, but making them deal with abstractions in order to minimize dependencies between our objects. For example, if you have a high-level object, which depends on two low-level objects - you disconnect these two very concrete classes (i.e., remove the two low-level objects that are very specific), so you remove those connections and then insert a new layer between them, which might be abstract classes that are more basic. Therefore, it allows substitutions and flexibility. You can replace and extend the object.&lt;/p&gt;</content><author><name></name></author><summary type="html">What is Object Oriented Programming? Object oriented programming (OOP) is a pattern of programming in which the solution to a programming problem is modelled as a collection of collaborating objects.</summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="http://localhost:4000/jekyll/update/2019/02/21/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2019-02-21T09:42:27+00:00</published><updated>2019-02-21T09:42:27+00:00</updated><id>http://localhost:4000/jekyll/update/2019/02/21/welcome-to-jekyll</id><content type="html" xml:base="http://localhost:4000/jekyll/update/2019/02/21/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;To add new posts, simply add a file in the &lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code class=&quot;highlighter-rouge&quot;&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Tom'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints 'Hi, Tom' to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.</summary></entry></feed>
