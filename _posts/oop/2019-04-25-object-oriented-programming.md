@@ -36,7 +36,7 @@ These OOP concepts can help our work become organized, modular and maintainable.
 ## What are the SOLID Principles?
 SOLID is an acronym for five class design principles that are intended to help a software design become more understandable, flexible, and easier to maintain. SOLID can be used as a checklist, something worth revisiting to help you create a well-made class design, but each part may not be necessary to implement. 
 
-<img src="/Users/sa4312/jekyll/myjekyllblog/assets/img/solid.png" alt="">
+![SOLID](/assets/img/solid.png)
 
 Robert C. Martin (known as ["Uncle Bob"](https://en.wikipedia.org/wiki/Robert_C._Martin)) defined principles of OOD, which can be found here: [SOLID principles](http://butunclebob.com/ArticleS.UncleBob.PrinciplesOfOod).
 
