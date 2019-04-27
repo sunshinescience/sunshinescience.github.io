@@ -16,7 +16,7 @@
 title: Science to Technology
 email: sunshine.abbott@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Welcome to "S2T." This is a blog that provides my personal journey as a scientist trying to transition into the tech world. Read and see lessons learned thus far. I hope you can find tools and resources that may help you enter/transition into an exciting field!
+  Welcome to "S2T." This is a blog that provides some of the things I've learned while looking into the tech sector. I hope you can find tools and resources that may help you in this exciting field!
  
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://sunshinescience.github.io" 
