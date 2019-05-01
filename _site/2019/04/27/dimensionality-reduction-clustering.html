@@ -326,7 +326,7 @@ plot_dim_red(svd_result, data, 'Truncated SVD reduced handwritten digits')
 <h3 id="isometric-mapping">Isometric Mapping</h3>
 <p>Isometric Mapping (<a href="https://web.mit.edu/cocosci/Papers/sci_reprint.pdf">isomap</a>) is a non-linear dimensionality reduction method that uses local metric information to learn the underlying geometry of a dataset. It provides a method for estimating the geometry of a data manifold based on a rough estimate of each data point’s neighbors on the manifold. This method combines some of the features of PCA and Multidimensional scaling (<a href="https://en.wikipedia.org/wiki/Multidimensional_scaling">MDS</a>).</p>
 
-<p>This algorithm starts by creating a neighborhood graph for the data points. Next, it computes the geodesic <a href="https://en.wikipedia.org/wiki/Distance_(graph_theory)">distance</a> between all of the data points. Finally, through eigenvalue decomposition of the geodesic distance matrix, it constructs the low dimensional embedding of the dataset. This is what the algorithm produces with this dataset:</p>
+<p>This algorithm has three <a href="https://web.mit.edu/cocosci/Papers/nips02-localglobal-in-press.pdf">stages</a>. It starts by determining a neighborhood graph for the data points. Next, it computes the geodesic <a href="https://en.wikipedia.org/wiki/Distance_(graph_theory)">distance</a> for all pairs of data points. Finally, through applying MDS to the shortest-path distance matrix, it constructs the low dimensional embedding of the data in Euclidean space. This is what the algorithm produces with this dataset:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Isomap reduced data
 iso = Isomap(n_components=2)

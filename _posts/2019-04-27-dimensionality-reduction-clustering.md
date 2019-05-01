@@ -264,7 +264,7 @@ It appears that results from this transformer are similar to results from using 
 ### Isometric Mapping
 Isometric Mapping ([isomap](https://web.mit.edu/cocosci/Papers/sci_reprint.pdf)) is a non-linear dimensionality reduction method that uses local metric information to learn the underlying geometry of a dataset. It provides a method for estimating the geometry of a data manifold based on a rough estimate of each data point’s neighbors on the manifold. This method combines some of the features of PCA and Multidimensional scaling ([MDS](https://en.wikipedia.org/wiki/Multidimensional_scaling)).
 
-This algorithm starts by creating a neighborhood graph for the data points. Next, it computes the geodesic [distance](https://en.wikipedia.org/wiki/Distance_(graph_theory)) between all of the data points. Finally, through eigenvalue decomposition of the geodesic distance matrix, it constructs the low dimensional embedding of the dataset. This is what the algorithm produces with this dataset:
+This algorithm has three [stages](https://web.mit.edu/cocosci/Papers/nips02-localglobal-in-press.pdf). It starts by determining a neighborhood graph for the data points. Next, it computes the geodesic [distance](https://en.wikipedia.org/wiki/Distance_(graph_theory)) for all pairs of data points. Finally, through applying MDS to the shortest-path distance matrix, it constructs the low dimensional embedding of the data in Euclidean space. This is what the algorithm produces with this dataset:
 
     # Isomap reduced data
     iso = Isomap(n_components=2)
