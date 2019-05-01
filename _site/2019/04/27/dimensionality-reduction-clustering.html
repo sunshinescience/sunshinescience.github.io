@@ -309,6 +309,8 @@ plt.show()
 <p>For this demonstration, t-SNE appears to have found structure in this dataset. From now on, unless otherwise stated, results from 1,000 iterations and a perplexity of 40 will be shown when using t-SNE dimensionality reduction.</p>
 
 <h3 id="truncated-singular-value-decomposition-truncated-svd">Truncated singular value decomposition (truncated SVD)</h3>
+<p>The <a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html">truncated singular value decomposition</a> estimator performs linear dimensionality reduction. Singular value decomposition (<a href="https://en.wikipedia.org/wiki/Singular_value_decomposition#Truncated_SVD">SVD</a>) produces a factorization of a matrix, in which the number of columns is equal to the specified truncation. And matrix decomposition (or matrix factorization) involves describing a given matrix using its constituent elements. For (<a href="https://www.oreilly.com/library/view/scikit-learn-cookbook/9781783989485/ch01s13.html">example</a>), given an n x n matrix, SVD would produce matrices with n columns. However, <a href="https://link.springer.com/article/10.1007/BF01937276">Truncated SVD</a> would produce matrices with the specified number of columns, thereby reducing the dimensionality. One of the advantages in using this method is that it can operate on <a href="https://en.wikipedia.org/wiki/Sparse_matrix">sparse matrices</a> 
+Let’s fit the model and examine the results:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Truncated SVD reduced data
 svd = TruncatedSVD(n_components=2, n_iter=10)

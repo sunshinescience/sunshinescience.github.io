@@ -248,6 +248,8 @@ And the figure below shows perplexity values in ranges varying from (2 to 100). 
 For this demonstration, t-SNE appears to have found structure in this dataset. From now on, unless otherwise stated, results from 1,000 iterations and a perplexity of 40 will be shown when using t-SNE dimensionality reduction.
 
 ### Truncated singular value decomposition (truncated SVD)
+The [truncated singular value decomposition](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html) estimator performs linear dimensionality reduction. Singular value decomposition ([SVD](https://en.wikipedia.org/wiki/Singular_value_decomposition#Truncated_SVD)) produces a factorization of a matrix, in which the number of columns is equal to the specified truncation. And matrix decomposition (or matrix factorization) involves describing a given matrix using its constituent elements. For ([example](https://www.oreilly.com/library/view/scikit-learn-cookbook/9781783989485/ch01s13.html)), given an n x n matrix, SVD would produce matrices with n columns. However, [Truncated SVD](https://link.springer.com/article/10.1007/BF01937276) would produce matrices with the specified number of columns, thereby reducing the dimensionality. One of the advantages in using this method is that it can operate on [sparse matrices](https://en.wikipedia.org/wiki/Sparse_matrix) 
+Let's fit the model and examine the results:
 
     # Truncated SVD reduced data
     svd = TruncatedSVD(n_components=2, n_iter=10)
