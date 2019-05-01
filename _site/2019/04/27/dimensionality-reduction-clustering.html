@@ -309,8 +309,7 @@ plt.show()
 <p>For this demonstration, t-SNE appears to have found structure in this dataset. From now on, unless otherwise stated, results from 1,000 iterations and a perplexity of 40 will be shown when using t-SNE dimensionality reduction.</p>
 
 <h3 id="truncated-singular-value-decomposition-truncated-svd">Truncated singular value decomposition (truncated SVD)</h3>
-<p>The <a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html">truncated singular value decomposition</a> estimator performs linear dimensionality reduction. Singular value decomposition (<a href="https://en.wikipedia.org/wiki/Singular_value_decomposition#Truncated_SVD">SVD</a>) produces a factorization of a matrix, in which the number of columns is equal to the specified truncation. And matrix decomposition (or matrix factorization) involves describing a given matrix using its constituent elements. For (<a href="https://www.oreilly.com/library/view/scikit-learn-cookbook/9781783989485/ch01s13.html">example</a>), given an n x n matrix, SVD would produce matrices with n columns. However, <a href="https://link.springer.com/article/10.1007/BF01937276">Truncated SVD</a> would produce matrices with the specified number of columns, thereby reducing the dimensionality. One of the advantages in using this method is that it can operate on <a href="https://en.wikipedia.org/wiki/Sparse_matrix">sparse matrices</a> 
-Let’s fit the model and examine the results:</p>
+<p>The <a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html">truncated singular value decomposition</a> estimator performs linear dimensionality reduction. Singular value decomposition (<a href="https://en.wikipedia.org/wiki/Singular_value_decomposition#Truncated_SVD">SVD</a>) produces a factorization of a matrix, in which the number of columns is equal to the specified truncation. And matrix decomposition (or matrix factorization) involves describing a given matrix using its constituent elements. For (<a href="https://www.oreilly.com/library/view/scikit-learn-cookbook/9781783989485/ch01s13.html">example</a>), given an n x n matrix, SVD would produce matrices with n columns. However, <a href="https://link.springer.com/article/10.1007/BF01937276">Truncated SVD</a> would produce matrices with the specified number of columns, thereby reducing the dimensionality. One of the advantages in using this method is that it can operate on <a href="https://en.wikipedia.org/wiki/Sparse_matrix">sparse matrices</a>. Let’s fit the model and examine the results:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Truncated SVD reduced data
 svd = TruncatedSVD(n_components=2, n_iter=10)
@@ -322,11 +321,14 @@ plot_dim_red(svd_result, data, 'Truncated SVD reduced handwritten digits')
 
 <p><img src="/assets/img/Truncated_SVD_result.png" width="650" height="500" /></p>
 
+<p>It appears that results from this transformer are similar to results from using PCA above.</p>
+
 <h3 id="isometric-mapping">Isometric Mapping</h3>
-<p>Isometric Mapping (isomap)</p>
+<p>Isometric Mapping (<a href="https://web.mit.edu/cocosci/Papers/sci_reprint.pdf">isomap</a>) is a non-linear dimensionality reduction method that uses local metric information to learn the underlying geometry of a dataset. It provides a method for estimating the geometry of a data manifold based on a rough estimate of each data point’s neighbors on the manifold. This method combines some of the features of PCA and Multidimensional scaling (<a href="https://en.wikipedia.org/wiki/Multidimensional_scaling">MDS</a>).</p>
+
+<p>This algorithm starts by creating a neighborhood graph for the data points. Next, it computes the geodesic <a href="https://en.wikipedia.org/wiki/Distance_(graph_theory)">distance</a> between all of the data points. Finally, through eigenvalue decomposition of the geodesic distance matrix, it constructs the low dimensional embedding of the dataset. This is what the algorithm produces with this dataset:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Isomap reduced data
-
 iso = Isomap(n_components=2)
 iso_result = iso.fit_transform(data)
 
@@ -335,6 +337,8 @@ plot_dim_red(iso_result, data, 'Isomap reduced handwritten digits')
 </code></pre></div></div>
 
 <p><img src="/assets/img/isomap_result.png" width="650" height="500" /></p>
+
+<p>(A PY file with more code (Python) is available on this <a href="https://github.com/sunshinescience/dim_red_cluster/blob/master/dim_red_cl.py">github repo</a>)</p>
 
 
   </div><a class="u-url" href="/2019/04/27/dimensionality-reduction-clustering.html" hidden></a>
