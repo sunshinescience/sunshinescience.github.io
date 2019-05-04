@@ -7,15 +7,15 @@
 <meta name="generator" content="Jekyll v3.8.5" />
 <meta property="og:title" content="Dimensionality Reduction and Clustering on the Handwritten Digits Dataset" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Welcome to “S2T.” This is a blog that provides my personal journey as a scientist trying to transition into the tech world. Read and see lessons learned thus far. I hope you can find tools and resources that may help you enter/transition into an exciting field!" />
-<meta property="og:description" content="Welcome to “S2T.” This is a blog that provides my personal journey as a scientist trying to transition into the tech world. Read and see lessons learned thus far. I hope you can find tools and resources that may help you enter/transition into an exciting field!" />
+<meta name="description" content="Welcome to “S2T.” This is a blog that provides some of the things I’ve learned while looking into the tech sector. I hope you can find tools and resources that may help you in this exciting field!" />
+<meta property="og:description" content="Welcome to “S2T.” This is a blog that provides some of the things I’ve learned while looking into the tech sector. I hope you can find tools and resources that may help you in this exciting field!" />
 <link rel="canonical" href="http://localhost:4000/2019/04/27/dimensionality-reduction-clustering.html" />
 <meta property="og:url" content="http://localhost:4000/2019/04/27/dimensionality-reduction-clustering.html" />
 <meta property="og:site_name" content="Science to Technology" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2019-04-27T00:00:00+01:00" />
 <script type="application/ld+json">
-{"description":"Welcome to “S2T.” This is a blog that provides my personal journey as a scientist trying to transition into the tech world. Read and see lessons learned thus far. I hope you can find tools and resources that may help you enter/transition into an exciting field!","@type":"BlogPosting","url":"http://localhost:4000/2019/04/27/dimensionality-reduction-clustering.html","headline":"Dimensionality Reduction and Clustering on the Handwritten Digits Dataset","dateModified":"2019-04-27T00:00:00+01:00","datePublished":"2019-04-27T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/04/27/dimensionality-reduction-clustering.html"},"@context":"http://schema.org"}</script>
+{"description":"Welcome to “S2T.” This is a blog that provides some of the things I’ve learned while looking into the tech sector. I hope you can find tools and resources that may help you in this exciting field!","@type":"BlogPosting","url":"http://localhost:4000/2019/04/27/dimensionality-reduction-clustering.html","headline":"Dimensionality Reduction and Clustering on the Handwritten Digits Dataset","dateModified":"2019-04-27T00:00:00+01:00","datePublished":"2019-04-27T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2019/04/27/dimensionality-reduction-clustering.html"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Science to Technology" /></head>
 <body><header class="site-header" role="banner">
@@ -340,6 +340,149 @@ plot_dim_red(iso_result, data, 'Isomap reduced handwritten digits')
 
 <p>(A PY file with more code (Python) is available on this <a href="https://github.com/sunshinescience/dim_red_cluster/blob/master/dim_red_cl.py">github repo</a>)</p>
 
+<h2 id="clustering">Clustering</h2>
+<p>One of the many ways to try to understand data is to organize it into groups.  Clustering is a very popular unsupervised learning technique that is used to find logical groupings within data. Clustering doesn’t use any Y variables or labels on the data. It investigates the data structure itself. And the goal of clustering is to minimize inter-cluster similarity and maximize intra-cluster similarity.</p>
+
+<p>If you have a large input data set, you can find patterns within the data via clustering. For example, you may want to use a clustering algorithm to fit a large variety of emails into individual topics. These could include topics such as science, technology, or personal emails, and etc. That is one example of clustering, but it applies to so many use cases.</p>
+
+<p>Scikit-learn has the following clustering algorithms: K-means, Mini Batch K-Means, Affinity propagation, Mean-shift, Spectral clustering, Ward hierarchical clustering, Agglomerative clustering, DBSCAN, Gaussian mixtures, and Birch. There is an overview of the different clustering methods on scikit-learn, found <a href="https://scikit-learn.org/stable/modules/clustering.html">here</a>.</p>
+
+<p>For the handwritten digits dataset, the following clustering techniques will be used: k-means, mean-shift, spectral, DBSCAN, and affinity propagation clustering. These methods were chosen to try on this dataset because k-means clustering is one of the most popular machine learning algorithms that allows us to maximize inter-cluster similarity and minimize intra-cluster similarity. And mean-shift clustering is very similar to k-means clustering, but instead of using a sum of neighborhood points, the kernel function in mean-shift clustering would apply a probability weighted sum of points. Spectral and affinity propogation clustering  differ from k-means in that they can be used for a dataset with non-flat geometry and graph distance (e.g., nearest-neighbor graph) metrics are used. DBSCAN differs from k-means as it too can be used for a dataset with non-flat geometry, but the distances between nearest points metrics are used. The main goal here is to assess a few of the dimensionality reduction methods and a few of the clustering techniques on the handwritten digits dataset, for comparison purposes.</p>
+
+<h3 id="k-means">K-means</h3>
+<p>The goal of <a href="http://www.labri.fr/perso/bpinaud/userfiles/downloads/hartigan_1979_kmeans.pdf">k-means</a> clustering is to minimize the sum of squared distances between all points and the cluster centre (<a href="https://pdfs.semanticscholar.org/0ec1/32fce9971d1e0e670e650b58176dc7bf36da.pdf">Ray &amp; Turi 1999</a>). Let’s use the demo on this <a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">site</a> as a guide to get started. The demo compares different initialization strategies for k-means clustering. Different initialization strategies will be assessed here and the k-means algorithm from scikit-learn will be utilized.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Metrics for K-means clustering
+
+n_clusters = n_digits # The number of clusters
+n_init = 10
+sample_size = 300
+
+# Metrics to evaluate the model
+print('init\t\t homo\t compl\t v-meas\t ARI\t AMI\t F-M\t silhouette')
+
+def kmeans_metrics(estimator, name, data):
+    """
+    Compare different initializations of K-means to assess the quality of the clustering.
+
+    Parameters:
+        estimator: K-means algorithm with parameters to pass (init, n_clusters, and n_init)
+        name: name of the method for initialization
+        data: data
+    """
+    estimator.fit(data)
+    print ('{:&lt;9}\t {:.2f}\t {:.2f}\t {:.2f}\t {:.2f}\t {:.2f}\t {:.2f}\t {:.2f}'
+    .format(name, metrics.homogeneity_score(labels, estimator.labels_),
+    metrics.completeness_score(labels, estimator.labels_),
+    metrics.v_measure_score(labels, estimator.labels_),
+    metrics.adjusted_rand_score(labels, estimator.labels_),
+    metrics.adjusted_mutual_info_score(labels,  estimator.labels_),
+    metrics.fowlkes_mallows_score(labels, estimator.labels_),
+    metrics.silhouette_score(data, estimator.labels_,
+                                metric='euclidean',
+                                sample_size=sample_size)))
+
+kmeans_metrics(KMeans(init='k-means++', n_clusters=n_clusters, n_init=10),
+            name="k-means++", data=data)
+
+kmeans_metrics(KMeans(init='random', n_clusters=n_clusters, n_init=10),
+            name="random", data=data)
+
+# In this case the seeding of the centers is deterministic, thus the kmeans algorithm is run only once (i.e., n_init=1)
+pca = PCA(n_components=n_digits).fit(data)
+kmeans_metrics(KMeans(init=pca.components_, n_clusters=n_clusters, n_init=1),
+            name="PCA-based",
+            data=data)
+</code></pre></div></div>
+
+<p>Initially, a <em>k</em> (number of clusters) value as a parameter needs to be provided when using the k-means algorithm to partition clusters. Here, the number of digits equals the number of clusters (see above code). Let’s perform k-means clustering on the dimensionality reduced data.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># K-means clustering
+
+def k_means_reduced(reduced_data, initialization, n_clusters, n_init):
+    """
+    This returns K-means clustering on data that has undergone dimensionality reduction.
+    Parameters:
+        reduced_data: The data that has undergone dimensionality reduction
+        initialization: Method for initialization, defaults to ‘k-means++’:
+        n_clusters: The number of clusters to form as well as the number of centroids to generate.
+        n_init: Number of times the k-means algorithm will run with different centroid seeds.
+    """
+    k_means = KMeans(init=initialization, n_clusters=n_clusters, n_init=n_init) 
+    k_means_model = k_means.fit(reduced_data)
+    return k_means_model
+
+# K-means clustering on PCA reduced data
+k_pca = k_means_reduced(pca_result, 'k-means++', n_clusters, n_init)
+# K-means clustering on t-SNE reduced data
+k_t_sne = k_means_reduced(tsne_result, 'k-means++', n_clusters, n_init)
+# K-means clustering on Truncated SVD reduced data
+k_SVD = k_means_reduced(svd_result, 'k-means++', n_clusters, n_init)
+# K-means clustering on isomap reduced data
+k_iso = k_means_reduced(iso_result, 'k-means++', n_clusters, n_init)
+</code></pre></div></div>
+
+<p>Here, the results of k-means clustering are visualized:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Figure of PCA vs t-SNE reduced data and K-means clustering on both
+fig, axarr = plt.subplots(2, 2, figsize=(10,8)) 
+
+# Plot of PCA reduced data 
+axarr[0, 0].scatter(pca_result[:,0],pca_result[:,1],c='k')
+axarr[0, 0].set_title('PCA reduced data')
+
+# Plot of t-SNE reduced data 
+axarr[1, 0].scatter(tsne_result[:,0], tsne_result[:,1],c='k')
+axarr[1, 0].set_title('t-SNE reduced data')
+
+# Plot of K-means clustering on PCA reduced data
+cluster_ax = axarr[0, 1]
+cluster_ax.scatter(pca_result[:,0],pca_result[:,1],c=k_pca.labels_, marker='o', edgecolor='none', alpha=0.5)
+centroids = k_pca.cluster_centers_
+centroid_x = cluster_ax.scatter(centroids[:, 0], centroids[:, 1],
+            marker='o', edgecolors='k', 
+            c=np.arange(n_clusters), zorder=10)
+cluster_ax.set_title('K-means clustering on PCA reduced data')
+
+# Plot of K-means clustering on t-SNE reduced data
+cluster_ax2 = axarr[1, 1]
+cluster_ax2.scatter(tsne_result[:,0],tsne_result[:,1],c=k_t_sne.labels_, marker='o', edgecolor='none', alpha=0.5)
+centroids = k_t_sne.cluster_centers_
+centroid_x = cluster_ax2.scatter(centroids[:, 0], centroids[:, 1],
+            marker='o', edgecolors='k', 
+            c=np.arange(n_clusters), zorder=10) # If you want the cluster center marker as an 'x', use: marker='x', s=100, linewidths=5, color='k', zorder=10
+cluster_ax2.set_title('K-means clustering on t-SNE reduced data')
+fig.suptitle('K-means clustering on the handwritten digits dataset')
+plt.show()
+</code></pre></div></div>
+
+<p><img src="/assets/img/pca_tsne_k_means.png" />
+The above figure compares k-means clustering on PCA dimensionality reduced data vs t-SNE dimensionality reduced data. The black-lined circles on the right two plots indicate the location of the center of each corresponding cluster. The individual plots for k-means clustering on PCA, t-SNE, truncated SVD, and Isomap dimensionality reduced data are as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Plot of k-means clustering on t-SNE reduced data
+plot_dim_red_clust(tsne_result, k_t_sne, data, 't-SNE', 'K-means', centroids=True)
+</code></pre></div></div>
+
+<p><img src="/assets/img/t-SNE_K-means_plot.png" /></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Plot of k-means clustering on pca reduced data
+plot_dim_red_clust(pca_result, k_pca, data, 'PCA', 'K-means', centroids=True)
+</code></pre></div></div>
+
+<p><img src="/assets/img/PCA_K-means_plot.png" /></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Plot of K-means clustering on isomap reduced data
+plot_dim_red_clust(iso_result, k_iso, data, 'isomap', 'K-means')
+</code></pre></div></div>
+
+<p><img src="/assets/img/isomap_K-means_plot.png" /></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Plot of K-means clustering on truncated SVD reduced data
+plot_dim_red_clust(svd_result, k_SVD, data, 'truncated SVD', 'K-means')
+</code></pre></div></div>
+
+<p><img src="/assets/img/truncated SVD_K-means_plot.png" /></p>
+
 
   </div><a class="u-url" href="/2019/04/27/dimensionality-reduction-clustering.html" hidden></a>
 </article>
@@ -362,7 +505,7 @@ plot_dim_red(iso_result, data, 'Isomap reduced handwritten digits')
 </div>
 
       <div class="footer-col footer-col-3">
-        <p>Welcome to &quot;S2T.&quot; This is a blog that provides my personal journey as a scientist trying to transition into the tech world. Read and see lessons learned thus far. I hope you can find tools and resources that may help you enter/transition into an exciting field!</p>
+        <p>Welcome to &quot;S2T.&quot; This is a blog that provides some of the things I&#39;ve learned while looking into the tech sector. I hope you can find tools and resources that may help you in this exciting field!</p>
       </div>
     </div>
 

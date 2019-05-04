@@ -277,3 +277,139 @@ This algorithm has three [stages](https://web.mit.edu/cocosci/Papers/nips02-loca
 
 (A PY file with more code (Python) is available on this [github repo](https://github.com/sunshinescience/dim_red_cluster/blob/master/dim_red_cl.py))
 
+## Clustering
+One of the many ways to try to understand data is to organize it into groups.  Clustering is a very popular unsupervised learning technique that is used to find logical groupings within data. Clustering doesn’t use any Y variables or labels on the data. It investigates the data structure itself. And the goal of clustering is to minimize inter-cluster similarity and maximize intra-cluster similarity. 
+
+If you have a large input data set, you can find patterns within the data via clustering. For example, you may want to use a clustering algorithm to fit a large variety of emails into individual topics. These could include topics such as science, technology, or personal emails, and etc. That is one example of clustering, but it applies to so many use cases.
+
+Scikit-learn has the following clustering algorithms: K-means, Mini Batch K-Means, Affinity propagation, Mean-shift, Spectral clustering, Ward hierarchical clustering, Agglomerative clustering, DBSCAN, Gaussian mixtures, and Birch. There is an overview of the different clustering methods on scikit-learn, found [here](https://scikit-learn.org/stable/modules/clustering.html).
+
+For the handwritten digits dataset, the following clustering techniques will be used: k-means, mean-shift, spectral, DBSCAN, and affinity propagation clustering. These methods were chosen to try on this dataset because k-means clustering is one of the most popular machine learning algorithms that allows us to maximize inter-cluster similarity and minimize intra-cluster similarity. And mean-shift clustering is very similar to k-means clustering, but instead of using a sum of neighborhood points, the kernel function in mean-shift clustering would apply a probability weighted sum of points. Spectral and affinity propogation clustering  differ from k-means in that they can be used for a dataset with non-flat geometry and graph distance (e.g., nearest-neighbor graph) metrics are used. DBSCAN differs from k-means as it too can be used for a dataset with non-flat geometry, but the distances between nearest points metrics are used. The main goal here is to assess a few of the dimensionality reduction methods and a few of the clustering techniques on the handwritten digits dataset, for comparison purposes. 
+
+### K-means
+The goal of [k-means](http://www.labri.fr/perso/bpinaud/userfiles/downloads/hartigan_1979_kmeans.pdf) clustering is to minimize the sum of squared distances between all points and the cluster centre ([Ray & Turi 1999]( https://pdfs.semanticscholar.org/0ec1/32fce9971d1e0e670e650b58176dc7bf36da.pdf)). Let's use the demo on this [site](https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py) as a guide to get started. The demo compares different initialization strategies for k-means clustering. Different initialization strategies will be assessed here and the k-means algorithm from scikit-learn will be utilized. 
+
+    # Metrics for K-means clustering
+
+    n_clusters = n_digits # The number of clusters
+    n_init = 10
+    sample_size = 300
+
+    # Metrics to evaluate the model
+    print('init\t\t homo\t compl\t v-meas\t ARI\t AMI\t F-M\t silhouette')
+
+    def kmeans_metrics(estimator, name, data):
+        """
+        Compare different initializations of K-means to assess the quality of the clustering.
+
+        Parameters:
+            estimator: K-means algorithm with parameters to pass (init, n_clusters, and n_init)
+            name: name of the method for initialization
+            data: data
+        """
+        estimator.fit(data)
+        print ('{:<9}\t {:.2f}\t {:.2f}\t {:.2f}\t {:.2f}\t {:.2f}\t {:.2f}\t {:.2f}'
+        .format(name, metrics.homogeneity_score(labels, estimator.labels_),
+        metrics.completeness_score(labels, estimator.labels_),
+        metrics.v_measure_score(labels, estimator.labels_),
+        metrics.adjusted_rand_score(labels, estimator.labels_),
+        metrics.adjusted_mutual_info_score(labels,  estimator.labels_),
+        metrics.fowlkes_mallows_score(labels, estimator.labels_),
+        metrics.silhouette_score(data, estimator.labels_,
+                                    metric='euclidean',
+                                    sample_size=sample_size)))
+
+    kmeans_metrics(KMeans(init='k-means++', n_clusters=n_clusters, n_init=10),
+                name="k-means++", data=data)
+
+    kmeans_metrics(KMeans(init='random', n_clusters=n_clusters, n_init=10),
+                name="random", data=data)
+
+    # In this case the seeding of the centers is deterministic, thus the kmeans algorithm is run only once (i.e., n_init=1)
+    pca = PCA(n_components=n_digits).fit(data)
+    kmeans_metrics(KMeans(init=pca.components_, n_clusters=n_clusters, n_init=1),
+                name="PCA-based",
+                data=data)
+
+Initially, a *k* (number of clusters) value as a parameter needs to be provided when using the k-means algorithm to partition clusters. Here, the number of digits equals the number of clusters (see above code). Let’s perform k-means clustering on the dimensionality reduced data.
+
+    # K-means clustering
+
+    def k_means_reduced(reduced_data, initialization, n_clusters, n_init):
+        """
+        This returns K-means clustering on data that has undergone dimensionality reduction.
+        Parameters:
+            reduced_data: The data that has undergone dimensionality reduction
+            initialization: Method for initialization, defaults to ‘k-means++’:
+            n_clusters: The number of clusters to form as well as the number of centroids to generate.
+            n_init: Number of times the k-means algorithm will run with different centroid seeds.
+        """
+        k_means = KMeans(init=initialization, n_clusters=n_clusters, n_init=n_init) 
+        k_means_model = k_means.fit(reduced_data)
+        return k_means_model
+
+    # K-means clustering on PCA reduced data
+    k_pca = k_means_reduced(pca_result, 'k-means++', n_clusters, n_init)
+    # K-means clustering on t-SNE reduced data
+    k_t_sne = k_means_reduced(tsne_result, 'k-means++', n_clusters, n_init)
+    # K-means clustering on Truncated SVD reduced data
+    k_SVD = k_means_reduced(svd_result, 'k-means++', n_clusters, n_init)
+    # K-means clustering on isomap reduced data
+    k_iso = k_means_reduced(iso_result, 'k-means++', n_clusters, n_init)
+
+Here, the results of k-means clustering are visualized:
+
+    # Figure of PCA vs t-SNE reduced data and K-means clustering on both
+    fig, axarr = plt.subplots(2, 2, figsize=(10,8)) 
+
+    # Plot of PCA reduced data 
+    axarr[0, 0].scatter(pca_result[:,0],pca_result[:,1],c='k')
+    axarr[0, 0].set_title('PCA reduced data')
+    
+    # Plot of t-SNE reduced data 
+    axarr[1, 0].scatter(tsne_result[:,0], tsne_result[:,1],c='k')
+    axarr[1, 0].set_title('t-SNE reduced data')
+
+    # Plot of K-means clustering on PCA reduced data
+    cluster_ax = axarr[0, 1]
+    cluster_ax.scatter(pca_result[:,0],pca_result[:,1],c=k_pca.labels_, marker='o', edgecolor='none', alpha=0.5)
+    centroids = k_pca.cluster_centers_
+    centroid_x = cluster_ax.scatter(centroids[:, 0], centroids[:, 1],
+                marker='o', edgecolors='k', 
+                c=np.arange(n_clusters), zorder=10)
+    cluster_ax.set_title('K-means clustering on PCA reduced data')
+
+    # Plot of K-means clustering on t-SNE reduced data
+    cluster_ax2 = axarr[1, 1]
+    cluster_ax2.scatter(tsne_result[:,0],tsne_result[:,1],c=k_t_sne.labels_, marker='o', edgecolor='none', alpha=0.5)
+    centroids = k_t_sne.cluster_centers_
+    centroid_x = cluster_ax2.scatter(centroids[:, 0], centroids[:, 1],
+                marker='o', edgecolors='k', 
+                c=np.arange(n_clusters), zorder=10) # If you want the cluster center marker as an 'x', use: marker='x', s=100, linewidths=5, color='k', zorder=10
+    cluster_ax2.set_title('K-means clustering on t-SNE reduced data')
+    fig.suptitle('K-means clustering on the handwritten digits dataset')
+    plt.show()
+
+<img src="/assets/img/pca_tsne_k_means.png">
+The above figure compares k-means clustering on PCA dimensionality reduced data vs t-SNE dimensionality reduced data. The black-lined circles on the right two plots indicate the location of the center of each corresponding cluster. The individual plots for k-means clustering on PCA, t-SNE, truncated SVD, and Isomap dimensionality reduced data are as follows:
+
+    # Plot of k-means clustering on t-SNE reduced data
+    plot_dim_red_clust(tsne_result, k_t_sne, data, 't-SNE', 'K-means', centroids=True)
+
+<img src="/assets/img/t-SNE_K-means_plot.png">
+
+    # Plot of k-means clustering on pca reduced data
+    plot_dim_red_clust(pca_result, k_pca, data, 'PCA', 'K-means', centroids=True)
+
+<img src="/assets/img/PCA_K-means_plot.png">
+
+    # Plot of K-means clustering on isomap reduced data
+    plot_dim_red_clust(iso_result, k_iso, data, 'isomap', 'K-means')
+
+<img src="/assets/img/isomap_K-means_plot.png">
+
+    # Plot of K-means clustering on truncated SVD reduced data
+    plot_dim_red_clust(svd_result, k_SVD, data, 'truncated SVD', 'K-means')
+
+<img src="/assets/img/truncated SVD_K-means_plot.png">
+
