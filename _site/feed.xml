@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-05-09T08:08:09+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Science to Technology</title><subtitle>Welcome to &quot;S2T.&quot; This is a blog that provides some of the things I've learned while looking into the tech sector. I hope you can find tools and resources that may help you in this exciting field!</subtitle><entry><title type="html">The Yield Curve: Current Trends</title><link href="http://localhost:4000/2019/05/09/yield-curve-project.html" rel="alternate" type="text/html" title="The Yield Curve: Current Trends" /><published>2019-05-09T00:00:00+01:00</published><updated>2019-05-09T00:00:00+01:00</updated><id>http://localhost:4000/2019/05/09/yield-curve-project</id><content type="html" xml:base="http://localhost:4000/2019/05/09/yield-curve-project.html">&lt;h2 id=&quot;understanding-the-yield-curve-an-economic-predictor&quot;&gt;Understanding The Yield Curve: An Economic Predictor&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-05-09T11:09:55+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Science to Technology</title><subtitle>Welcome to &quot;S2T.&quot; This is a blog that provides some of the things I've learned while looking into the tech sector. I hope you can find tools and resources that may help you in this exciting field!</subtitle><entry><title type="html">The Yield Curve: Current Trends</title><link href="http://localhost:4000/2019/05/09/yield-curve-project.html" rel="alternate" type="text/html" title="The Yield Curve: Current Trends" /><published>2019-05-09T00:00:00+01:00</published><updated>2019-05-09T00:00:00+01:00</updated><id>http://localhost:4000/2019/05/09/yield-curve-project</id><content type="html" xml:base="http://localhost:4000/2019/05/09/yield-curve-project.html">&lt;p&gt;&lt;img src=&quot;/assets/img/yield_curve_current_Mar19.png&quot; width=&quot;700&quot; height=&quot;500&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;understanding-the-yield-curve-an-economic-predictor&quot;&gt;Understanding The Yield Curve: An Economic Predictor&lt;/h2&gt;
 &lt;p&gt;In this project, we’ll aim to understand what the yield curve is, how it can be used as a predictive tool, and gain knowledge on what the current U.S. Treasury yield curve might be telling us about the economy.&lt;/p&gt;
 
 &lt;p&gt;We’ll analyze historical data on the daily Treasury yield curve rates. To analyze what the current yield curve might be telling us, we’ll aim to determine:&lt;/p&gt;
@@ -19,7 +21,7 @@
 
 &lt;p&gt;After analyzing the &lt;a href=&quot;https://www.treasury.gov/resource-center/data-chart-center/interest-rates/pages/TextView.aspx?data=yieldYear&amp;amp;year=2019&quot;&gt;data&lt;/a&gt;, the conclusion reached is that the current U.S. treasury yield curve appears to be telling us that there might be a gradual slowdown in economic growth in 2019. And that it is possible that a recession could happen some time in 2020 to 2021. Please note that this is only indicative of an economic slowdown and upcoming recession. It is not definitive, within the time periods stated.&lt;/p&gt;
 
-&lt;p&gt;For the full details of the project, please refer to the analysis found &lt;a href=&quot;https://github.com/sunshinescience/yield_curve/blob/master/yieldcurve.ipynb&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">Understanding The Yield Curve: An Economic Predictor In this project, we’ll aim to understand what the yield curve is, how it can be used as a predictive tool, and gain knowledge on what the current U.S. Treasury yield curve might be telling us about the economy.</summary></entry><entry><title type="html">Dimensionality Reduction and Clustering on the Handwritten Digits Dataset</title><link href="http://localhost:4000/2019/04/27/dimensionality-reduction-clustering.html" rel="alternate" type="text/html" title="Dimensionality Reduction and Clustering on the Handwritten Digits Dataset" /><published>2019-04-27T00:00:00+01:00</published><updated>2019-04-27T00:00:00+01:00</updated><id>http://localhost:4000/2019/04/27/dimensionality-reduction-clustering</id><content type="html" xml:base="http://localhost:4000/2019/04/27/dimensionality-reduction-clustering.html">&lt;p&gt;&lt;img src=&quot;/assets/img/gear_head_concept.jpg&quot; width=&quot;500&quot; height=&quot;500&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;For the full details of the project, please refer to the analysis found &lt;a href=&quot;https://github.com/sunshinescience/yield_curve/blob/master/yieldcurve.ipynb&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html"></summary></entry><entry><title type="html">Dimensionality Reduction and Clustering on the Handwritten Digits Dataset</title><link href="http://localhost:4000/2019/04/27/dimensionality-reduction-clustering.html" rel="alternate" type="text/html" title="Dimensionality Reduction and Clustering on the Handwritten Digits Dataset" /><published>2019-04-27T00:00:00+01:00</published><updated>2019-04-27T00:00:00+01:00</updated><id>http://localhost:4000/2019/04/27/dimensionality-reduction-clustering</id><content type="html" xml:base="http://localhost:4000/2019/04/27/dimensionality-reduction-clustering.html">&lt;p&gt;&lt;img src=&quot;/assets/img/gear_head_concept.jpg&quot; width=&quot;500&quot; height=&quot;500&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;One of the goals of science is the pursuit of knowledge. And one of the goals of technology is to create products that solve problems. As technology appears to be the practical application of science, I think that applying machine learning (ML) techniques is exciting! ML is a ubiquitous technology –it is found everywhere! Just a few applications include the type of product a person might buy, the ability for cars to drive themselves, determining if an email is spam and moving it into your spam folder, and the list goes on…&lt;/p&gt;
 
@@ -346,8 +348,8 @@ import figures
 import statistics
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h3 id=&quot;k-means&quot;&gt;K-means&lt;/h3&gt;
-&lt;p&gt;The goal of &lt;a href=&quot;http://www.labri.fr/perso/bpinaud/userfiles/downloads/hartigan_1979_kmeans.pdf&quot;&gt;k-means&lt;/a&gt; clustering is to minimize the sum of squared distances between all points and the cluster centre (&lt;a href=&quot;https://pdfs.semanticscholar.org/0ec1/32fce9971d1e0e670e650b58176dc7bf36da.pdf&quot;&gt;Ray &amp;amp; Turi 1999&lt;/a&gt;). Let’s use the demo on this &lt;a href=&quot;https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py&quot;&gt;site&lt;/a&gt; as a guide to get started. The demo compares different initialization strategies for k-means clustering. Different initialization strategies will be assessed here and the k-means algorithm from scikit-learn will be utilized.&lt;/p&gt;
+&lt;h3 id=&quot;k-means-clustering&quot;&gt;K-means clustering&lt;/h3&gt;
+&lt;p&gt;The goal of &lt;a href=&quot;http://www.labri.fr/perso/bpinaud/userfiles/downloads/hartigan_1979_kmeans.pdf&quot;&gt;k-means&lt;/a&gt; clustering is to minimize the sum of squared distances between all points and the cluster centre (&lt;a href=&quot;https://pdfs.semanticscholar.org/0ec1/32fce9971d1e0e670e650b58176dc7bf36da.pdf&quot;&gt;Ray &amp;amp; Turi 1999&lt;/a&gt;). Let’s use the demo on this &lt;a href=&quot;https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py&quot;&gt;site&lt;/a&gt; as a guide to get started. The demo compares different initialization strategies for k-means clustering. Different initialization strategies will be assessed here and the k-means algorithm from &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html&quot;&gt;scikit-learn&lt;/a&gt; will be utilized.&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Metrics for K-means clustering
 
@@ -524,7 +526,7 @@ def cluster_digit_accuracy(labels_array, labels):
 cluster_digit_accuracy(k_t_sne.labels_, labels)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Information from the clusters achieved via k-means clustering is shown in the table below. For an example run, the digit number (i.e., the mode) of each cluster is shown in the left column. The middle column shows the amount of digits within each cluster. The right column shows the amount of wrong digits assigned to that cluster. So, in a cluster with the digit zero, all of the digits are zero. The digit zero is clustered correctly. Whereas in a cluster with the digit one, there are thirty-seven digits that are not the number one within that cluster, and so on.&lt;/p&gt;
+&lt;p&gt;Information from the clusters achieved via k-means clustering is shown in the table below. For an example run, the digit number (i.e., the mode) of each cluster is shown in the left column. The middle column shows the amount of digits within each cluster. The right column shows the amount of wrong digits assigned to that cluster. So, in a cluster with the digit zero, all of the digits are zero. The digit zero is clustered correctly in this run as there are 178 zeroes in the dataset. Whereas in a cluster with the digit one, there are thirty-seven digits that are not the number one within that cluster, and so on. This code may need more work to get this assessment more accurate, but for these purposes we will just assess the clusters in this manner.&lt;/p&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -586,7 +588,92 @@ cluster_digit_accuracy(k_t_sne.labels_, labels)
       &lt;td style=&quot;text-align: center&quot;&gt;10&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
-&lt;/table&gt;</content><author><name></name></author><summary type="html"></summary></entry><entry><title type="html">A Brief Introduction to Object Oriented Programming</title><link href="http://localhost:4000/2019/04/25/object-oriented-programming.html" rel="alternate" type="text/html" title="A Brief Introduction to Object Oriented Programming" /><published>2019-04-25T00:00:00+01:00</published><updated>2019-04-25T00:00:00+01:00</updated><id>http://localhost:4000/2019/04/25/object-oriented-programming</id><content type="html" xml:base="http://localhost:4000/2019/04/25/object-oriented-programming.html">&lt;h2 id=&quot;what-is-object-oriented-programming&quot;&gt;What is Object Oriented Programming?&lt;/h2&gt;
+&lt;/table&gt;
+
+&lt;p&gt;It appears that t-SNE discovered some structure in the data and the digits have been separated into different clusters of points via k-means clustering. The clustering algorithms below might select the separate clusters from the t-SNE dimensionality reduced data and assign points to labels. For the following clustering algorithms, t-SNE will be the dimensionality reduction method used on the dataset for comparison purposes to the k-means clustering algorithm.&lt;/p&gt;
+&lt;h3 id=&quot;mean-shift-clustering&quot;&gt;Mean shift clustering&lt;/h3&gt;
+&lt;p&gt;One of the advantages of &lt;a href=&quot;http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.76.8968&amp;amp;rep=rep1&amp;amp;type=pdf&quot;&gt;mean shift&lt;/a&gt;  over k-means is that the number of clusters is not pre-specified, because mean shift is likely to find only a few clusters if only a small number exist. However, mean shift can be much slower than k-means, and still requires selection of a bandwidth parameter.&lt;/p&gt;
+
+&lt;p&gt;Let’s apply the clustering &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.cluster.MeanShift.html&quot;&gt;algorithm&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Mean-shift clustering
+# Use the estimate_bandwidth function to estimate a good bandwidth for the data
+bandwidth = round(estimate_bandwidth(data))
+
+mean_s = MeanShift(bandwidth=bandwidth)
+mean_s.fit(pca_result)
+
+ms = MeanShift(bandwidth=bandwidth)
+ms_tsne = ms.fit(tsne_result)
+ms_labels = ms_tsne.labels_
+ms_cluster_centers = ms_tsne.cluster_centers_
+
+ms_labels_unique = np.unique(ms_labels)
+ms_n_clusters = len(ms_labels_unique)
+
+print ('The number of estimated clusters from mean-shift clustering is: {}'.format(ms_n_clusters))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The results provide a varying number of clusters over several runs (from 11 to 13 usually). The expected number of clusters (10) are not achieved with mean shift clustering for this dataset. The plot below illustrates twelve clusters. The results of mean shift clustering are visualized as follows:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Visualize the results of Mean-shift clustering
+color = ms_labels
+fig, axarr = plt.subplots(1, 2, figsize=(9,4))  
+# Plot of t-SNE reduced data 
+ax1 = axarr[0]
+ax1.scatter(tsne_result[:,0], tsne_result[:,1], c='k', marker='.')
+ax1.set_title('t-SNE reduced data')
+
+# Plot of mean shift clustering on t-SNE reduced data
+ax2 = axarr[1]
+ax2.scatter(tsne_result[:,0], tsne_result[:,1], c=color, marker='.')
+cluster_center = ms_cluster_centers[ms_labels]
+ax2.scatter(cluster_center[:,0], cluster_center[:,1],
+            marker='o', edgecolors='k', 
+            c=color, zorder=10) 
+ax2.set_title('Mean-shift clustering on t-SNE reduced data')
+plt.tight_layout()
+plt.show()
+
+# Plot of mean-shift clustering on t-SNE reduced data
+plot_dim_red_clust(tsne_result, ms_tsne, data, 't-SNE', 'Mean-shift')
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/t-SNE_Mean-shift_plot.png&quot; /&gt;&lt;/p&gt;
+&lt;h3 id=&quot;spectral-clustering&quot;&gt;Spectral clustering&lt;/h3&gt;
+&lt;p&gt;Spectral clustering is considered an exceptional graph clustering technique. The method can ignore sparse interconnections between arbitrarily shaped clusters of data. This approach can be used to identify communities of nodes in a graph, based on the edges connecting them. To perform spectral clustering, three main &lt;a href=&quot;https://towardsdatascience.com/spectral-clustering-for-beginners-d08b7d25b4d8&quot;&gt;steps&lt;/a&gt; are involved:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Create a similarity graph between the N objects to cluster&lt;/li&gt;
+  &lt;li&gt;Compute the first k eigenvectors of its Laplacian matrix, in order to define a feature vector for each object&lt;/li&gt;
+  &lt;li&gt;Run k-means on these features, in order to separate objects into k classes&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;An in depth tutorial can be found &lt;a href=&quot;http://people.csail.mit.edu/dsontag/courses/ml14/notes/Luxburg07_tutorial_spectral_clustering.pdf&quot;&gt;here&lt;/a&gt;. This paper discussed two versions of normalized spectral clustering. It has been suggested that spectral clustering often outperforms k-means clustering. Let’s see what it does to this dataset compared to k-means clustering. Here, &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.cluster.SpectralClustering.html&quot;&gt;this&lt;/a&gt; algorithm from scikit-learn is used and the result is visualized:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Spectral clustering
+# sc_result = SpectralClustering(n_clusters=n_clusters, assign_labels=&quot;discretize&quot;).fit(data)
+sc = SpectralClustering(n_clusters=n_clusters, affinity='nearest_neighbors',
+                        assign_labels='kmeans')  
+sc_tsne = sc.fit(tsne_result)                
+sc_labels = sc.fit_predict(tsne_result)
+
+# Visualize the results of spectral clustering
+plot_dim_red_clust(tsne_result, sc_tsne, data, 't-SNE', 'Spectral')
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/t-SNE_Spectral_plot.png&quot; /&gt;
+Similar to k-means, the results of spectral clustering show that ten clusters were obtained using this method.&lt;/p&gt;
+&lt;h3 id=&quot;dbscan-clustering&quot;&gt;DBSCAN clustering&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# DBSCAN clustering
+db = DBSCAN(eps=3, min_samples=2)
+db_tsne = db.fit(tsne_result)
+
+# Visualize the results of DBSCAN clustering
+plot_dim_red_clust(tsne_result, db_tsne, data, 't-SNE', 'DBSCAN')
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/t-SNE_DBSCAN_plot.png&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html"></summary></entry><entry><title type="html">A Brief Introduction to Object Oriented Programming</title><link href="http://localhost:4000/2019/04/25/object-oriented-programming.html" rel="alternate" type="text/html" title="A Brief Introduction to Object Oriented Programming" /><published>2019-04-25T00:00:00+01:00</published><updated>2019-04-25T00:00:00+01:00</updated><id>http://localhost:4000/2019/04/25/object-oriented-programming</id><content type="html" xml:base="http://localhost:4000/2019/04/25/object-oriented-programming.html">&lt;h2 id=&quot;what-is-object-oriented-programming&quot;&gt;What is Object Oriented Programming?&lt;/h2&gt;
 &lt;p&gt;Object oriented programming (OOP) is a pattern of programming in which the solution to a programming problem is modelled as a collection of collaborating objects.&lt;/p&gt;
 
 &lt;p&gt;Prior to the development of OOP, procedural programming divided a program into a set of functions. The data was stored in variables and the functions operated on that data. It was relatively simple, however, complications would arise when functions were changed. For example, another function may depend on the function that was changed, which could lead to the code becoming difficult to maintain. Essentially, OOP came about to help with this and other programming problems. Some benefits of using OOP include: reducing complexity, isolating the impact of changes made to code, eliminating redundant code, and refactoring code (e.g., condensing lengthy if/else statements). It also reduces development time by supporting programming by customization.&lt;/p&gt;

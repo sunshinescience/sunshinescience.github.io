@@ -2,6 +2,7 @@
 layout: post
 title: "The Yield Curve: Current Trends"
 ---
+<img src="/assets/img/yield_curve_current_Mar19.png" width="700" height="500">
 
 ## Understanding The Yield Curve: An Economic Predictor
 In this project, we'll aim to understand what the yield curve is, how it can be used as a predictive tool, and gain knowledge on what the current U.S. Treasury yield curve might be telling us about the economy.

@@ -307,8 +307,8 @@ Let's import some more useful libraries:
     import figures
     import statistics
 
-### K-means
-The goal of [k-means](http://www.labri.fr/perso/bpinaud/userfiles/downloads/hartigan_1979_kmeans.pdf) clustering is to minimize the sum of squared distances between all points and the cluster centre ([Ray & Turi 1999]( https://pdfs.semanticscholar.org/0ec1/32fce9971d1e0e670e650b58176dc7bf36da.pdf)). Let's use the demo on this [site](https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py) as a guide to get started. The demo compares different initialization strategies for k-means clustering. Different initialization strategies will be assessed here and the k-means algorithm from scikit-learn will be utilized. 
+### K-means clustering
+The goal of [k-means](http://www.labri.fr/perso/bpinaud/userfiles/downloads/hartigan_1979_kmeans.pdf) clustering is to minimize the sum of squared distances between all points and the cluster centre ([Ray & Turi 1999]( https://pdfs.semanticscholar.org/0ec1/32fce9971d1e0e670e650b58176dc7bf36da.pdf)). Let's use the demo on this [site](https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py) as a guide to get started. The demo compares different initialization strategies for k-means clustering. Different initialization strategies will be assessed here and the k-means algorithm from [scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html) will be utilized. 
 
     # Metrics for K-means clustering
 
@@ -477,7 +477,7 @@ The number of incorrect digits in each cluster can be found using the following 
 
     cluster_digit_accuracy(k_t_sne.labels_, labels)
 
-Information from the clusters achieved via k-means clustering is shown in the table below. For an example run, the digit number (i.e., the mode) of each cluster is shown in the left column. The middle column shows the amount of digits within each cluster. The right column shows the amount of wrong digits assigned to that cluster. So, in a cluster with the digit zero, all of the digits are zero. The digit zero is clustered correctly. Whereas in a cluster with the digit one, there are thirty-seven digits that are not the number one within that cluster, and so on. 
+Information from the clusters achieved via k-means clustering is shown in the table below. For an example run, the digit number (i.e., the mode) of each cluster is shown in the left column. The middle column shows the amount of digits within each cluster. The right column shows the amount of wrong digits assigned to that cluster. So, in a cluster with the digit zero, all of the digits are zero. The digit zero is clustered correctly in this run as there are 178 zeroes in the dataset. Whereas in a cluster with the digit one, there are thirty-seven digits that are not the number one within that cluster, and so on. This code may need more work to get this assessment more accurate, but for these purposes we will just assess the clusters in this manner.
 
 | **Digit**        | **Total digits in cluster**          | **Amount of incorrect digits in cluster**  |
 | ------------- |:-------------:| :-----:|
@@ -492,4 +492,81 @@ Information from the clusters achieved via k-means clustering is shown in the ta
 | 8     | 173 | 71 |
 | 9     | 138 | 10 |
 
+It appears that t-SNE discovered some structure in the data and the digits have been separated into different clusters of points via k-means clustering. The clustering algorithms below might select the separate clusters from the t-SNE dimensionality reduced data and assign points to labels. For the following clustering algorithms, t-SNE will be the dimensionality reduction method used on the dataset for comparison purposes to the k-means clustering algorithm.
+### Mean shift clustering
+One of the advantages of [mean shift](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.76.8968&rep=rep1&type=pdf)  over k-means is that the number of clusters is not pre-specified, because mean shift is likely to find only a few clusters if only a small number exist. However, mean shift can be much slower than k-means, and still requires selection of a bandwidth parameter.
 
+Let's apply the clustering [algorithm](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.MeanShift.html):
+    
+    # Mean-shift clustering
+    # Use the estimate_bandwidth function to estimate a good bandwidth for the data
+    bandwidth = round(estimate_bandwidth(data))
+
+    mean_s = MeanShift(bandwidth=bandwidth)
+    mean_s.fit(pca_result)
+
+    ms = MeanShift(bandwidth=bandwidth)
+    ms_tsne = ms.fit(tsne_result)
+    ms_labels = ms_tsne.labels_
+    ms_cluster_centers = ms_tsne.cluster_centers_
+
+    ms_labels_unique = np.unique(ms_labels)
+    ms_n_clusters = len(ms_labels_unique)
+
+    print ('The number of estimated clusters from mean-shift clustering is: {}'.format(ms_n_clusters))
+
+The results provide a varying number of clusters over several runs (from 11 to 13 usually). The expected number of clusters (10) are not achieved with mean shift clustering for this dataset. The plot below illustrates twelve clusters. The results of mean shift clustering are visualized as follows:
+
+    # Visualize the results of Mean-shift clustering
+    color = ms_labels
+    fig, axarr = plt.subplots(1, 2, figsize=(9,4))  
+    # Plot of t-SNE reduced data 
+    ax1 = axarr[0]
+    ax1.scatter(tsne_result[:,0], tsne_result[:,1], c='k', marker='.')
+    ax1.set_title('t-SNE reduced data')
+
+    # Plot of mean shift clustering on t-SNE reduced data
+    ax2 = axarr[1]
+    ax2.scatter(tsne_result[:,0], tsne_result[:,1], c=color, marker='.')
+    cluster_center = ms_cluster_centers[ms_labels]
+    ax2.scatter(cluster_center[:,0], cluster_center[:,1],
+                marker='o', edgecolors='k', 
+                c=color, zorder=10) 
+    ax2.set_title('Mean-shift clustering on t-SNE reduced data')
+    plt.tight_layout()
+    plt.show()
+
+    # Plot of mean-shift clustering on t-SNE reduced data
+    plot_dim_red_clust(tsne_result, ms_tsne, data, 't-SNE', 'Mean-shift')
+
+<img src="/assets/img/t-SNE_Mean-shift_plot.png">
+### Spectral clustering
+Spectral clustering is considered an exceptional graph clustering technique. The method can ignore sparse interconnections between arbitrarily shaped clusters of data. This approach can be used to identify communities of nodes in a graph, based on the edges connecting them. To perform spectral clustering, three main [steps](https://towardsdatascience.com/spectral-clustering-for-beginners-d08b7d25b4d8) are involved:
+-  Create a similarity graph between the N objects to cluster
+-  Compute the first k eigenvectors of its Laplacian matrix, in order to define a feature vector for each object
+-  Run k-means on these features, in order to separate objects into k classes
+
+An in depth tutorial can be found [here](http://people.csail.mit.edu/dsontag/courses/ml14/notes/Luxburg07_tutorial_spectral_clustering.pdf). This paper discussed two versions of normalized spectral clustering. It has been suggested that spectral clustering often outperforms k-means clustering. Let's see what it does to this dataset compared to k-means clustering. Here, [this](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.SpectralClustering.html) algorithm from scikit-learn is used and the result is visualized:
+
+    # Spectral clustering
+    # sc_result = SpectralClustering(n_clusters=n_clusters, assign_labels="discretize").fit(data)
+    sc = SpectralClustering(n_clusters=n_clusters, affinity='nearest_neighbors',
+                            assign_labels='kmeans')  
+    sc_tsne = sc.fit(tsne_result)                
+    sc_labels = sc.fit_predict(tsne_result)
+
+    # Visualize the results of spectral clustering
+    plot_dim_red_clust(tsne_result, sc_tsne, data, 't-SNE', 'Spectral')
+
+<img src="/assets/img/t-SNE_Spectral_plot.png">
+Similar to k-means, the results of spectral clustering show that ten clusters were obtained using this method.
+### DBSCAN clustering
+
+    # DBSCAN clustering
+    db = DBSCAN(eps=3, min_samples=2)
+    db_tsne = db.fit(tsne_result)
+
+    # Visualize the results of DBSCAN clustering
+    plot_dim_red_clust(tsne_result, db_tsne, data, 't-SNE', 'DBSCAN')
+    
+<img src="/assets/img/t-SNE_DBSCAN_plot.png">
