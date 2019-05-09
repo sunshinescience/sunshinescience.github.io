@@ -22,4 +22,4 @@ Historically, the yield curve has reflected the market’s sense of the economy.
 
 After analyzing the [data](https://www.treasury.gov/resource-center/data-chart-center/interest-rates/pages/TextView.aspx?data=yieldYear&year=2019), the conclusion reached is that the current U.S. treasury yield curve appears to be telling us that there might be a gradual slowdown in economic growth in 2019. And that it is possible that a recession could happen some time in 2020 to 2021. Please note that this is only indicative of an economic slowdown and upcoming recession. It is not definitive, within the time periods stated.
 
-For the details of the project, please refer to the analysis found [here](https://github.com/sunshinescience/yield_curve/blob/master/yieldcurve.ipynb).
+For the full details of the project, please refer to the analysis found [here](https://github.com/sunshinescience/yield_curve/blob/master/yieldcurve.ipynb).
