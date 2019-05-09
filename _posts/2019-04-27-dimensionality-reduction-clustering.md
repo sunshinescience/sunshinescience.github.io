@@ -310,6 +310,8 @@ Let's import some more useful libraries:
 ### K-means clustering
 The goal of [k-means](http://www.labri.fr/perso/bpinaud/userfiles/downloads/hartigan_1979_kmeans.pdf) clustering is to minimize the sum of squared distances between all points and the cluster centre ([Ray & Turi 1999]( https://pdfs.semanticscholar.org/0ec1/32fce9971d1e0e670e650b58176dc7bf36da.pdf)). Let's use the demo on this [site](https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py) as a guide to get started. The demo compares different initialization strategies for k-means clustering. Different initialization strategies will be assessed here and the k-means algorithm from [scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html) will be utilized. 
 
+The metrics evaluated are as follows: homogeneity score (homo), completeness score (compl), V measure (v-meas), adjusted Rand index (ARI), adjusted mutual information (AMI), Fowlkes-Mallows index (F-M), silhouette coefficient (silhouette).
+
     # Metrics for K-means clustering
 
     n_clusters = n_digits # The number of clusters
@@ -351,6 +353,14 @@ The goal of [k-means](http://www.labri.fr/perso/bpinaud/userfiles/downloads/hart
     kmeans_metrics(KMeans(init=pca.components_, n_clusters=n_clusters, n_init=1),
                 name="PCA-based",
                 data=data)
+
+The table below shows the indicators of similarity between the clusters. A value close to 1 indicates a complete or homogeneous labelling of the clusters. Most have high values, which suggest a good similarity between the clusters. However, the silhouette coefficient provides values near zero, which indicates overlapping clusters.
+
+| **init**            | **homo**  | **compl**  | **v-meas**  | **ARI**  | **AMI**  | **F-M**  | **silhouette**  |
+|  ------------------ | --------- | ---------- |  ---------  |  ------  |  ------  |  ------  |  -------------  |
+| k-means++       | 0.68    | 0.72    | 0.70    | 0.57    | 0.68    | 0.62    | 0.14|
+| random          | 0.68    | 0.72    | 0.70    | 0.57    | 0.68    | 0.62    | 0.16|
+| PCA-based       | 0.67    | 0.70    | 0.68    | 0.56    | 0.67    | 0.61    | 0.13|
 
 Initially, a *k* (number of clusters) value as a parameter needs to be provided when using the k-means algorithm to partition clusters. Here, the number of digits equals the number of clusters (see above code). Let’s perform k-means clustering on the dimensionality reduced data.
 

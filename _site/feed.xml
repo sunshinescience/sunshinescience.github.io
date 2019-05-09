@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-05-09T14:30:12+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Science to Technology</title><subtitle>Welcome to &quot;S2T.&quot; This is a blog that provides some of the things I've learned while looking into the tech sector. I hope you can find tools and resources that may help you in this exciting field!</subtitle><entry><title type="html">The Yield Curve: Current Trends</title><link href="http://localhost:4000/2019/04/30/yield-curve-project.html" rel="alternate" type="text/html" title="The Yield Curve: Current Trends" /><published>2019-04-30T00:00:00+01:00</published><updated>2019-04-30T00:00:00+01:00</updated><id>http://localhost:4000/2019/04/30/yield-curve-project</id><content type="html" xml:base="http://localhost:4000/2019/04/30/yield-curve-project.html">&lt;p&gt;&lt;img src=&quot;/assets/img/yield_curve_current_Mar19.png&quot; width=&quot;700&quot; height=&quot;500&quot; /&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-05-09T14:52:26+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Science to Technology</title><subtitle>Welcome to &quot;S2T.&quot; This is a blog that provides some of the things I've learned while looking into the tech sector. I hope you can find tools and resources that may help you in this exciting field!</subtitle><entry><title type="html">The Yield Curve: Current Trends</title><link href="http://localhost:4000/2019/04/30/yield-curve-project.html" rel="alternate" type="text/html" title="The Yield Curve: Current Trends" /><published>2019-04-30T00:00:00+01:00</published><updated>2019-04-30T00:00:00+01:00</updated><id>http://localhost:4000/2019/04/30/yield-curve-project</id><content type="html" xml:base="http://localhost:4000/2019/04/30/yield-curve-project.html">&lt;p&gt;&lt;img src=&quot;/assets/img/yield_curve_current_Mar19.png&quot; width=&quot;700&quot; height=&quot;500&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;understanding-the-yield-curve-an-economic-predictor&quot;&gt;Understanding The Yield Curve: An Economic Predictor&lt;/h2&gt;
 &lt;p&gt;In this demonstration, we’ll aim to understand what the yield curve is, how it can be used as a predictive tool, and gain knowledge on what the current U.S. Treasury yield curve might be telling us about the economy.&lt;/p&gt;
@@ -351,6 +351,8 @@ import statistics
 &lt;h3 id=&quot;k-means-clustering&quot;&gt;K-means clustering&lt;/h3&gt;
 &lt;p&gt;The goal of &lt;a href=&quot;http://www.labri.fr/perso/bpinaud/userfiles/downloads/hartigan_1979_kmeans.pdf&quot;&gt;k-means&lt;/a&gt; clustering is to minimize the sum of squared distances between all points and the cluster centre (&lt;a href=&quot;https://pdfs.semanticscholar.org/0ec1/32fce9971d1e0e670e650b58176dc7bf36da.pdf&quot;&gt;Ray &amp;amp; Turi 1999&lt;/a&gt;). Let’s use the demo on this &lt;a href=&quot;https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py&quot;&gt;site&lt;/a&gt; as a guide to get started. The demo compares different initialization strategies for k-means clustering. Different initialization strategies will be assessed here and the k-means algorithm from &lt;a href=&quot;https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html&quot;&gt;scikit-learn&lt;/a&gt; will be utilized.&lt;/p&gt;
 
+&lt;p&gt;The metrics evaluated are as follows: homogeneity score (homo), completeness score (compl), V measure (v-meas), adjusted Rand index (ARI), adjusted mutual information (AMI), Fowlkes-Mallows index (F-M), silhouette coefficient (silhouette).&lt;/p&gt;
+
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Metrics for K-means clustering
 
 n_clusters = n_digits # The number of clusters
@@ -393,6 +395,55 @@ kmeans_metrics(KMeans(init=pca.components_, n_clusters=n_clusters, n_init=1),
             name=&quot;PCA-based&quot;,
             data=data)
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The table below shows the indicators of similarity between the clusters. A value close to 1 indicates a complete or homogeneous labelling of the clusters. Most have high values, which suggest a good similarity between the clusters. However, the silhouette coefficient provides values near zero, which indicates overlapping clusters.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;&lt;strong&gt;init&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;homo&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;compl&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;v-meas&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;ARI&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;AMI&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;F-M&lt;/strong&gt;&lt;/th&gt;
+      &lt;th&gt;&lt;strong&gt;silhouette&lt;/strong&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;k-means++&lt;/td&gt;
+      &lt;td&gt;0.68&lt;/td&gt;
+      &lt;td&gt;0.72&lt;/td&gt;
+      &lt;td&gt;0.70&lt;/td&gt;
+      &lt;td&gt;0.57&lt;/td&gt;
+      &lt;td&gt;0.68&lt;/td&gt;
+      &lt;td&gt;0.62&lt;/td&gt;
+      &lt;td&gt;0.14&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;random&lt;/td&gt;
+      &lt;td&gt;0.68&lt;/td&gt;
+      &lt;td&gt;0.72&lt;/td&gt;
+      &lt;td&gt;0.70&lt;/td&gt;
+      &lt;td&gt;0.57&lt;/td&gt;
+      &lt;td&gt;0.68&lt;/td&gt;
+      &lt;td&gt;0.62&lt;/td&gt;
+      &lt;td&gt;0.16&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;PCA-based&lt;/td&gt;
+      &lt;td&gt;0.67&lt;/td&gt;
+      &lt;td&gt;0.70&lt;/td&gt;
+      &lt;td&gt;0.68&lt;/td&gt;
+      &lt;td&gt;0.56&lt;/td&gt;
+      &lt;td&gt;0.67&lt;/td&gt;
+      &lt;td&gt;0.61&lt;/td&gt;
+      &lt;td&gt;0.13&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;p&gt;Initially, a &lt;em&gt;k&lt;/em&gt; (number of clusters) value as a parameter needs to be provided when using the k-means algorithm to partition clusters. Here, the number of digits equals the number of clusters (see above code). Let’s perform k-means clustering on the dimensionality reduced data.&lt;/p&gt;
 
