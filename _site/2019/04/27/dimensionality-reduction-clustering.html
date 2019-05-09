@@ -146,7 +146,7 @@ if 0:
 
 <p>A guide that explains both feature selection and feature extraction in detail can be found <a href="https://elitedatascience.com/dimensionality-reduction-algorithms">here</a>.</p>
 
-<p>For comparison purposes, the following dimensionality reduction techniques will be used: principal component analysis, t-distributed Stochastic Neighbor Embedding, truncated singular value decomposition, and Isomap.</p>
+<p>For comparison purposes, the following dimensionality reduction techniques will be used: principal component analysis, t-distributed Stochastic Neighbor Embedding, truncated singular value decomposition, and Isomap. Note that there will be an emphasis on t-distributed Stochastic Neighbor Embedding.</p>
 
 <p>Let’s import some libraries from scikit-learn:</p>
 
@@ -356,7 +356,7 @@ plot_dim_red(iso_result, data, 'Isomap reduced handwritten digits')
 
 <p>Scikit-learn has the following clustering algorithms: K-means, Mini Batch K-Means, Affinity propagation, Mean-shift, Spectral clustering, Ward hierarchical clustering, Agglomerative clustering, DBSCAN, Gaussian mixtures, and Birch. There is an overview of the different clustering methods on scikit-learn, found <a href="https://scikit-learn.org/stable/modules/clustering.html">here</a>.</p>
 
-<p>For the handwritten digits dataset, the following clustering techniques will be used: k-means, mean-shift, spectral, DBSCAN, and affinity propagation clustering. These methods were chosen to try on this dataset because k-means clustering is one of the most popular machine learning algorithms that allows us to maximize inter-cluster similarity and minimize intra-cluster similarity. And mean-shift clustering is very similar to k-means clustering, but instead of using a sum of neighborhood points, the kernel function in mean-shift clustering would apply a probability weighted sum of points. Spectral and affinity propogation clustering  differ from k-means in that they can be used for a dataset with non-flat geometry and graph distance (e.g., nearest-neighbor graph) metrics are used. DBSCAN differs from k-means as it too can be used for a dataset with non-flat geometry, but the distances between nearest points metrics are used. The main goal here is to assess a few of the dimensionality reduction methods and a few of the clustering techniques on the handwritten digits dataset, for comparison purposes.</p>
+<p>For the handwritten digits dataset, the following clustering techniques will be used: k-means, mean-shift, spectral, DBSCAN, and affinity propagation clustering. Note that there will be an emphasis on k-means. These methods were chosen to try on this dataset because k-means clustering is one of the most popular machine learning algorithms that allows us to maximize inter-cluster similarity and minimize intra-cluster similarity. And mean-shift clustering is very similar to k-means clustering, but instead of using a sum of neighborhood points, the kernel function in mean-shift clustering would apply a probability weighted sum of points. Spectral and affinity propogation clustering  differ from k-means in that they can be used for a dataset with non-flat geometry and graph distance (e.g., nearest-neighbor graph) metrics are used. DBSCAN differs from k-means as it too can be used for a dataset with non-flat geometry, but the distances between nearest points metrics are used. The main goal here is to assess a few of the dimensionality reduction methods and a few of the clustering techniques on the handwritten digits dataset, for comparison purposes.</p>
 
 <p>Let’s import some more useful libraries:</p>
 
@@ -616,7 +616,7 @@ cluster_digit_accuracy(k_t_sne.labels_, labels)
 
 <p>It appears that t-SNE discovered some structure in the data and the digits have been separated into different clusters of points via k-means clustering. The clustering algorithms below might select the separate clusters from the t-SNE dimensionality reduced data and assign points to labels. For the following clustering algorithms, t-SNE will be the dimensionality reduction method used on the dataset for comparison purposes to the k-means clustering algorithm.</p>
 <h3 id="mean-shift-clustering">Mean shift clustering</h3>
-<p>The <a href="https://dl.acm.org/citation.cfm?id=513076">mean shift</a> algorithm is a <a href="https://en.wikipedia.org/wiki/Nonparametric_statistics">nonparametric</a> clustering technique. The method does not constrain the shape of the clusters. One of the advantages of <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.76.8968&amp;rep=rep1&amp;type=pdf">mean shift</a> over k-means is that the number of clusters is not pre-specified, because mean shift is likely to find only a few clusters if only a small number exist. However, mean shift can be much slower than k-means, and still requires initial selection of a bandwidth parameter.</p>
+<p>The <a href="https://dl.acm.org/citation.cfm?id=513076">mean shift</a> algorithm is a <a href="https://en.wikipedia.org/wiki/Nonparametric_statistics">non-parametric</a> clustering technique. The method does not constrain the shape of the clusters. One of the advantages of <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.76.8968&amp;rep=rep1&amp;type=pdf">mean shift</a> over k-means is that the number of clusters is not pre-specified, because mean shift is likely to find only a few clusters if only a small number exist. However, mean shift can be much slower than k-means, and still requires initial selection of a bandwidth parameter.</p>
 
 <p>Mean shift builds upon the concept of kernel density estimation (<a href="https://en.wikipedia.org/wiki/Kernel_density_estimation">KDE</a>). The algorithm works by initially defining the bandwidth of the kernel function. It places this on data points and calculates the mean for all the points in the bandwidth of the kernel. Next, it moves the center of the bandwidth of the kernel to the location of that mean. It continues until there is convergence.</p>
 
@@ -690,6 +690,27 @@ plot_dim_red_clust(tsne_result, sc_tsne, data, 't-SNE', 'Spectral')
 <p><img src="/assets/img/t-SNE_Spectral_plot.png" />
 Similar to k-means, the results of spectral clustering show that ten clusters were obtained using this method.</p>
 <h3 id="dbscan-clustering">DBSCAN clustering</h3>
+<p>Density-Based Spatial Clustering of Applications with Noise (<a href="https://www.researchgate.net/publication/44250717_A_Density_Based_Algorithm_for_Discovering_Density_Varied_Clusters_in_Large_Spatial_Databases">DBSCAN</a>) is a <a href="https://en.wikipedia.org/wiki/Cluster_analysis#Density-based_clustering">density based</a> non-parametric clustering algorithm. It separates clusters of high density from clusters of low density. Thus, given a set of points in some space, the algorithm groups together points that are closely packed together (points with many neighbors that are nearby). And points that lie alone in low-density regions (whose nearest neighbors are far away) are marked as outliers. There are several <a href="https://en.wikipedia.org/wiki/DBSCAN">advantages</a> to using this algorithm, for example, DBSCAN does not need the number of clusters specified initially, as opposed to k-means. The algorithm has two parameters:</p>
+<ul>
+  <li>eps: The radius of the neighborhoods around the data points</li>
+  <li>min_samples: The minimum number of data points we want in a neighborhood to define a cluster</li>
+</ul>
+
+<p>Data points are categorized as:</p>
+<ul>
+  <li>Core points: a data point <em>p</em> is a core point if the eps of <em>p</em> contains at least min_samples</li>
+  <li>Border Points: A data point is a border point if the eps contains less than min_samples data points, but the border point is reachable from some core point</li>
+  <li>Outlier: A data point is an outlier if it is neither a core point nor a border point</li>
+</ul>
+
+<p>DBSCAN has <a href="https://blog.dominodatalab.com/topology-and-density-based-clustering/">steps</a> such as:</p>
+<ul>
+  <li>Select an unassigned random point and compute its neighborhood to determine if it is a core point. If it is a core point, then form a cluster around this point. If not, then label the point as an outlier</li>
+  <li>Iteratively expand the cluster by adding the directly-reachable points to that cluster. Continue by finding the density-reachable points and add them to the cluster. If an an outlier is added, then that is changed to become a border point</li>
+  <li>Repeat the above two steps until all of the points are assigned to a cluster or they are designated as an outlier</li>
+</ul>
+
+<p>Here, the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">algorithm</a> from scikit-learn is used and the result is visualized:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># DBSCAN clustering
 db = DBSCAN(eps=3, min_samples=2)
@@ -702,13 +723,13 @@ plot_dim_red_clust(tsne_result, db_tsne, data, 't-SNE', 'DBSCAN')
 <p><img src="/assets/img/t-SNE_DBSCAN_plot.png" />
 The results of DBSCAN clustering show that more clusters than expected were obtained using this method.</p>
 
-<h2 id="conclusion-and-further-study">Conclusion and further study</h2>
+<h2 id="conclusion-and-future-considerations">Conclusion and future considerations</h2>
 
 <p>In this demonstration, various dimensionality reduction and clustering methods were investigated on the handwritten digits dataset. When working with large data sets with many features, dimensionality reduction can be an important technique to improve the subsequent clustering process. Instead of using many features, one can use the features that are the most significant which represent the underlying data. And clustering is an important method that helps identify patterns in the underlying data.</p>
 
 <p>Within scientific fields that deal with empirical data, it may be helpful to identify trends and patterns (e.g., groups or <em>clusters</em>) in the data. It appears that for these analyses on the handwritten digits dataset, the dimensionality reduction method that worked best was t-SNE and the clustering algorithms that were the most promising were k-means and spectral clustering.</p>
 
-<p>To take this study further, these methods will be used on high-dimensional <em>unlabelled</em> data.</p>
+<p>The goal of this study was to use these methods on the handwritten digits dataset initially, but with the intent to use them on high-dimensional <em>unlabelled</em> data.</p>
 
   </div><a class="u-url" href="/2019/04/27/dimensionality-reduction-clustering.html" hidden></a>
 </article>
