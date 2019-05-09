@@ -96,6 +96,14 @@ A guide that explains both feature selection and feature extraction in detail ca
 
 For comparison purposes, the following dimensionality reduction techniques will be used: principal component analysis, t-distributed Stochastic Neighbor Embedding, truncated singular value decomposition, and Isomap. 
 
+Let's import some libraries from scikit-learn:
+
+    from sklearn import metrics
+    from sklearn.decomposition import PCA
+    from sklearn.manifold import TSNE
+    from sklearn.decomposition import TruncatedSVD
+    from sklearn.manifold import Isomap
+
 ### Principal component analysis 
 Principal component analysis (PCA) is a technique that reduces dimensionality of a dataset that comprises several interrelated variables, while retaining much of the variation within the dataset. This occurs by transforming to a new set of variables, the principal components (PCs). These PCs are not correlated and they are ordered such that the first few of them retain most of the variation contained within all of the original variables.
 
@@ -286,6 +294,19 @@ Scikit-learn has the following clustering algorithms: K-means, Mini Batch K-Mean
 
 For the handwritten digits dataset, the following clustering techniques will be used: k-means, mean-shift, spectral, DBSCAN, and affinity propagation clustering. These methods were chosen to try on this dataset because k-means clustering is one of the most popular machine learning algorithms that allows us to maximize inter-cluster similarity and minimize intra-cluster similarity. And mean-shift clustering is very similar to k-means clustering, but instead of using a sum of neighborhood points, the kernel function in mean-shift clustering would apply a probability weighted sum of points. Spectral and affinity propogation clustering  differ from k-means in that they can be used for a dataset with non-flat geometry and graph distance (e.g., nearest-neighbor graph) metrics are used. DBSCAN differs from k-means as it too can be used for a dataset with non-flat geometry, but the distances between nearest points metrics are used. The main goal here is to assess a few of the dimensionality reduction methods and a few of the clustering techniques on the handwritten digits dataset, for comparison purposes. 
 
+Let's import some more useful libraries:
+
+    from sklearn.cluster import KMeans
+    from sklearn.cluster import MeanShift
+    from sklearn.cluster import estimate_bandwidth
+    from sklearn.cluster import SpectralClustering
+    from sklearn.cluster import DBSCAN
+    from sklearn.cluster import AffinityPropagation
+
+    # Import figures and statistics 
+    import figures
+    import statistics
+
 ### K-means
 The goal of [k-means](http://www.labri.fr/perso/bpinaud/userfiles/downloads/hartigan_1979_kmeans.pdf) clustering is to minimize the sum of squared distances between all points and the cluster centre ([Ray & Turi 1999]( https://pdfs.semanticscholar.org/0ec1/32fce9971d1e0e670e650b58176dc7bf36da.pdf)). Let's use the demo on this [site](https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py) as a guide to get started. The demo compares different initialization strategies for k-means clustering. Different initialization strategies will be assessed here and the k-means algorithm from scikit-learn will be utilized. 
 
@@ -412,4 +433,63 @@ The above figure compares k-means clustering on PCA dimensionality reduced data 
     plot_dim_red_clust(svd_result, k_SVD, data, 'truncated SVD', 'K-means')
 
 <img src="/assets/img/truncated SVD_K-means_plot.png">
+
+In some cases, the digits have similar visual features, so it is difficult for the model to identify which cluster they belong to. This happens more frequently for the digit 8 cluster. For example, the digit 8 and the digit 1 often get clustered together. The figure below shows images that were clustered in the same cluster, with their corresponding label written above to show which digit they really are:
+
+<img src="/assets/img/four_digits1188.png" width="500" height="120">
+
+Whereas for the digit 0, after running the model multiple times, the 0 digit is clustered together accurately, without other digits within that cluster. See the digit 0 examples below that are clustered together:
+
+<img src="/assets/img/four_digits0000.png" width="500" height="120">
+
+See another convoluted example in the figure below, which are clustered in the same cluster:
+
+<img src="/assets/img/four_digits5759.png" width="500" height="120">
+
+The number of incorrect digits in each cluster can be found using the following code:
+
+    # Obtaining information about how well the digits were clustered from k-means clustering:
+    labels = digits.target
+
+    def cluster_digit_accuracy(labels_array, labels):
+        sampl_lst = []
+        digit_lst = []
+        wher_lst = []
+        wher_dict = {} # keys are digits, values are the sample numbers of digits that do not match the overall cluster digit (mode), for each cluster
+        len_dict = {} # keys are digits, values are the total amount of digits in the corresponding cluster
+        for i in range(10):
+            cl_num = i
+            cl_data = np.where(labels_array == cl_num)[0]
+            clust_mode = statistics.mode(labels[cl_data])
+            sampl_lst.append(cl_data)
+            digit_lst.append(labels[cl_data])
+            not_equal = (np.where(labels[cl_data] != clust_mode)[0]).tolist()
+            wher_dict[clust_mode] = not_equal
+            wher_lst.append(not_equal)
+            cl_len = len(labels[cl_data])
+            len_dict[i] = cl_len
+        print ('The overall digit of each cluster and the total amount of digits in each cluster are: ', len_dict)
+
+        non_match_dict = {}
+        for j in range(10):
+            non_match_dict[j] = len(wher_dict[j])
+        print ('The overall digit (mode) and the amount of digits that do not match the mode of each cluster are: ', non_match_dict) # Prints the digit number as the key and the corresponding value is the amount of wrong digits within that particular cluster. 
+
+    cluster_digit_accuracy(k_t_sne.labels_, labels)
+
+Information from the clusters achieved via k-means clustering is shown in the table below. For an example run, the digit number (i.e., the mode) of each cluster is shown in the left column. The middle column shows the amount of digits within each cluster. The right column shows the amount of wrong digits assigned to that cluster. So, in a cluster with the digit zero, all of the digits are zero. The digit zero is clustered correctly. Whereas in a cluster with the digit one, there are thirty-seven digits that are not the number one within that cluster, and so on. 
+
+| **Digit**        | **Total digits in cluster**          | **Amount of incorrect digits in cluster**  |
+| ------------- |:-------------:| :-----:|
+| 0     | 178 | 0 |
+| 1     | 235 | 37 |
+| 2     | 174 | 31 |
+| 3     | 151 | 9 |
+| 4     | 182 | 0 |
+| 5     | 182 | 3 |
+| 6     | 197 | 2 |
+| 7     | 187 | 6 |
+| 8     | 173 | 71 |
+| 9     | 138 | 10 |
+
 

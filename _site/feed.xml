@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-05-04T13:41:41+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Science to Technology</title><subtitle>Welcome to &quot;S2T.&quot; This is a blog that provides some of the things I've learned while looking into the tech sector. I hope you can find tools and resources that may help you in this exciting field!</subtitle><entry><title type="html">Dimensionality Reduction and Clustering on the Handwritten Digits Dataset</title><link href="http://localhost:4000/2019/04/27/dimensionality-reduction-clustering.html" rel="alternate" type="text/html" title="Dimensionality Reduction and Clustering on the Handwritten Digits Dataset" /><published>2019-04-27T00:00:00+01:00</published><updated>2019-04-27T00:00:00+01:00</updated><id>http://localhost:4000/2019/04/27/dimensionality-reduction-clustering</id><content type="html" xml:base="http://localhost:4000/2019/04/27/dimensionality-reduction-clustering.html">&lt;p&gt;&lt;img src=&quot;/assets/img/gear_head_concept.jpg&quot; width=&quot;500&quot; height=&quot;500&quot; /&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-05-09T07:47:04+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Science to Technology</title><subtitle>Welcome to &quot;S2T.&quot; This is a blog that provides some of the things I've learned while looking into the tech sector. I hope you can find tools and resources that may help you in this exciting field!</subtitle><entry><title type="html">Dimensionality Reduction and Clustering on the Handwritten Digits Dataset</title><link href="http://localhost:4000/2019/04/27/dimensionality-reduction-clustering.html" rel="alternate" type="text/html" title="Dimensionality Reduction and Clustering on the Handwritten Digits Dataset" /><published>2019-04-27T00:00:00+01:00</published><updated>2019-04-27T00:00:00+01:00</updated><id>http://localhost:4000/2019/04/27/dimensionality-reduction-clustering</id><content type="html" xml:base="http://localhost:4000/2019/04/27/dimensionality-reduction-clustering.html">&lt;p&gt;&lt;img src=&quot;/assets/img/gear_head_concept.jpg&quot; width=&quot;500&quot; height=&quot;500&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;One of the goals of science is the pursuit of knowledge. And one of the goals of technology is to create products that solve problems. As technology appears to be the practical application of science, I think that applying machine learning (ML) techniques is exciting! ML is a ubiquitous technology –it is found everywhere! Just a few applications include the type of product a person might buy, the ability for cars to drive themselves, determining if an email is spam and moving it into your spam folder, and the list goes on…&lt;/p&gt;
 
@@ -100,6 +100,15 @@ if 0:
 &lt;p&gt;A guide that explains both feature selection and feature extraction in detail can be found &lt;a href=&quot;https://elitedatascience.com/dimensionality-reduction-algorithms&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;For comparison purposes, the following dimensionality reduction techniques will be used: principal component analysis, t-distributed Stochastic Neighbor Embedding, truncated singular value decomposition, and Isomap.&lt;/p&gt;
+
+&lt;p&gt;Let’s import some libraries from scikit-learn:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from sklearn import metrics
+from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
+from sklearn.decomposition import TruncatedSVD
+from sklearn.manifold import Isomap
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;principal-component-analysis&quot;&gt;Principal component analysis&lt;/h3&gt;
 &lt;p&gt;Principal component analysis (PCA) is a technique that reduces dimensionality of a dataset that comprises several interrelated variables, while retaining much of the variation within the dataset. This occurs by transforming to a new set of variables, the principal components (PCs). These PCs are not correlated and they are ordered such that the first few of them retain most of the variation contained within all of the original variables.&lt;/p&gt;
@@ -302,6 +311,20 @@ plot_dim_red(iso_result, data, 'Isomap reduced handwritten digits')
 
 &lt;p&gt;For the handwritten digits dataset, the following clustering techniques will be used: k-means, mean-shift, spectral, DBSCAN, and affinity propagation clustering. These methods were chosen to try on this dataset because k-means clustering is one of the most popular machine learning algorithms that allows us to maximize inter-cluster similarity and minimize intra-cluster similarity. And mean-shift clustering is very similar to k-means clustering, but instead of using a sum of neighborhood points, the kernel function in mean-shift clustering would apply a probability weighted sum of points. Spectral and affinity propogation clustering  differ from k-means in that they can be used for a dataset with non-flat geometry and graph distance (e.g., nearest-neighbor graph) metrics are used. DBSCAN differs from k-means as it too can be used for a dataset with non-flat geometry, but the distances between nearest points metrics are used. The main goal here is to assess a few of the dimensionality reduction methods and a few of the clustering techniques on the handwritten digits dataset, for comparison purposes.&lt;/p&gt;
 
+&lt;p&gt;Let’s import some more useful libraries:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;from sklearn.cluster import KMeans
+from sklearn.cluster import MeanShift
+from sklearn.cluster import estimate_bandwidth
+from sklearn.cluster import SpectralClustering
+from sklearn.cluster import DBSCAN
+from sklearn.cluster import AffinityPropagation
+
+# Import figures and statistics 
+import figures
+import statistics
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
 &lt;h3 id=&quot;k-means&quot;&gt;K-means&lt;/h3&gt;
 &lt;p&gt;The goal of &lt;a href=&quot;http://www.labri.fr/perso/bpinaud/userfiles/downloads/hartigan_1979_kmeans.pdf&quot;&gt;k-means&lt;/a&gt; clustering is to minimize the sum of squared distances between all points and the cluster centre (&lt;a href=&quot;https://pdfs.semanticscholar.org/0ec1/32fce9971d1e0e670e650b58176dc7bf36da.pdf&quot;&gt;Ray &amp;amp; Turi 1999&lt;/a&gt;). Let’s use the demo on this &lt;a href=&quot;https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py&quot;&gt;site&lt;/a&gt; as a guide to get started. The demo compares different initialization strategies for k-means clustering. Different initialization strategies will be assessed here and the k-means algorithm from scikit-learn will be utilized.&lt;/p&gt;
 
@@ -434,7 +457,115 @@ plot_dim_red_clust(iso_result, k_iso, data, 'isomap', 'K-means')
 plot_dim_red_clust(svd_result, k_SVD, data, 'truncated SVD', 'K-means')
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;&lt;img src=&quot;/assets/img/truncated SVD_K-means_plot.png&quot; /&gt;&lt;/p&gt;</content><author><name></name></author><summary type="html"></summary></entry><entry><title type="html">A Brief Introduction to Object Oriented Programming</title><link href="http://localhost:4000/2019/04/25/object-oriented-programming.html" rel="alternate" type="text/html" title="A Brief Introduction to Object Oriented Programming" /><published>2019-04-25T00:00:00+01:00</published><updated>2019-04-25T00:00:00+01:00</updated><id>http://localhost:4000/2019/04/25/object-oriented-programming</id><content type="html" xml:base="http://localhost:4000/2019/04/25/object-oriented-programming.html">&lt;h2 id=&quot;what-is-object-oriented-programming&quot;&gt;What is Object Oriented Programming?&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/img/truncated SVD_K-means_plot.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In some cases, the digits have similar visual features, so it is difficult for the model to identify which cluster they belong to. This happens more frequently for the digit 8 cluster. For example, the digit 8 and the digit 1 often get clustered together. The figure below shows images that were clustered in the same cluster, with their corresponding label written above to show which digit they really are:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/four_digits1188.png&quot; width=&quot;500&quot; height=&quot;120&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Whereas for the digit 0, after running the model multiple times, the 0 digit is clustered together accurately, without other digits within that cluster. See the digit 0 examples below that are clustered together:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/four_digits0000.png&quot; width=&quot;500&quot; height=&quot;120&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;See another convoluted example in the figure below, which are clustered in the same cluster:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/four_digits5759.png&quot; width=&quot;500&quot; height=&quot;120&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The number of incorrect digits in each cluster can be found using the following code:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Obtaining information about how well the digits were clustered from k-means clustering:
+labels = digits.target
+
+def cluster_digit_accuracy(labels_array, labels):
+    sampl_lst = []
+    digit_lst = []
+    wher_lst = []
+    wher_dict = {} # keys are digits, values are the sample numbers of digits that do not match the overall cluster digit (mode), for each cluster
+    len_dict = {} # keys are digits, values are the total amount of digits in the corresponding cluster
+    for i in range(10):
+        cl_num = i
+        cl_data = np.where(labels_array == cl_num)[0]
+        clust_mode = statistics.mode(labels[cl_data])
+        sampl_lst.append(cl_data)
+        digit_lst.append(labels[cl_data])
+        not_equal = (np.where(labels[cl_data] != clust_mode)[0]).tolist()
+        wher_dict[clust_mode] = not_equal
+        wher_lst.append(not_equal)
+        cl_len = len(labels[cl_data])
+        len_dict[i] = cl_len
+    print ('The overall digit of each cluster and the total amount of digits in each cluster are: ', len_dict)
+
+    non_match_dict = {}
+    for j in range(10):
+        non_match_dict[j] = len(wher_dict[j])
+    print ('The overall digit (mode) and the amount of digits that do not match the mode of each cluster are: ', non_match_dict) # Prints the digit number as the key and the corresponding value is the amount of wrong digits within that particular cluster. 
+
+cluster_digit_accuracy(k_t_sne.labels_, labels)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Information from the clusters achieved via k-means clustering is shown in the table below. For an example run, the digit number (i.e., the mode) of each cluster is shown in the left column. The middle column shows the amount of digits within each cluster. The right column shows the amount of wrong digits assigned to that cluster. So, in a cluster with the digit zero, all of the digits are zero. The digit zero is clustered correctly. Whereas in a cluster with the digit one, there are thirty-seven digits that are not the number one within that cluster, and so on.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;&lt;strong&gt;Digit&lt;/strong&gt;&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;&lt;strong&gt;Total digits in cluster&lt;/strong&gt;&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;&lt;strong&gt;Amount of incorrect digits in cluster&lt;/strong&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;178&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;235&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;37&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;174&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;31&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;151&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;9&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;182&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;5&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;182&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;197&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;187&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;6&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;173&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;71&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;138&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;10&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</content><author><name></name></author><summary type="html"></summary></entry><entry><title type="html">A Brief Introduction to Object Oriented Programming</title><link href="http://localhost:4000/2019/04/25/object-oriented-programming.html" rel="alternate" type="text/html" title="A Brief Introduction to Object Oriented Programming" /><published>2019-04-25T00:00:00+01:00</published><updated>2019-04-25T00:00:00+01:00</updated><id>http://localhost:4000/2019/04/25/object-oriented-programming</id><content type="html" xml:base="http://localhost:4000/2019/04/25/object-oriented-programming.html">&lt;h2 id=&quot;what-is-object-oriented-programming&quot;&gt;What is Object Oriented Programming?&lt;/h2&gt;
 &lt;p&gt;Object oriented programming (OOP) is a pattern of programming in which the solution to a programming problem is modelled as a collection of collaborating objects.&lt;/p&gt;
 
 &lt;p&gt;Prior to the development of OOP, procedural programming divided a program into a set of functions. The data was stored in variables and the functions operated on that data. It was relatively simple, however, complications would arise when functions were changed. For example, another function may depend on the function that was changed, which could lead to the code becoming difficult to maintain. Essentially, OOP came about to help with this and other programming problems. Some benefits of using OOP include: reducing complexity, isolating the impact of changes made to code, eliminating redundant code, and refactoring code (e.g., condensing lengthy if/else statements). It also reduces development time by supporting programming by customization.&lt;/p&gt;
