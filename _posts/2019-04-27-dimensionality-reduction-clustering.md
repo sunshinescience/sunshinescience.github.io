@@ -494,7 +494,9 @@ Information from the clusters achieved via k-means clustering is shown in the ta
 
 It appears that t-SNE discovered some structure in the data and the digits have been separated into different clusters of points via k-means clustering. The clustering algorithms below might select the separate clusters from the t-SNE dimensionality reduced data and assign points to labels. For the following clustering algorithms, t-SNE will be the dimensionality reduction method used on the dataset for comparison purposes to the k-means clustering algorithm.
 ### Mean shift clustering
-One of the advantages of [mean shift](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.76.8968&rep=rep1&type=pdf)  over k-means is that the number of clusters is not pre-specified, because mean shift is likely to find only a few clusters if only a small number exist. However, mean shift can be much slower than k-means, and still requires selection of a bandwidth parameter.
+The [mean shift](https://dl.acm.org/citation.cfm?id=513076) algorithm is a [nonparametric](https://en.wikipedia.org/wiki/Nonparametric_statistics) clustering technique. The method does not constrain the shape of the clusters. One of the advantages of [mean shift](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.76.8968&rep=rep1&type=pdf) over k-means is that the number of clusters is not pre-specified, because mean shift is likely to find only a few clusters if only a small number exist. However, mean shift can be much slower than k-means, and still requires initial selection of a bandwidth parameter. 
+
+Mean shift builds upon the concept of kernel density estimation ([KDE](https://en.wikipedia.org/wiki/Kernel_density_estimation)). The algorithm works by initially defining the bandwidth of the kernel function. It places this on data points and calculates the mean for all the points in the bandwidth of the kernel. Next, it moves the center of the bandwidth of the kernel to the location of that mean. It continues until there is convergence.
 
 Let's apply the clustering [algorithm](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.MeanShift.html):
     
@@ -568,5 +570,14 @@ Similar to k-means, the results of spectral clustering show that ten clusters we
 
     # Visualize the results of DBSCAN clustering
     plot_dim_red_clust(tsne_result, db_tsne, data, 't-SNE', 'DBSCAN')
-    
+
 <img src="/assets/img/t-SNE_DBSCAN_plot.png">
+The results of DBSCAN clustering show that more clusters than expected were obtained using this method. 
+
+## Conclusion and further study
+
+In this demonstration, various dimensionality reduction and clustering methods were investigated on the handwritten digits dataset. When working with large data sets with many features, dimensionality reduction can be an important technique to improve the subsequent clustering process. Instead of using many features, one can use the features that are the most significant which represent the underlying data. And clustering is an important method that helps identify patterns in the underlying data.  
+
+Within scientific fields that deal with empirical data, it may be helpful to identify trends and patterns (e.g., groups or *clusters*) in the data. It appears that for these analyses on the handwritten digits dataset, the dimensionality reduction method that worked best was t-SNE and the clustering algorithms that were the most promising were k-means and spectral clustering.
+
+To take this study further, these methods will be used on high-dimensional *unlabelled* data.
