@@ -129,7 +129,7 @@ T-distributed Stochastic Neighbor Embedding ([t-SNE](https://scikit-learn.org/st
     # Plot of t-SNE reduced data 
     plot_dim_red(tsne_result, data, 't-SNE', 't-SNE reduced Olympus data')
 
-<img src="/assets/img/plot_t_SNE.png" width="700" height="500">
+<img src="/assets/img/plot_t_sne.png" width="700" height="500">
 
 ### Truncated singular value decomposition 
 The truncated singular value decomposition ([truncated SVD](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html)) method performs linear dimensionality reduction via factorization of a matrix, in which the number of columns is equal to the specified truncation. Let’s use the algorithm and visualize the results:
