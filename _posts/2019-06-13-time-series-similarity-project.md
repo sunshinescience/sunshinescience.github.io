@@ -137,6 +137,7 @@ Let's have a look at what was started for this project. The function `compare_cu
 
 The annotations on the plot from the above function illustrate the locations of the minimum and maximum distance between two curves:
 <img src="/assets/img/straight_vs_curved.png" width="700" height="500">
+
 The information generated from `compare_curves` is shown below. 
 
 -  Distance: 
@@ -164,6 +165,7 @@ An example of alternate curves is shown below.
     ys1 = np.exp(-xs2/3.0)
     ys2 = np.exp(-xs2/5.0)
     compare_curves(xs1, ys1, xs2, ys2)
+    
 <img src="/assets/img/curved_vs_curved.png" width="700" height="500">
 
 The information that the function provides is:

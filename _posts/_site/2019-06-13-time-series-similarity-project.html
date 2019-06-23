@@ -135,8 +135,9 @@ compare_curves(xs1, ys1, xs2, ys2)
 </code></pre></div></div>
 
 <p>The annotations on the plot from the above function illustrate the locations of the minimum and maximum distance between two curves:
-<img src="/assets/img/straight_vs_curved.png" width="700" height="500" />
-The information generated from <code class="highlighter-rouge">compare_curves</code> is shown below.</p>
+<img src="/assets/img/straight_vs_curved.png" width="700" height="500" /></p>
+
+<p>The information generated from <code class="highlighter-rouge">compare_curves</code> is shown below.</p>
 
 <ul>
   <li>
@@ -168,8 +169,10 @@ These curves above are not similar according to the statistics.</p>
 xs2 = np.linspace(2, 11, 9)
 ys1 = np.exp(-xs2/3.0)
 ys2 = np.exp(-xs2/5.0)
-compare_curves(xs1, ys1, xs2, ys2) &lt;img src="/assets/img/curved_vs_curved.png" width="700" height="500"&gt;
+compare_curves(xs1, ys1, xs2, ys2)
 </code></pre></div></div>
+
+<p><img src="/assets/img/curved_vs_curved.png" width="700" height="500" /></p>
 
 <p>The information that the function provides is:</p>
 <ul>
