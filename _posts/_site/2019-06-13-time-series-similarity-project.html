@@ -7,7 +7,7 @@
   <li>Develop a Python library that 1) quantitatively compares curves and 2) compares the shapes of curves</li>
 </ul>
 
-<p>However, while beginning to work on the code, I stumbled across <a href="https://pypi.org/project/similaritymeasures/">this</a> useful library, which had already been done. That’s pretty much what was in mind for this project. So, instead, the work that had already been started will be shown below. Subsequently, the library (mentioned above) will be used to provide an example of how it can be used to compare curves (e.g., we’ll assess yield curves).</p>
+<p>However, while beginning to work on the code, I stumbled across <a href="https://pypi.org/project/similaritymeasures/">this</a> useful library, which had already been done. That’s pretty much what was in mind for this project. So, instead, the work that had already been started will be shown below.</p>
 
 <h2 id="calculate-the-distance-and-area-between-two-curves">Calculate the distance and area between two curves</h2>
 <p>Let’s have a look at what was started for this project. The function <code class="highlighter-rouge">compare_curves</code> below analyzes the overlapping region (i.e., overlapping x-values) between two 2-D curves of sampled data. The function provides minimum, maximum, and mean distance measurements between the two curves within the overlapping range. It also calculates the area within that region. Statistics between the curves within that overlapping region are provided. And lastly, the function prints how similar the curves are to one another (based on the obtained r-value).</p>

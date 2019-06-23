@@ -9,7 +9,7 @@ There appears to be a recurring question on researchgate.net and stackexchange.c
 -  Quantify the similarity or dis-similarity of two (or more) time series
 -  Develop a Python library that 1) quantitatively compares curves and 2) compares the shapes of curves
 
-However, while beginning to work on the code, I stumbled across [this](https://pypi.org/project/similaritymeasures/) useful library, which had already been done. That's pretty much what was in mind for this project. So, instead, the work that had already been started will be shown below. Subsequently, the library (mentioned above) will be used to provide an example of how it can be used to compare curves (e.g., we'll assess yield curves).
+However, while beginning to work on the code, I stumbled across [this](https://pypi.org/project/similaritymeasures/) useful library, which had already been done. That's pretty much what was in mind for this project. So, instead, the work that had already been started will be shown below.
 
 ## Calculate the distance and area between two curves
 Let's have a look at what was started for this project. The function `compare_curves` below analyzes the overlapping region (i.e., overlapping x-values) between two 2-D curves of sampled data. The function provides minimum, maximum, and mean distance measurements between the two curves within the overlapping range. It also calculates the area within that region. Statistics between the curves within that overlapping region are provided. And lastly, the function prints how similar the curves are to one another (based on the obtained r-value). 
@@ -165,7 +165,7 @@ An example of alternate curves is shown below.
     ys1 = np.exp(-xs2/3.0)
     ys2 = np.exp(-xs2/5.0)
     compare_curves(xs1, ys1, xs2, ys2)
-    
+
 <img src="/assets/img/curved_vs_curved.png" width="700" height="500">
 
 The information that the function provides is:
