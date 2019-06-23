@@ -127,8 +127,7 @@ Let's have a look at what was started for this project. The function `compare_cu
                 arrowprops=dict(arrowstyle="->", connectionstyle="arc3"))
         plt.fill_between(xs1_overlap, (ys2_interp_overlap), ys1[xs1_overlap_where], color="crimson", alpha=0.2) # The area is shaded between the curves
         #plt.show()
-        plt.savefig("straight_vs_curved.png", dpi=150)
-    
+        plt.savefig("straight_vs_curved.png", dpi=150) 
 
     xs1 = np.linspace(0, 10, 7)
     xs2 = np.linspace(2, 11, 9)
@@ -137,20 +136,21 @@ Let's have a look at what was started for this project. The function `compare_cu
     compare_curves(xs1, ys1, xs2, ys2)
 
 The annotations on the plot from the above function illustrate the locations of the minimum and maximum distance between two curves:
-
 <img src="/assets/img/straight_vs_curved.png" width="700" height="500">
-
 The information generated from `compare_curves` is shown below. 
 
 -  Distance: 
+
    Minimum distance between curves:  0.49
    Maximum distance between curves:  0.86
    Mean distance between curves:  0.71
 
 -  Area: 
+
    Area between curves:  4.76
 
 -  Statistics: 
+
    r-value: 0.000 
    p-value: 1.000
 
@@ -164,19 +164,21 @@ An example of alternate curves is shown below.
     ys1 = np.exp(-xs2/3.0)
     ys2 = np.exp(-xs2/5.0)
     compare_curves(xs1, ys1, xs2, ys2)
-
 <img src="/assets/img/curved_vs_curved.png" width="700" height="500">
 
 The information that the function provides is:
 -  Distance: 
+
    Minimum distance between curves:  0.11
    Maximum distance between curves:  0.36
    Mean distance between curves:  0.22
 
 -  Area: 
+
    Area between curves:  1.64
 
 -  Statistics: 
+
    r-value: 0.995 
    p-value: 0.000
 
