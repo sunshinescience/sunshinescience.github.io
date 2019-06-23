@@ -1,0 +1,736 @@
+<p><img src="/assets/img/gear_head_concept.jpg" width="500" height="500" /></p>
+
+<p>One of the goals of science is the pursuit of knowledge. And one of the goals of technology is to create products that solve problems. As technology appears to be the practical application of science, I think that applying machine learning (ML) techniques is exciting! ML is a ubiquitous technology –it is found everywhere! Just a few applications include the type of product a person might buy, the ability for cars to drive themselves, determining if an email is spam and moving it into your spam folder, and the list goes on…</p>
+
+<p>My interest in machine learning piqued as I learned what an incredible tool it can be for transforming information into knowledge. These techniques provide various ways to solve a problem.  Machine learning is a method of providing systems the ability to learn and improve from experience in an automated fashion, without the need for explicitly being programmed.  Two of the broad categories in which machine learning tasks are classified into are: supervised learning and unsupervised learning.</p>
+<ul>
+  <li><strong>Unsupervised learning</strong> essentially learns from unlabelled and uncategorized input data.</li>
+  <li><strong>Supervised learning</strong> undertakes the task of learning a mapping function based on input-output pairs. This task learns the mapping function so well that it maps an input to predict an output.</li>
+</ul>
+
+<p>I have found scikit-learn incredibly useful. Scikit-learn supports several categories of algorithms, such as regression, classification, clustering, and dimensionality reduction. It offers tools that allow you to find the best model for your data (model selection). The scikit-learn algorithm cheat-sheet can be found <a href="https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html">here</a>. Moreover, scikit-learn has tools for data processing and preparation (<a href="https://scikit-learn.org/stable/modules/preprocessing.html">preprocessing</a>).</p>
+
+<p>As a scientist, I really enjoyed finding patterns and structure in various forms of data. An interesting machine learning project to delve into may be clustering, as one of the goals of clustering is to identify structure in data. And dimensionality reduction might improve the clustering of the data. Thus, in this demonstration, dimensionality reduction and subsequent clustering methods will be explored. While I would like to apply this to high dimensional unlabelled data, I would initially like to work with a labelled dataset. First, I’ll assess the handwritten digits dataset, as it has been tagged with labels. I’ll use Python for this demonstration.</p>
+
+<h2 id="dataset">Dataset</h2>
+<p>For this demonstration, the handwritten digits dataset from scikit-learn will be used. Scikit-learn has a copy of the test set of the UCI ML hand-written digits <a href="http://archive.ics.uci.edu/ml/datasets/Optical+Recognition+of+Handwritten+Digits">dataset</a>. An example to load and visualize the data via scikit-learn can be found <a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html">here</a>. The dataset characteristics on scikit-learn can be found in section <a href="https://scikit-learn.org/stable/datasets/index.html#digits-dataset">5.2.4</a>.</p>
+
+<p>This dataset is made up of 1797 images of hand-written digits. There are ten classes, in which each class refers to a handwritten digit (0 to 9). See an example of digits 0 to 9 in the images below. The axes are the pixel numbers, for each 8x8 pixel image.
+<img src="/assets/img/digits_10example.png" width="500" height="250" /></p>
+
+<p>Let’s first import a few Python libraries that are useful. Let’s also import some libraries from scikit-learn and load the dataset.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import numpy as np
+import matplotlib.pyplot as plt
+
+from sklearn.datasets import load_digits
+from sklearn.preprocessing import scale
+
+# Load the handwritten digits dataset
+digits = load_digits()
+
+# Standardize a dataset along any axis 
+data = scale(digits.data) 
+</code></pre></div></div>
+
+<p>The following code will generate the above figure:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Plot of ten example digits (from 0 to 9)
+fig = plt.figure(figsize=(10,5))
+plt_index = 0
+for i in range(10):
+    plt_index = plt_index + 1
+    ax = fig.add_subplot(2, 5, plt_index)
+    ax.imshow(digits.images[i], cmap=plt.cm.gray_r, interpolation='nearest')
+plt.tight_layout()
+plt.show() 
+</code></pre></div></div>
+
+<p>Each individual label indicates which digit (0 to 9) is captured in that particular image. When plotting, each individual data point represents an 8x8 image of a digit. Each 8x8 image has been pre-processed such that the digit fits and is centered. Generally if an image is in grayscale, the tuple returned contains only the number of rows and columns, whereas a color image would have a tuple returned of rows, columns, and channels. In this example, these images are grayscaled as the tuple returned is 8x8 using the code:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>print (digits.images[0].shape)
+</code></pre></div></div>
+
+<p>Generally, the dimensionality in an image is the number of pixels within its image. In this case, each image consists of 64 pixels that represent the features of that particular digit. A feature can be thought of as an individual measureable property of something that is being observed. Thus, instead of thinking of each image as an 8x8 grid of pixels, we can consider it as a vector, or list, of 64 features.</p>
+
+<p>A figure of four of each of the nine digits is shown in order to illustrate differences contributed by participants whom had written the digits. The ticks and corresponding tick labels have been removed for ease of view. See the plot and corresponding code below.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Plot of four examples from each of the 10 digits (0 through 9)
+sample_lst = [] # A list of lists. Each list within contains four sample numbers of a single digit, and it goes from digit 0 (the first list within the list of lists) to digit 9 (the last list)
+for i in range(10):
+    sample_nums = np.where(labels == i)[0][0:4] # Indexes (0:4) into an array of sample numbers that are a specified digit (the digit is written as i in the loop)
+    sample_nums = sample_nums.tolist() # Convert the array called sample_nums to a list with the same items
+    sample_lst.append(sample_nums) 
+if 0:
+    fig = plt.figure(figsize=(10,6))
+    plt_index = 0
+    for i in range(0,10):
+        for j in sample_lst[i]:
+            plt_index = plt_index + 1
+            ax = fig.add_subplot(5, 8, plt_index)
+            ax.imshow(digits.images[j], cmap=plt.cm.gray_r, interpolation='nearest')
+            ax.set_yticklabels([]) # Turn off y tick labels
+            ax.set_xticklabels([]) # Turn off x tick labels
+            ax.set_yticks([]) # Turn off y ticks
+            ax.set_xticks([]) # Turn off x ticks
+    plt.tight_layout()
+    plt.show()  
+</code></pre></div></div>
+
+<p><img src="/assets/img/digits_each_4.png" width="700" height="500" /></p>
+
+<h2 id="preprocessing">Preprocessing</h2>
+<p>The <a href="https://scikit-learn.org/stable/modules/preprocessing.html">sklearn.preprocessing</a> package contains numerous functions and classes to change features into a representation that would be useful for learning algorithms. It may be good practice to initially standardize a dataset, as it is usually advantageous to apply learning algorithms to a standardized dataset. If the dataset contains outliers, scalars or transformers might be more beneficial.</p>
+
+<p>The goal in standardizing and normalizing is to change the values (e.g., numeric feature values within a column) in order to use a common scale, without distorting differences in the ranges of values or losing information. This can help the model overcome learning problems.</p>
+<ul>
+  <li>Data <em>normalization</em> is the process of scaling individual samples to have unit norm (i.e., a vector of length 1). When a feature is normalized, the feature values are in between 0 and 1.</li>
+  <li>Data <em>standardization</em> is the process of transforming features so that each feature looks like standard normally distributed data. And each feature is distributed about zero with a standard deviation of 1.</li>
+</ul>
+
+<p>The learning algorithms might not work as well if the individual features do not appear similar to standard normally distributed data (i.e., Gaussian with zero mean and unit variance). For example, it is assumed by elements in the objective function of a learning algorithm that all features are centered around zero and have similar variances. But, if a feature has a variance that is much larger than other features, it might dominate the objective function of the learning algorithm and thus make the algorithm unable to learn from other features correctly. Here, the data is standardized in the code above.</p>
+
+<h2 id="dimensionality-reduction">Dimensionality reduction</h2>
+<p>Dimensionality is the number of features in your dataset. Dimensionality reduction is a process that reduces that number of features. It might be best to try to attain a compact representation of high-dimensional data without having to lose much information. There are many benefits in its applications. One advantage is that it reduces the processing time and storage space needed for the particular modelling algorithm. It may help avoid the effects of the curse of dimensionality. It can also improve the interpretation of the parameters of the machine learning model. Also, in order to visualize data, it needs to be reduced to very low dimensions (2D or 3D). There appears to be two key dimensionality reduction methods:</p>
+<ul>
+  <li>Feature selection – A subset is selected from the original feature set.</li>
+  <li>Feature extraction - A new (smaller) set of features is created from the original feature set. This new set of features captures the most useful information in the data.</li>
+</ul>
+
+<p>A guide that explains both feature selection and feature extraction in detail can be found <a href="https://elitedatascience.com/dimensionality-reduction-algorithms">here</a>.</p>
+
+<p>For comparison purposes, the following dimensionality reduction techniques will be used: principal component analysis, t-distributed Stochastic Neighbor Embedding, truncated singular value decomposition, and Isomap. Note that there will be an emphasis on t-distributed Stochastic Neighbor Embedding.</p>
+
+<p>Let’s import some libraries from scikit-learn:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from sklearn import metrics
+from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
+from sklearn.decomposition import TruncatedSVD
+from sklearn.manifold import Isomap
+</code></pre></div></div>
+
+<h3 id="principal-component-analysis">Principal component analysis</h3>
+<p>Principal component analysis (PCA) is a technique that reduces dimensionality of a dataset that comprises several interrelated variables, while retaining much of the variation within the dataset. This occurs by transforming to a new set of variables, the principal components (PCs). These PCs are not correlated and they are ordered such that the first few of them retain most of the variation contained within all of the original variables.</p>
+
+<p>The idea of PCA is to express the data in terms of a few well-chosen vectors that more efficiently capture the variation in that data. Generally, the goal is to save space while avoiding redundancies and eliminating the least important information. PCA is one of the most widely used techniques for dimensionality reduction and it is often used with large datasets with many features. 
+This technique finds a combination of features that capture the variance of the original features well. Thus, I thought it best to use this technique first in order to have a look at what it does to the dataset. I won’t delve into the mathematics here, but the derivation of the principal components (and much additional information) can be found <a href="https://www.springer.com/gb/book/9780387954424">here</a>.</p>
+
+<p>First, let’s visualize the original data (i.e., this data is not standardized). We’ll project the original data from high-dimensional (64 dimensions) space into lower-dimensional principal component space (2 dimensions). We’ll color the data points by their corresponding digit class, and thus see how well these classes have been separated in principal component space.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># The first two principal components are generated below (on the non-standardized data)
+pca2_result = PCA(n_components=2).fit_transform(digits.data) 
+
+def plot_dim_red(dim_red, data, title=None, xlabel=None, ylabel=None):
+    """
+    Scatter plot of dimensionality reduced data.
+    dim_red: dimensionality reduced data
+    data: data
+    title: string of the title
+    xlabel: string of the x label
+    ylabel: string of the y label
+    """
+    plt.scatter(dim_red[:, 0], dim_red[:, 1], c=digits.target, cmap=plt.cm.get_cmap('tab10', 10), marker='o', edgecolor='none', alpha=0.5) 
+    plt.colorbar(ticks=range(10))
+    plt.clim(-0.5, 9.5)
+    if xlabel:
+        plt.xlabel('Component 1')
+    if ylabel:
+        plt.ylabel('Component 2')
+    if title:
+        plt.title(title)
+    plt.show()
+
+plot_dim_red(pca2_result, data, 'PCA reduced handwritten digits', 'Component 1', 'Component 2')
+</code></pre></div></div>
+
+<p><img src="/assets/img/pca_digits_non_standardized.png" width="700" height="500" /></p>
+
+<p>In this example, the explained variation per principal component is ~12% and ~9%. Thus, the first two principal components account for ~22% of the variation in the entire dataset. See the code below:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pca = PCA(n_components=2) # The original 64 dimensions are reduced to 2   
+pca_result = pca.fit_transform(data) # Now we have the reduced feature set  
+print ('Explained variation per principal component: {}'.format(pca.explained_variance_ratio_))  
+print ('The first two components account for {:.0f}% of the variation in the entire dataset'.format((pca.explained_variance_ratio_[0] + pca.explained_variance_ratio_[1])*100))
+</code></pre></div></div>
+
+<p>And ~50% of the variance is contained within 5 principal components. One may estimate how many components are needed to describe the data by assessing the cumulative explained variance ratio as a function of the number of components. Approximately 90% of the variance is retained within 20 components, whereas 75% is retained within 10 components. See the code and corresponding plot below of the cumulative sum of the percentage of variance explained by the components.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pca4 = PCA().fit(digits.data) # Conducting PCA without specifying a number of
+plt.plot(np.cumsum(pca4.explained_variance_ratio_)) # The cumulative sum of the percentage of variance explained by all of the components
+plt.xlabel('Number of components')
+plt.ylabel('Cumulative explained variance')
+plt.title('Number of components vs. retained variance')
+plt.show() 
+</code></pre></div></div>
+
+<p><img src="/assets/img/n_comp_var.png" width="650" height="500" /></p>
+
+<p>This data from scikit-learn is stored in the .data member, which is an (n_samples, n_features) array. This array changed from the initial shape of the array (1797, 64) to the current shape (1797, 2) via PCA reduction. Thus, the vector length has now been compressed to a length of 2. But has important data been lost by conducting this PCA reduction? Let’s plot the inverse transform of the PCA reduced data below the original data. The inverse transform can help illustrate the reconstructed image data after having undergone PCA reduction.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>percnt = 2 
+pca3 = PCA(n_components=percnt).fit(digits.data) 
+pca3_result = pca3.transform(digits.data)
+# Transform the PCA reduced data back to its original space. 
+pca_inversed = pca3.inverse_transform(pca3_result)  # Use the inverse of the transform to reconstruct the reduced digits
+
+# Figure of original images, as assigned to the variable called inversed_lst
+inversed_lst = range(0, 10)
+fig = plt.figure(figsize=(10,2))
+plt_index = 0
+for i in inversed_lst:
+    plt_index = plt_index + 1
+    ax = fig.add_subplot(1, 10, plt_index)
+    ax.imshow(digits.images[i], cmap=plt.cm.gray_r, interpolation='nearest')
+plt.tight_layout()
+plt.show() 
+
+# Figure of images that have undergone PCA reduction, as assigned to the variable called inversed_lst. The inverse transform is plotted here
+fig = plt.figure(figsize=(10,2))
+plt_index = 0
+for i in inversed_lst:
+    plt_index = plt_index + 1
+    ax = fig.add_subplot(1, 10, plt_index)
+    ax.imshow(pca_inversed[i].reshape(8, 8), cmap=plt.cm.gray_r, interpolation='nearest')
+plt.tight_layout()
+plt.show() 
+</code></pre></div></div>
+
+<p>Here is an example of the original data:
+<img src="/assets/img/digits0_9_original.png" width="800" height="180" />
+Here is that same example seen directly above, but this figure is the inverse transform of the data:
+<img src="/assets/img/digits0_9_pca.png" width="800" height="180" />
+The original 64 dimensions were reduced to 2. While PCA has reduced the dimensionality of the data by a factor of 32, the reconstructed images contain enough information that one might visually recognize the individual digits in the figure. Although it doesn’t seem that much of the variance is retained (~22%) within the first two principal components, it does appear that PCA reduction works for this dataset.</p>
+
+<h3 id="t-distributed-stochastic-neighbor-embedding">T-distributed Stochastic Neighbor Embedding</h3>
+<p>T-distributed Stochastic Neighbor Embedding (t-SNE) is a popular dimensionality reduction that helps identify patterns in data. This technique visualizes high-dimensional data via giving each individual data point a location within a two or three-dimensional map (<a href="http://jmlr.csail.mit.edu/papers/volume9/vandermaaten08a/vandermaaten08a.pdf">van der Maaten &amp; Hinton 2008</a>).</p>
+
+<p>One of the main advantages of using this algorithm is its ability to preserve local structure.  This basically means that points which are close to one another in the high-dimensional dataset will likely be close to one another in the map.</p>
+
+<p>The t-SNE algorithm undergoes two main stages:</p>
+<ul>
+  <li>First, the algorithm models the probability distribution of neighbors around each point (‘neighbors’ refers to a set of points that are closest to each point). Similar points have a high probability of being picked whereas dissimilar points have a small probability of being picked.</li>
+  <li>Second, the algorithm defines a similar probability distribution over the points in the low-dimensional map. And it minimizes the <a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback–Leibler divergence</a> between the two distributions with respect to the locations of the points in the map. The Kullback-Leibler divergence (KL divergence) is a measure of how one probability distribution diverges from a second, expected probability distribution. So, it tries to minimize the difference between the similarities in higher-dimensional and lower-dimensional space for a representation of data points in lower-dimensional space.</li>
+</ul>
+
+<p>With just using t-SNE on the dataset, it appears that the images corresponding to the different digits have been separated into different clusters of points. A clustering algorithm might select the separate clusters from this and one could possible assign new points to a label. While t-SNE plots often seem to display clusters, the visual clusters can be influenced by the selected parameterization and thus an understanding of the parameters for t-SNE is needed. These ‘clusters’ can be shown to appear in non-clustered <a href="https://stats.stackexchange.com/questions/263539/clustering-on-the-output-of-t-sne/264647#264647">data</a> and therefore may not be accurate. Investigation may be needed to choose parameters and <a href="https://distill.pub/2016/misread-tsne/">validate</a> the results. To illustrate this, the n_iter parameter (maximum number of iterations for the optimization) for the algorithm is set at 1000 here:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># t-SNE reduced data
+n_iter = 1000
+n_perplexity = 40
+
+t_sne = TSNE(n_components=2, perplexity=n_perplexity, n_iter=n_iter)
+tsne_result = t_sne.fit_transform(data) # This is t-SNE reduced data
+
+# Plot of t-SNE reduced data 
+plot_dim_red(tsne_result, data, 't-SNE reduced handwritten digits')
+</code></pre></div></div>
+
+<p><img src="/assets/img/t_sne_result.png" width="650" height="500" /></p>
+
+<p>Whereas, the n_iter parameter is set at 10000 here:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># t-SNE reduced data
+n_iter = 10000
+n_perplexity = 40
+
+t_sne = TSNE(n_components=2, perplexity=n_perplexity, n_iter=n_iter)
+tsne_result = t_sne.fit_transform(data) # This is t-SNE reduced data
+
+# Plot of t-SNE reduced data 
+plot_dim_red(tsne_result, data, 't-SNE reduced handwritten digits')
+</code></pre></div></div>
+
+<p><img src="/assets/img/t_sne_result10000.png" width="650" height="500" /></p>
+
+<p>And the figure below shows perplexity values in ranges varying from (2 to 100). Some of the plots show the clusters, although with very different shapes. The plot with the perplexity equal to 2 shows merged clusters, so it may be better to have a higher perplexity.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Figure of multiple plots of different perplexities
+perplex_lst = (2,5,30,50,100)
+fig = plt.figure(figsize=(10,2.2))
+plt_index = 0
+for i in perplex_lst:
+    plt_index = plt_index + 1
+    t_sne = TSNE(n_components=2, perplexity=i, n_iter=n_iter)
+    tsne_result = t_sne.fit_transform(data) # This is t-SNE reduced data
+    ax = fig.add_subplot(1, 5, plt_index)
+    ax.scatter(tsne_result[:, 0], tsne_result[:, 1],
+                c=digits.target, edgecolor='none', alpha=0.5,
+                cmap=plt.cm.get_cmap('tab10', 10), marker='.') 
+    ax.set_title('perplexity = {}'.format(i))
+    ax.set_yticklabels([]) # Turn off y tick labels
+    ax.set_xticklabels([]) # Turn off x tick labels
+    ax.set_yticks([]) # Turn off y ticks
+    ax.set_xticks([]) # Turn off x ticks
+plt.tight_layout()
+plt.show()
+</code></pre></div></div>
+
+<p><img src="/assets/img/t_sne_multi_perplexity.png" /></p>
+
+<p>For this demonstration, t-SNE appears to have found structure in this dataset. From now on, unless otherwise stated, results from 1,000 iterations and a perplexity of 40 will be shown when using t-SNE dimensionality reduction.</p>
+
+<h3 id="truncated-singular-value-decomposition-truncated-svd">Truncated singular value decomposition (truncated SVD)</h3>
+<p>The <a href="https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.TruncatedSVD.html">truncated singular value decomposition</a> estimator performs linear dimensionality reduction. Singular value decomposition (<a href="https://en.wikipedia.org/wiki/Singular_value_decomposition#Truncated_SVD">SVD</a>) produces a factorization of a matrix, in which the number of columns is equal to the specified truncation. And matrix decomposition (or matrix factorization) involves describing a given matrix using its constituent elements. For (<a href="https://www.oreilly.com/library/view/scikit-learn-cookbook/9781783989485/ch01s13.html">example</a>), given an n x n matrix, SVD would produce matrices with n columns. However, <a href="https://link.springer.com/article/10.1007/BF01937276">Truncated SVD</a> would produce matrices with the specified number of columns, thereby reducing the dimensionality. One of the advantages in using this method is that it can operate on <a href="https://en.wikipedia.org/wiki/Sparse_matrix">sparse matrices</a>. Let’s fit the model and examine the results:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Truncated SVD reduced data
+svd = TruncatedSVD(n_components=2, n_iter=10)
+svd_result = svd.fit_transform(data)  
+
+# Plot of Truncated SVD reduced data 
+plot_dim_red(svd_result, data, 'Truncated SVD reduced handwritten digits')
+</code></pre></div></div>
+
+<p><img src="/assets/img/Truncated_SVD_result.png" width="650" height="500" /></p>
+
+<p>It appears that results from this transformer are similar to results from using PCA above.</p>
+
+<h3 id="isometric-mapping">Isometric Mapping</h3>
+<p>Isometric Mapping (<a href="https://web.mit.edu/cocosci/Papers/sci_reprint.pdf">isomap</a>) is a non-linear dimensionality reduction method that uses local metric information to learn the underlying geometry of a dataset. It provides a method for estimating the geometry of a data manifold based on a rough estimate of each data point’s neighbors on the manifold. This method combines some of the features of PCA and Multidimensional scaling (<a href="https://en.wikipedia.org/wiki/Multidimensional_scaling">MDS</a>).</p>
+
+<p>This algorithm has three <a href="https://web.mit.edu/cocosci/Papers/nips02-localglobal-in-press.pdf">stages</a>. It starts by determining a neighborhood graph for the data points. Next, it computes the geodesic <a href="https://en.wikipedia.org/wiki/Distance_(graph_theory)">distance</a> for all pairs of data points. Finally, through applying MDS to the shortest-path distance matrix, it constructs the low dimensional embedding of the data in Euclidean space. This is what the algorithm produces with this dataset:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Isomap reduced data
+iso = Isomap(n_components=2)
+iso_result = iso.fit_transform(data)
+
+# Plot of isomap reduced data 
+plot_dim_red(iso_result, data, 'Isomap reduced handwritten digits')
+</code></pre></div></div>
+
+<p><img src="/assets/img/isomap_result.png" width="650" height="500" /></p>
+
+<p>(A PY file with more code (Python) is available on this <a href="https://github.com/sunshinescience/dim_red_cluster/blob/master/dim_red_cl.py">github repo</a>)</p>
+
+<h2 id="clustering">Clustering</h2>
+<p>One of the many ways to try to understand data is to organize it into groups.  Clustering is a very popular unsupervised learning technique that is used to find logical groupings within data. Clustering doesn’t use any Y variables or labels on the data. It investigates the data structure itself. And the goal of clustering is to minimize inter-cluster similarity and maximize intra-cluster similarity.</p>
+
+<p>If you have a large input data set, you can find patterns within the data via clustering. For example, you may want to use a clustering algorithm to fit a large variety of emails into individual topics. These could include topics such as science, technology, or personal emails, and etc. That is one example of clustering, but it applies to so many use cases.</p>
+
+<p>Scikit-learn has the following clustering algorithms: K-means, Mini Batch K-Means, Affinity propagation, Mean-shift, Spectral clustering, Ward hierarchical clustering, Agglomerative clustering, DBSCAN, Gaussian mixtures, and Birch. There is an overview of the different clustering methods on scikit-learn, found <a href="https://scikit-learn.org/stable/modules/clustering.html">here</a>.</p>
+
+<p>For the handwritten digits dataset, the following clustering techniques will be used: k-means, mean-shift, spectral, DBSCAN, and affinity propagation clustering. Note that there will be an emphasis on k-means. These methods were chosen to try on this dataset because k-means clustering is one of the most popular machine learning algorithms that allows us to maximize inter-cluster similarity and minimize intra-cluster similarity. And mean-shift clustering is very similar to k-means clustering, but instead of using a sum of neighborhood points, the kernel function in mean-shift clustering would apply a probability weighted sum of points. Spectral and affinity propogation clustering  differ from k-means in that they can be used for a dataset with non-flat geometry and graph distance (e.g., nearest-neighbor graph) metrics are used. DBSCAN differs from k-means as it too can be used for a dataset with non-flat geometry, but the distances between nearest points metrics are used. The main goal here is to assess a few of the dimensionality reduction methods and a few of the clustering techniques on the handwritten digits dataset, for comparison purposes.</p>
+
+<p>Let’s import some more useful libraries:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>from sklearn.cluster import KMeans
+from sklearn.cluster import MeanShift
+from sklearn.cluster import estimate_bandwidth
+from sklearn.cluster import SpectralClustering
+from sklearn.cluster import DBSCAN
+from sklearn.cluster import AffinityPropagation
+
+# Import figures and statistics 
+import figures
+import statistics
+</code></pre></div></div>
+
+<h3 id="k-means-clustering">K-means clustering</h3>
+<p>The goal of <a href="http://www.labri.fr/perso/bpinaud/userfiles/downloads/hartigan_1979_kmeans.pdf">k-means</a> clustering is to minimize the sum of squared distances between all points and the cluster centre (<a href="https://pdfs.semanticscholar.org/0ec1/32fce9971d1e0e670e650b58176dc7bf36da.pdf">Ray &amp; Turi 1999</a>). Let’s use the demo on this <a href="https://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_digits.html#sphx-glr-auto-examples-cluster-plot-kmeans-digits-py">site</a> as a guide to get started. The demo compares different initialization strategies for k-means clustering. Different initialization strategies will be assessed here and the k-means algorithm from <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html">scikit-learn</a> will be utilized.</p>
+
+<p>The metrics evaluated are as follows: homogeneity score (homo), completeness score (compl), V measure (v-meas), adjusted Rand index (ARI), adjusted mutual information (AMI), Fowlkes-Mallows index (F-M), silhouette coefficient (silhouette).</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Metrics for K-means clustering
+
+n_clusters = n_digits # The number of clusters
+n_init = 10
+sample_size = 300
+
+# Metrics to evaluate the model
+print('init\t\t homo\t compl\t v-meas\t ARI\t AMI\t F-M\t silhouette')
+
+def kmeans_metrics(estimator, name, data):
+    """
+    Compare different initializations of K-means to assess the quality of the clustering.
+
+    Parameters:
+        estimator: K-means algorithm with parameters to pass (init, n_clusters, and n_init)
+        name: name of the method for initialization
+        data: data
+    """
+    estimator.fit(data)
+    print ('{:&lt;9}\t {:.2f}\t {:.2f}\t {:.2f}\t {:.2f}\t {:.2f}\t {:.2f}\t {:.2f}'
+    .format(name, metrics.homogeneity_score(labels, estimator.labels_),
+    metrics.completeness_score(labels, estimator.labels_),
+    metrics.v_measure_score(labels, estimator.labels_),
+    metrics.adjusted_rand_score(labels, estimator.labels_),
+    metrics.adjusted_mutual_info_score(labels,  estimator.labels_),
+    metrics.fowlkes_mallows_score(labels, estimator.labels_),
+    metrics.silhouette_score(data, estimator.labels_,
+                                metric='euclidean',
+                                sample_size=sample_size)))
+
+kmeans_metrics(KMeans(init='k-means++', n_clusters=n_clusters, n_init=10),
+            name="k-means++", data=data)
+
+kmeans_metrics(KMeans(init='random', n_clusters=n_clusters, n_init=10),
+            name="random", data=data)
+
+# In this case the seeding of the centers is deterministic, thus the kmeans algorithm is run only once (i.e., n_init=1)
+pca = PCA(n_components=n_digits).fit(data)
+kmeans_metrics(KMeans(init=pca.components_, n_clusters=n_clusters, n_init=1),
+            name="PCA-based",
+            data=data)
+</code></pre></div></div>
+
+<p>The table below shows the indicators of similarity between the clusters. A value close to 1 indicates a complete or homogeneous labelling of the clusters. Most have high values, which suggest a good similarity between the clusters. However, the silhouette coefficient provides values near zero, which indicates overlapping clusters.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>init</strong></th>
+      <th><strong>homo</strong></th>
+      <th><strong>compl</strong></th>
+      <th><strong>v-meas</strong></th>
+      <th><strong>ARI</strong></th>
+      <th><strong>AMI</strong></th>
+      <th><strong>F-M</strong></th>
+      <th><strong>silhouette</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>k-means++</td>
+      <td>0.68</td>
+      <td>0.72</td>
+      <td>0.70</td>
+      <td>0.57</td>
+      <td>0.68</td>
+      <td>0.62</td>
+      <td>0.14</td>
+    </tr>
+    <tr>
+      <td>random</td>
+      <td>0.68</td>
+      <td>0.72</td>
+      <td>0.70</td>
+      <td>0.57</td>
+      <td>0.68</td>
+      <td>0.62</td>
+      <td>0.16</td>
+    </tr>
+    <tr>
+      <td>PCA-based</td>
+      <td>0.67</td>
+      <td>0.70</td>
+      <td>0.68</td>
+      <td>0.56</td>
+      <td>0.67</td>
+      <td>0.61</td>
+      <td>0.13</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Initially, a <em>k</em> (number of clusters) value as a parameter needs to be provided when using the k-means algorithm to partition clusters. Here, the number of digits equals the number of clusters (see above code). Let’s perform k-means clustering on the dimensionality reduced data.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># K-means clustering
+
+def k_means_reduced(reduced_data, initialization, n_clusters, n_init):
+    """
+    This returns K-means clustering on data that has undergone dimensionality reduction.
+    Parameters:
+        reduced_data: The data that has undergone dimensionality reduction
+        initialization: Method for initialization, defaults to ‘k-means++’:
+        n_clusters: The number of clusters to form as well as the number of centroids to generate.
+        n_init: Number of times the k-means algorithm will run with different centroid seeds.
+    """
+    k_means = KMeans(init=initialization, n_clusters=n_clusters, n_init=n_init) 
+    k_means_model = k_means.fit(reduced_data)
+    return k_means_model
+
+# K-means clustering on PCA reduced data
+k_pca = k_means_reduced(pca_result, 'k-means++', n_clusters, n_init)
+# K-means clustering on t-SNE reduced data
+k_t_sne = k_means_reduced(tsne_result, 'k-means++', n_clusters, n_init)
+# K-means clustering on Truncated SVD reduced data
+k_SVD = k_means_reduced(svd_result, 'k-means++', n_clusters, n_init)
+# K-means clustering on isomap reduced data
+k_iso = k_means_reduced(iso_result, 'k-means++', n_clusters, n_init)
+</code></pre></div></div>
+
+<p>Here, the results of k-means clustering are visualized:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Figure of PCA vs t-SNE reduced data and K-means clustering on both
+fig, axarr = plt.subplots(2, 2, figsize=(10,8)) 
+
+# Plot of PCA reduced data 
+axarr[0, 0].scatter(pca_result[:,0],pca_result[:,1],c='k')
+axarr[0, 0].set_title('PCA reduced data')
+
+# Plot of t-SNE reduced data 
+axarr[1, 0].scatter(tsne_result[:,0], tsne_result[:,1],c='k')
+axarr[1, 0].set_title('t-SNE reduced data')
+
+# Plot of K-means clustering on PCA reduced data
+cluster_ax = axarr[0, 1]
+cluster_ax.scatter(pca_result[:,0],pca_result[:,1],c=k_pca.labels_, marker='o', edgecolor='none', alpha=0.5)
+centroids = k_pca.cluster_centers_
+centroid_x = cluster_ax.scatter(centroids[:, 0], centroids[:, 1],
+            marker='o', edgecolors='k', 
+            c=np.arange(n_clusters), zorder=10)
+cluster_ax.set_title('K-means clustering on PCA reduced data')
+
+# Plot of K-means clustering on t-SNE reduced data
+cluster_ax2 = axarr[1, 1]
+cluster_ax2.scatter(tsne_result[:,0],tsne_result[:,1],c=k_t_sne.labels_, marker='o', edgecolor='none', alpha=0.5)
+centroids = k_t_sne.cluster_centers_
+centroid_x = cluster_ax2.scatter(centroids[:, 0], centroids[:, 1],
+            marker='o', edgecolors='k', 
+            c=np.arange(n_clusters), zorder=10) # If you want the cluster center marker as an 'x', use: marker='x', s=100, linewidths=5, color='k', zorder=10
+cluster_ax2.set_title('K-means clustering on t-SNE reduced data')
+fig.suptitle('K-means clustering on the handwritten digits dataset')
+plt.show()
+</code></pre></div></div>
+
+<p><img src="/assets/img/pca_tsne_k_means.png" />
+The above figure compares k-means clustering on PCA dimensionality reduced data vs t-SNE dimensionality reduced data. The black-lined circles on the right two plots indicate the location of the center of each corresponding cluster. The individual plots for k-means clustering on PCA, t-SNE, truncated SVD, and Isomap dimensionality reduced data are as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Plot of k-means clustering on t-SNE reduced data
+plot_dim_red_clust(tsne_result, k_t_sne, data, 't-SNE', 'K-means', centroids=True)
+</code></pre></div></div>
+
+<p><img src="/assets/img/t-SNE_K-means_plot.png" /></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Plot of k-means clustering on pca reduced data
+plot_dim_red_clust(pca_result, k_pca, data, 'PCA', 'K-means', centroids=True)
+</code></pre></div></div>
+
+<p><img src="/assets/img/PCA_K-means_plot.png" /></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Plot of K-means clustering on isomap reduced data
+plot_dim_red_clust(iso_result, k_iso, data, 'isomap', 'K-means')
+</code></pre></div></div>
+
+<p><img src="/assets/img/isomap_K-means_plot.png" /></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Plot of K-means clustering on truncated SVD reduced data
+plot_dim_red_clust(svd_result, k_SVD, data, 'truncated SVD', 'K-means')
+</code></pre></div></div>
+
+<p><img src="/assets/img/truncated SVD_K-means_plot.png" /></p>
+
+<p>In some cases, the digits have similar visual features, so it is difficult for the model to identify which cluster they belong to. This happens more frequently for the digit 8 cluster. For example, the digit 8 and the digit 1 often get clustered together. The figure below shows images that were clustered in the same cluster, with their corresponding label written above to show which digit they really are:</p>
+
+<p><img src="/assets/img/four_digits1188.png" width="500" height="120" /></p>
+
+<p>Whereas for the digit 0, after running the model multiple times, the 0 digit is clustered together accurately, without other digits within that cluster. See the digit 0 examples below that are clustered together:</p>
+
+<p><img src="/assets/img/four_digits0000.png" width="500" height="120" /></p>
+
+<p>See another convoluted example in the figure below, which are clustered in the same cluster:</p>
+
+<p><img src="/assets/img/four_digits5759.png" width="500" height="120" /></p>
+
+<p>The number of incorrect digits in each cluster can be found using the following code:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Obtaining information about how well the digits were clustered from k-means clustering:
+labels = digits.target
+
+def cluster_digit_accuracy(labels_array, labels):
+    sampl_lst = []
+    digit_lst = []
+    wher_lst = []
+    wher_dict = {} # keys are digits, values are the sample numbers of digits that do not match the overall cluster digit (mode), for each cluster
+    len_dict = {} # keys are digits, values are the total amount of digits in the corresponding cluster
+    for i in range(10):
+        cl_num = i
+        cl_data = np.where(labels_array == cl_num)[0]
+        clust_mode = statistics.mode(labels[cl_data])
+        sampl_lst.append(cl_data)
+        digit_lst.append(labels[cl_data])
+        not_equal = (np.where(labels[cl_data] != clust_mode)[0]).tolist()
+        wher_dict[clust_mode] = not_equal
+        wher_lst.append(not_equal)
+        cl_len = len(labels[cl_data])
+        len_dict[i] = cl_len
+    print ('The overall digit of each cluster and the total amount of digits in each cluster are: ', len_dict)
+
+    non_match_dict = {}
+    for j in range(10):
+        non_match_dict[j] = len(wher_dict[j])
+    print ('The overall digit (mode) and the amount of digits that do not match the mode of each cluster are: ', non_match_dict) # Prints the digit number as the key and the corresponding value is the amount of wrong digits within that particular cluster. 
+
+cluster_digit_accuracy(k_t_sne.labels_, labels)
+</code></pre></div></div>
+
+<p>Information from the clusters achieved via k-means clustering is shown in the table below. For an example run, the digit number (i.e., the mode) of each cluster is shown in the left column. The middle column shows the amount of digits within each cluster. The right column shows the amount of wrong digits assigned to that cluster. So, in a cluster with the digit zero, all of the digits are zero. The digit zero is clustered correctly in this run as there are 178 zeroes in the dataset. Whereas in a cluster with the digit one, there are thirty-seven digits that are not the number one within that cluster, and so on. This code may need more work to get this assessment more accurate, but for these purposes we will just assess the clusters in this manner.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>Digit</strong></th>
+      <th style="text-align: center"><strong>Total digits in cluster</strong></th>
+      <th style="text-align: center"><strong>Amount of incorrect digits in cluster</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td style="text-align: center">178</td>
+      <td style="text-align: center">0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td style="text-align: center">235</td>
+      <td style="text-align: center">37</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td style="text-align: center">174</td>
+      <td style="text-align: center">31</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td style="text-align: center">151</td>
+      <td style="text-align: center">9</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td style="text-align: center">182</td>
+      <td style="text-align: center">0</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td style="text-align: center">182</td>
+      <td style="text-align: center">3</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td style="text-align: center">197</td>
+      <td style="text-align: center">2</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td style="text-align: center">187</td>
+      <td style="text-align: center">6</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td style="text-align: center">173</td>
+      <td style="text-align: center">71</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td style="text-align: center">138</td>
+      <td style="text-align: center">10</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>It appears that t-SNE discovered some structure in the data and the digits have been separated into different clusters of points via k-means clustering. The clustering algorithms below might select the separate clusters from the t-SNE dimensionality reduced data and assign points to labels. For the following clustering algorithms, t-SNE will be the dimensionality reduction method used on the dataset for comparison purposes to the k-means clustering algorithm.</p>
+<h3 id="mean-shift-clustering">Mean shift clustering</h3>
+<p>The <a href="https://dl.acm.org/citation.cfm?id=513076">mean shift</a> algorithm is a <a href="https://en.wikipedia.org/wiki/Nonparametric_statistics">non-parametric</a> clustering technique. The method does not constrain the shape of the clusters. One of the advantages of <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.76.8968&amp;rep=rep1&amp;type=pdf">mean shift</a> over k-means is that the number of clusters is not pre-specified, because mean shift is likely to find only a few clusters if only a small number exist. However, mean shift can be much slower than k-means, and still requires initial selection of a bandwidth parameter.</p>
+
+<p>Mean shift builds upon the concept of kernel density estimation (<a href="https://en.wikipedia.org/wiki/Kernel_density_estimation">KDE</a>). The algorithm works by initially defining the bandwidth of the kernel function. It places this on data points and calculates the mean for all the points in the bandwidth of the kernel. Next, it moves the center of the bandwidth of the kernel to the location of that mean. It continues until there is convergence.</p>
+
+<p>Let’s apply the clustering <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.MeanShift.html">algorithm</a>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Mean-shift clustering
+# Use the estimate_bandwidth function to estimate a good bandwidth for the data
+bandwidth = round(estimate_bandwidth(data))
+
+mean_s = MeanShift(bandwidth=bandwidth)
+mean_s.fit(pca_result)
+
+ms = MeanShift(bandwidth=bandwidth)
+ms_tsne = ms.fit(tsne_result)
+ms_labels = ms_tsne.labels_
+ms_cluster_centers = ms_tsne.cluster_centers_
+
+ms_labels_unique = np.unique(ms_labels)
+ms_n_clusters = len(ms_labels_unique)
+
+print ('The number of estimated clusters from mean-shift clustering is: {}'.format(ms_n_clusters))
+</code></pre></div></div>
+
+<p>The results provide a varying number of clusters over several runs (from 11 to 13 usually). The expected number of clusters (10) are not achieved with mean shift clustering for this dataset. The plot below illustrates twelve clusters. The results of mean shift clustering are visualized as follows:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Visualize the results of Mean-shift clustering
+color = ms_labels
+fig, axarr = plt.subplots(1, 2, figsize=(9,4))  
+# Plot of t-SNE reduced data 
+ax1 = axarr[0]
+ax1.scatter(tsne_result[:,0], tsne_result[:,1], c='k', marker='.')
+ax1.set_title('t-SNE reduced data')
+
+# Plot of mean shift clustering on t-SNE reduced data
+ax2 = axarr[1]
+ax2.scatter(tsne_result[:,0], tsne_result[:,1], c=color, marker='.')
+cluster_center = ms_cluster_centers[ms_labels]
+ax2.scatter(cluster_center[:,0], cluster_center[:,1],
+            marker='o', edgecolors='k', 
+            c=color, zorder=10) 
+ax2.set_title('Mean-shift clustering on t-SNE reduced data')
+plt.tight_layout()
+plt.show()
+
+# Plot of mean-shift clustering on t-SNE reduced data
+plot_dim_red_clust(tsne_result, ms_tsne, data, 't-SNE', 'Mean-shift')
+</code></pre></div></div>
+
+<p><img src="/assets/img/t-SNE_Mean-shift_plot.png" /></p>
+<h3 id="spectral-clustering">Spectral clustering</h3>
+<p>Spectral clustering is considered an exceptional graph clustering technique. The method can ignore sparse interconnections between arbitrarily shaped clusters of data. This approach can be used to identify communities of nodes in a graph, based on the edges connecting them. To perform spectral clustering, three main <a href="https://towardsdatascience.com/spectral-clustering-for-beginners-d08b7d25b4d8">steps</a> are involved:</p>
+<ul>
+  <li>Create a similarity graph between the N objects to cluster</li>
+  <li>Compute the first k eigenvectors of its Laplacian matrix, in order to define a feature vector for each object</li>
+  <li>Run k-means on these features, in order to separate objects into k classes</li>
+</ul>
+
+<p>An in depth tutorial can be found <a href="http://people.csail.mit.edu/dsontag/courses/ml14/notes/Luxburg07_tutorial_spectral_clustering.pdf">here</a>. This paper discussed two versions of normalized spectral clustering. It has been suggested that spectral clustering often outperforms k-means clustering. Let’s see what it does to this dataset compared to k-means clustering. Here, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.SpectralClustering.html">this</a> algorithm from scikit-learn is used and the result is visualized:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Spectral clustering
+# sc_result = SpectralClustering(n_clusters=n_clusters, assign_labels="discretize").fit(data)
+sc = SpectralClustering(n_clusters=n_clusters, affinity='nearest_neighbors',
+                        assign_labels='kmeans')  
+sc_tsne = sc.fit(tsne_result)                
+sc_labels = sc.fit_predict(tsne_result)
+
+# Visualize the results of spectral clustering
+plot_dim_red_clust(tsne_result, sc_tsne, data, 't-SNE', 'Spectral')
+</code></pre></div></div>
+
+<p><img src="/assets/img/t-SNE_Spectral_plot.png" />
+Similar to k-means, the results of spectral clustering show that ten clusters were obtained using this method.</p>
+<h3 id="dbscan-clustering">DBSCAN clustering</h3>
+<p>Density-Based Spatial Clustering of Applications with Noise (<a href="https://www.researchgate.net/publication/44250717_A_Density_Based_Algorithm_for_Discovering_Density_Varied_Clusters_in_Large_Spatial_Databases">DBSCAN</a>) is a <a href="https://en.wikipedia.org/wiki/Cluster_analysis#Density-based_clustering">density based</a> non-parametric clustering algorithm. It separates clusters of high density from clusters of low density. Thus, given a set of points in some space, the algorithm groups together points that are closely packed together (points with many neighbors that are nearby). And points that lie alone in low-density regions (whose nearest neighbors are far away) are marked as outliers. There are several <a href="https://en.wikipedia.org/wiki/DBSCAN">advantages</a> to using this algorithm, for example, DBSCAN does not need the number of clusters specified initially, as opposed to k-means. The algorithm has two parameters:</p>
+<ul>
+  <li>eps: The radius of the neighborhoods around the data points</li>
+  <li>min_samples: The minimum number of data points we want in a neighborhood to define a cluster</li>
+</ul>
+
+<p>Data points are categorized as:</p>
+<ul>
+  <li>Core points: a data point <em>p</em> is a core point if the eps of <em>p</em> contains at least min_samples</li>
+  <li>Border Points: A data point is a border point if the eps contains less than min_samples data points, but the border point is reachable from some core point</li>
+  <li>Outlier: A data point is an outlier if it is neither a core point nor a border point</li>
+</ul>
+
+<p>DBSCAN has <a href="https://blog.dominodatalab.com/topology-and-density-based-clustering/">steps</a> such as:</p>
+<ul>
+  <li>Select an unassigned random point and compute its neighborhood to determine if it is a core point. If it is a core point, then form a cluster around this point. If not, then label the point as an outlier</li>
+  <li>Iteratively expand the cluster by adding the directly-reachable points to that cluster. Continue by finding the density-reachable points and add them to the cluster. If an an outlier is added, then that is changed to become a border point</li>
+  <li>Repeat the above two steps until all of the points are assigned to a cluster or they are designated as an outlier</li>
+</ul>
+
+<p>Here, the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">algorithm</a> from scikit-learn is used and the result is visualized:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># DBSCAN clustering
+db = DBSCAN(eps=3, min_samples=2)
+db_tsne = db.fit(tsne_result)
+
+# Visualize the results of DBSCAN clustering
+plot_dim_red_clust(tsne_result, db_tsne, data, 't-SNE', 'DBSCAN')
+</code></pre></div></div>
+
+<p><img src="/assets/img/t-SNE_DBSCAN_plot.png" />
+The results of DBSCAN clustering show that more clusters than expected were obtained using this method.</p>
+
+<h2 id="conclusion-and-future-considerations">Conclusion and future considerations</h2>
+
+<p>In this demonstration, various dimensionality reduction and clustering methods were investigated on the handwritten digits dataset. When working with large data sets with many features, dimensionality reduction can be an important technique to improve the subsequent clustering process. Instead of using many features, one can use the features that are the most significant which represent the underlying data. And clustering is an important method that helps identify patterns in the underlying data.</p>
+
+<p>Within scientific fields that deal with empirical data, it may be helpful to identify trends and patterns (e.g., groups or <em>clusters</em>) in the data. It appears that for these analyses on the handwritten digits dataset, the dimensionality reduction method that worked best was t-SNE and the clustering algorithms that were the most promising were k-means and spectral clustering.</p>
+
+<p>The goal of this study was to use these methods on the handwritten digits dataset initially, but with the intent to use them on high-dimensional <em>unlabelled</em> data.</p>
