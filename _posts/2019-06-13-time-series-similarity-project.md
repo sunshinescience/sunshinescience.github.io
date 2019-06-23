@@ -2,7 +2,7 @@
 layout: post
 title: "Determining the difference between sampled data within similar time ranges"
 ---
-<img src="/assets/img/yield_curve_current_Mar19.png" width="700" height="500">
+<img src="/assets/img/diffing_curves.png" width="700" height="500">
 
 There appears to be a recurring question on researchgate.net and stackexchange.com. This question has been observed in various forms: "How can I compare two curves?" Whether it be "How can I compare the shape of two curves" or "How to compare features of two curves" or "Similarity measures between two curves," there appears to be a number of similar questions regarding determining the similarity or dis-similarity of two (or more) curves. There are numerous applications for comparing whether or not curves are similar, for example, oil, finance time series, geochemistry, and things such as the projected density of states of atomic orbitals of a compound, and etc. These thoughts came to mind while doing the yield curve blog, as this could prove useful at identifying similar trends in yield curves. The original goal of this demonstration was to do the following: 
 -  Find different ways to compare time series 
