@@ -4,6 +4,7 @@ title: "Cleaning and formatting near star catalog data using pandas"
 ---
 
 <img src="/assets/img/Sirius_NASA_img.jpg">
+Sirius A and B (lower left) photographed via the Hubble Space Telescope.
 Image Credit: [NASA](https://www.nasa.gov/multimedia/imagegallery/image_feature_468.html), ESA, H. Bond (STScI) and M. Barstow (University of Leicester) 
 
 The brightness of a star is dependednt on its size and its distance from Earth. Apparent magnitude is a measure of the relative brightness of a star as seen by an observer. Absolute magnitude is a measure of the luminosity that the star would have if it were viewed from a distance of 10 parsecs (32.6 light-years). Using the absolute magnitude helps to compare luminosities directly on a magnitude scale because the stars are all placed at a standard reference distance from the observer. A method that astronomers use to measure the distance to a star is called parallax. They measure the position of a nearby star with respect to the distant stars behind it, and then take those measurements again six months later (when Earth is on the opposite side of its orbit), and the shift in those distances is the 'prallax.'
@@ -17,8 +18,6 @@ In this demonstration, data will be cleaned (e.g., it will be checked for missin
     Preliminary Version of the Third Catalogue of Nearby Stars
     GLIESE W., JAHREISS H.
     Astron. Rechen-Institut, Heidelberg (1991)
-
-It appears that for this data set, the spectral_class column uses the Morgan-Keenan (MK) [system](https://en.wikipedia.org/wiki/Stellar_classification) using the letters O, B, A, F, G, K, and M, a sequence from the hottest (O type) to the coolest (M type). Each letter class is also subdivided using a numeric digit (0 is hottest and 9 is coolest). For simplification, we will use the first letter and the number next to it, from the spectral_class column, in order to plot the data. The absolute magnitude will be plotted against the spectral class, which will be sorted from hottest to coolest.
 
 ## Read data from a fixed-width .dat file
 
@@ -93,4 +92,7 @@ Only row 2289 needed to be removed, so the statisctics can be obtained for the D
 <img src="/assets/img/stats_stars_all.png">
 
 ## Visualize the data set
+It appears that for this data set, the spectral_class column uses the Morgan-Keenan (MK) [system](https://en.wikipedia.org/wiki/Stellar_classification) using the letters O, B, A, F, G, K, and M, a sequence from the hottest (O type) to the coolest (M type). These letters are shown on the legend, with their corresponding colors (from red hot to cool blue), in the plot below. Each letter class is also subdivided using a numeric digit (0 is hottest and 9 is coolest). For simplification, we will use the first letter and the number next to it, from the spectral_class column, in order to plot the data. This will be done by approximating the letters as numbers, in the order in which they should appear. The spectral class of the stars will be sorted from hottest to coolest. The absolute magnitude will be plotted against the spectral class below.
 
+<img src="/assets/img/mag_spectral_class_plot.png">
+It appears that there is a trend shown here, in which the absolute magnitude increases with cooler stars (based on their spectral class). Stars are classified based on their spectra (elements they absorb) and their temperature. Stars with lower luminosities emit less light, and thus are dimmer (i.e., they have higher absolute magnitudes). The more luminous a star is, the smaller the numerical value of its [absolute magnitude](https://en.wikipedia.org/wiki/Absolute_magnitude). This is approximately illustrated in the trend here.
