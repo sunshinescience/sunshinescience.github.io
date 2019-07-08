@@ -18,7 +18,9 @@ In this demonstration, data from nearby stars will be cleaned (e.g., it will be 
 [Pandas](http://pandas.pydata.org/pandas-docs/version/0.15/tutorials.html) is a Python library used for conducting data analysis. The documentation can be found [here](http://pandas.pydata.org/pandas-docs/stable/user_guide/index.html) and some advanced strategies can be found in the [cookbook](https://github.com/jvns/pandas-cookbook). In this demonstration, a fixed-width file will be read into a pandas DataFrame using [`pd.read_fwf`](https://pandas.pydata.org/pandas-docs/version/0.22/generated/pandas.read_fwf.html). The near star catalog data is from [this]( https://github.com/coucoueric/Python/blob/master/Athena/training/exercises/exercises/python_language/sort_stars/stars.dat) repository. The original data was taken from:
     
  Preliminary Version of the Third Catalogue of Nearby Stars
+
  GLIESE W., JAHREISS H.
+ 
  Astron. Rechen-Institut, Heidelberg (1991)
 
 ## Read data from a fixed-width .dat file
