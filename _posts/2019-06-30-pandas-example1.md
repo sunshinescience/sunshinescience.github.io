@@ -17,11 +17,9 @@ In this demonstration, data from nearby stars will be cleaned (e.g., it will be 
 ## Near star catalog data set
 [Pandas](http://pandas.pydata.org/pandas-docs/version/0.15/tutorials.html) is a Python library used for conducting data analysis. The documentation can be found [here](http://pandas.pydata.org/pandas-docs/stable/user_guide/index.html) and some advanced strategies can be found in the [cookbook](https://github.com/jvns/pandas-cookbook). In this demonstration, a fixed-width file will be read into a pandas DataFrame using [`pd.read_fwf`](https://pandas.pydata.org/pandas-docs/version/0.22/generated/pandas.read_fwf.html). The near star catalog data is from [this]( https://github.com/coucoueric/Python/blob/master/Athena/training/exercises/exercises/python_language/sort_stars/stars.dat) repository. The original data was taken from:
     
-  Preliminary Version of the Third Catalogue of Nearby Stars
-  
-  GLIESE W., JAHREISS H.
-  
-  Astron. Rechen-Institut, Heidelberg (1991)
+    Preliminary Version of the Third Catalogue of Nearby Stars
+    GLIESE W., JAHREISS H.
+    Astron. Rechen-Institut, Heidelberg (1991)
 
 ## Read data from a fixed-width .dat file
 
@@ -34,6 +32,7 @@ Let's read a file and create a Python object with rows and columns, which is cal
 
     # Read a fixed-width file into a DataFrame
     df = pd.read_fwf('stars.dat', colspecs='infer', widths=widths, names=names)
+    
     # Look at the first five rows
     df.head(5)
 
@@ -188,7 +187,6 @@ It appears that for this data set, the spectral_class column uses the Morgan-Kee
     
     plt.show()
 
-
 <img src="/assets/img/mag_spectral_class_plot.png">
 
-It appears that there is a trend shown here, in which the absolute magnitude increases with cooler stars (based on their spectral class). Stars are classified based on their spectra (elements they absorb) and their temperature. Stars with lower luminosities emit less light, and thus are dimmer (i.e., they have higher absolute magnitudes). The more luminous a star is, the smaller the numerical value of its [absolute magnitude](https://en.wikipedia.org/wiki/Absolute_magnitude). This is approximately illustrated in the trend here.
+It appears that there is a trend shown here, in which the absolute magnitude increases with cooler stars (based on their spectral class). Stars are classified based on their spectra (elements they absorb) and their temperature. Stars with lower luminosities emit less light, and thus are dimmer (i.e., they have higher absolute magnitudes). The more luminous a star is, the smaller the numerical value of its [absolute magnitude](https://en.wikipedia.org/wiki/Absolute_magnitude). This is approximately illustrated in the trend shown here.
