@@ -3,7 +3,7 @@ layout: post
 title: "Quick Introduction to Python's pandas library"
 ---
 
-<img src="/assets/img/freestock_55684843.jpg" width="400" height="300">
+<img align="center" src="/assets/img/freestock_55684843.jpg" width="400" height="300">
 
 Photo from [https://www.freestock.com/free-photos/3d-business-person-desk-laptop-isolated-55684843](https://www.freestock.com/free-photos/3d-business-person-desk-laptop-isolated-55684843)
 
