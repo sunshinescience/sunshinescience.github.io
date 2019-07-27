@@ -2,7 +2,7 @@
 layout: post
 title: "Dimensionality Reduction and Clustering on a three-dimensional Dataset"
 ---
-<img src="/assets/img/example_block.png">
+<p align="center"><img src="/assets/img/example_block.png"></p>
 
 In this project, we'll aim to investigate unlabelled three-dimensional data via dimensionality reduction and subsequent clustering methods. The goal of clustering is to identify structure in data. And dimensionality reduction might improve the clustering of the data. 
 
