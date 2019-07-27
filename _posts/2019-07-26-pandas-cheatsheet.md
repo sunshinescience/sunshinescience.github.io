@@ -3,7 +3,8 @@ layout: post
 title: "Quick Introduction to Python's pandas library"
 ---
 
-<img src="/assets/img/freestock_55684843.jpg" width="300" height="150">
+<img src="/assets/img/freestock_55684843.jpg" width="400" height="300">
+
 Photo from [https://www.freestock.com/free-photos/3d-business-person-desk-laptop-isolated-55684843](https://www.freestock.com/free-photos/3d-business-person-desk-laptop-isolated-55684843)
 
 The [pandas library](https://pandas.pydata.org/pandas-docs/stable/) is built on NumPy and it provides data analysis tools for Python. Pandas is one of the most widely used tools in data munging/wrangling. The pandas library [offers](https://en.wikipedia.org/wiki/Pandas_(software)) data structures and operations for working with numerical tables as well as time series. Some of the pandas library features include:
@@ -39,7 +40,7 @@ Series is a one-dimensional labeled array that can hold any data type. Series ac
 
 The passed index will set the index for reference (see image below), and it is a list of axis labels.
 
-<img src="/assets/img/Series_example.png" width="150" height="150">
+<img src="/assets/img/Series_example.png" width="200" height="150">
 
 Data in Series can also be one of the following:
 -   A Python dict
@@ -61,7 +62,7 @@ The syntax to create a DataFrame is: `df = pd.DataFrame(data, index, columns)`. 
     df = pd.DataFrame([[1,2,3], [4,4,7], [5,8,9]], index=['a', 'b', 'c'], columns=['A', 'B', 'C'])
     df
     
-<img src="/assets/img/DataFrame_example.png" width="150" height="150">
+<img src="/assets/img/DataFrame_example.png" width="350" height="200">
 
 ## Reading and writing data
 
@@ -70,7 +71,7 @@ The syntax to create a DataFrame is: `df = pd.DataFrame(data, index, columns)`. 
 ## Indexing/selecting data
 
 ## Cleaning data
-    The handling of missing data can be accomplished using 
+The handling of missing data can be accomplished using 
 
 ## Grouping data
 
