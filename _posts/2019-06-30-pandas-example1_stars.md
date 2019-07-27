@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Cleaning and formatting near star catalog data using pandas"
+title: "Cleaning and Formatting Near Star Catalog Data using pandas"
 ---
 
 <img src="/assets/img/Sirius_NASA_img.jpg">
@@ -25,7 +25,7 @@ In this demonstration, data from nearby stars will be cleaned (e.g., it will be 
 
 ## Read data from a fixed-width .dat file
 
-Let's read a file and create a Python object with rows and columns, which is called a data frame. A DataFrame is one of the two pandas data containers. A Series is the other, which is a one-dimensional sequence of labeled data. Here, `pd.read_fwf` will be used, however, additional pandas IO tools can be found in the [documentation](http://pandas.pydata.org/pandas-docs/stable/user_guide/io.html).
+Let's read a file and create a 2-dimensional Python object with rows and columns, called a DataFrame. A DataFrame is one of the two pandas [data structures](https://pandas.pydata.org/pandas-docs/stable/getting_started/dsintro.html). It is a labeled data structure with columns that could have different types. A Series is the other data structure, which is a one-dimensional sequence of labeled data. Here, `pd.read_fwf` will be used, however, additional pandas IO tools can be found in the [documentation](http://pandas.pydata.org/pandas-docs/stable/user_guide/io.html).
 
     import pandas as pd
 

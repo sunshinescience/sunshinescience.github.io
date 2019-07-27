@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Determining the difference between sampled data within similar time ranges"
+title: "Determining the Difference Between Sampled Data within Similar Time Ranges"
 ---
 <img src="/assets/img/diffing_curves.png" width="700" height="500">
 
