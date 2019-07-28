@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Quick Introduction to Python's pandas library"
+title: "A Quick Introduction to Python's pandas library"
 ---
 
 <p align="center"><img src="/assets/img/freestock_55684843.jpg" width="400" height="350"></p>
@@ -67,12 +67,65 @@ The syntax to create a DataFrame is: `df = pd.DataFrame(data, index, columns)`. 
 ## Reading and writing data
 
 ## Viewing and assessing data
+In the following examples, much of the functionality common to pandas data structures will be applied to DataFrame, but it can also be applied to Series.
 
 ## Indexing/selecting data
 
 ## Cleaning data
-The handling of missing data can be accomplished using 
+The handling of [missing data](https://pandas.pydata.org/pandas-docs/stable/user_guide/missing_data.html) can be accomplished using 
 
 ## Grouping data
+Data can be grouped using [`groupby()`](https://pandas.pydata.org/pandas-docs/stable/user_guide/groupby.html). The documentation refers to a process involving one or more of the following steps:
+
+-    Split data into groups based on a criteria
+-    Apply a function to each individual group 
+-    Combine the results into a data structure
+
+    # Setting a new column to use in order to group
+    df['D'] = ['one','two','one']
+    df
+
+<img src="/assets/img/pandas_groupby1.png" width="350" height="300">
+
+As an example, we'll apply `sum()` to each of the groups and combine them using `groupby()`:
+
+    df.groupby('D').sum()
+
+<img src="/assets/img/pandas_groupby2.png" width="350" height="300">
 
 ## Data set merging/joining
+Pandas also provides ways to combine Series or DataFrames with different kinds of set logic for the indexes. There are three [ways](https://pandas.pydata.org/pandas-docs/stable/user_guide/merging.html) to accomplish this, via merge, join, concatenate. 
+
+The [`concat()`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.concat.html#pandas.concat) function performs concatenation operations along an axis. Let's first break up our example DataFrame into pieces and then concatinate it back together.
+
+    pieces = [df[0:2], df[2:3]] # Break up the DataFrame into pieces
+    pd.concat(pieces) # Concatinate pandas objects together
+
+The `merge()` function merges and it can join columns or indexes. Let's first split the DataFrame into two, for example:
+
+    left = df.iloc[:, 0:2]
+    right = df.iloc[:, 2:4]
+
+<img src="/assets/img/pandas_join1.png" width="350" height="300">
+
+Next, use `merge()` to join the two DataFrames together.
+
+    pd.merge(left, right, left_index=True, right_index=True)
+
+<img src="/assets/img/pandas_join2.png" width="350" height="300">
+
+The `append()` function can be used to add a row to the end of a DataFrame, which creates a new DataFrame.
+Append:
+Append a row to a pandas DataFrame
+  s = df.iloc[2].astype(int)
+  df.append(s)
+
+<img src="/assets/img/pandas_join3.png" width="350" height="300">                                                 
+
+.  .  .
+
+
+This post barely touches the surface of all of the amazing capabilities of the pandas library. If you liked this tutorial, please have a look at my example on cleaning and formatting near star catalog data using pandas, which can be found [here](https://sunshinescience.github.io/2019/06/30/pandas-example1_stars.html). 
+
+For the pandas documentation, please see [here](https://pandas.pydata.org/pandas-docs/stable/). For some advanced examples using pandas, please see the [cookbook](https://pandas.pydata.org/pandas-docs/stable/user_guide/cookbook.html.). 
+    

@@ -3,8 +3,8 @@ layout: post
 title: "Cleaning and Formatting Near Star Catalog Data using pandas"
 ---
 
-<p align="center"><img src="/assets/img/Sirius_NASA_img.jpg" width="500" height="450"></p>
-            Sirius A and B (lower left) photographed via the Hubble Space Telescope.
+<p align="center"><img src="/assets/img/Sirius_NASA_img.jpg" width="600" height="550"></p>
+Sirius A and B (lower left) photographed via the Hubble Space Telescope.
 
 Image Credit: [NASA](https://www.nasa.gov/multimedia/imagegallery/image_feature_468.html), ESA, H. Bond (STScI) and M. Barstow (University of Leicester) 
 
