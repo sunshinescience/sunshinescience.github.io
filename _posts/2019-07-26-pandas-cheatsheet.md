@@ -31,7 +31,7 @@ Once the library, along with any others needed (e.g., [NumPy](https://numpy.org/
 A [data structure](https://en.wikipedia.org/wiki/Data_structure) is a format that enables the organization, management, and storage of data. See [here](https://pandas.pydata.org/pandas-docs/stable/getting_started/dsintro.html) for an introduction to pandas data structures. Two will be  discussed here, which are Series and DataFrame.
 
 ### Series
-Series is a one-dimensional labeled array that can hold any data type. Series acts similarly to a ndarray and is a valid argument to most NumPy functions. The syntax to create a [Series](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html) is `s = pd.Series(data, index)` (see example code below). 
+[Series](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.Series.html) is a one-dimensional labeled array that can hold any data type. Series acts similarly to a ndarray and is a valid argument to most NumPy functions. The syntax to create a Series is `s = pd.Series(data, index)` (see example code below). 
 
     # Data can be passed as list
     s = pd.Series([1,2,-1,4], 
@@ -48,7 +48,7 @@ Data in Series can also be one of the following:
 -   A scalar value (e.g., 5)
 
 ### DataFrame
-A DataFrame is a 2-D labeled data structure that can have columns, and each column has only one type. Similar to Series, DataFrame accepts many different kinds of input, such as:
+A [DataFrame](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html) is a 2-D labeled data structure that can have columns, and each column has only one type. Similar to Series, DataFrame accepts many different kinds of input, such as:
 -    Dict of 1D ndarrays, lists, dicts, or Series
 -    2-D numpy.ndarray
 -    Structured or record ndarray
@@ -114,18 +114,17 @@ Next, use `merge()` to join the two DataFrames together.
 
 <img src="/assets/img/pandas_join2.png" width="350" height="300">
 
-The `append()` function can be used to add a row to the end of a DataFrame, which creates a new DataFrame.
-Append:
-Append a row to a pandas DataFrame
-  s = df.iloc[2].astype(int)
-  df.append(s)
+The `append()` function can be used to add a row to the end of a DataFrame, which creates a new DataFrame:
+  
+    s = df.iloc[2].astype(int)
+    df.append(s)
 
-<img src="/assets/img/pandas_join3.png" width="350" height="300">                                                 
+<img src="/assets/img/pandas_join3.png" width="350" height="400">                                                 
 
 .  .  .
 
 
 This post barely touches the surface of all of the amazing capabilities of the pandas library. If you liked this tutorial, please have a look at my example on cleaning and formatting near star catalog data using pandas, which can be found [here](https://sunshinescience.github.io/2019/06/30/pandas-example1_stars.html). 
 
-For the pandas documentation, please see [here](https://pandas.pydata.org/pandas-docs/stable/). For some advanced examples using pandas, please see the [cookbook](https://pandas.pydata.org/pandas-docs/stable/user_guide/cookbook.html.). 
+For the pandas documentation, please see [here](https://pandas.pydata.org/pandas-docs/stable/). For some advanced examples using pandas, please see the [cookbook](https://pandas.pydata.org/pandas-docs/stable/user_guide/cookbook.html). 
     

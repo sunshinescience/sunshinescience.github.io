@@ -4,9 +4,9 @@ title: "Cleaning and Formatting Near Star Catalog Data using pandas"
 ---
 
 <p align="center"><img src="/assets/img/Sirius_NASA_img.jpg" width="600" height="550"></p>
-Sirius A and B (lower left) photographed via the Hubble Space Telescope.
+->Sirius A and B (lower left) photographed via the Hubble Space Telescope.<- 
 
-Image Credit: [NASA](https://www.nasa.gov/multimedia/imagegallery/image_feature_468.html), ESA, H. Bond (STScI) and M. Barstow (University of Leicester) 
+->Image Credit: [NASA](https://www.nasa.gov/multimedia/imagegallery/image_feature_468.html), ESA, H. Bond (STScI) and M. Barstow (University of Leicester)<- 
 
 The brightness of a star is dependednt on its size and its distance from Earth. Apparent magnitude is a measure of the relative brightness of a star as seen by an observer. Absolute magnitude is a measure of the luminosity that the star would have if it were viewed from a distance of 10 parsecs (32.6 light-years). Using the absolute magnitude helps to compare luminosities directly on a magnitude scale because the stars are all placed at a standard reference distance from the observer. A method that astronomers use to measure the distance to a star is called parallax. They measure the position of a nearby star with respect to the distant stars behind it, and then take those measurements again six months later (when Earth is on the opposite side of its orbit), and the shift in those distances is the 'prallax.'
 
@@ -191,4 +191,4 @@ It appears that for this data set, the spectral_class column uses the Morgan-Kee
 
 <img src="/assets/img/mag_spectral_class_plot.png">
 
-It appears that there is a trend shown here, in which the absolute magnitude increases with cooler stars (based on their spectral class). Stars are classified based on their spectra (elements they absorb) and their temperature. Stars with lower luminosities emit less light, and thus are dimmer (i.e., they have higher absolute magnitudes). The more luminous a star is, the smaller the numerical value of its [absolute magnitude](https://en.wikipedia.org/wiki/Absolute_magnitude). This is approximately illustrated in the trend shown here.
+It appears that there is a trend shown here, in which the absolute magnitude increases with cooler stars (based on their spectral class). Stars are classified based on their spectra (elements they absorb) and their temperature. Stars with lower luminosities emit less light, and thus are dimmer (i.e., they have higher absolute magnitudes). The more luminous a star is, the smaller the numerical value of its [absolute magnitude](https://en.wikipedia.org/wiki/Absolute_magnitude). This is approximately illustrated in the trend shown in this demonstration.
