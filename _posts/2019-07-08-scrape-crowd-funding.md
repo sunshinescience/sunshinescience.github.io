@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Web Scraping with Python"
+title: "Web Scraping with Python - in progress"
 ---
 
 <img src="/assets/img/freestock_56437381.jpg">
