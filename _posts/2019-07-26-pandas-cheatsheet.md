@@ -247,9 +247,10 @@ The [`append()`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pand
 
 <img src="/assets/img/pandas_join3.png" width="350" height="400">                                                 
 
-<center>.  .  .<center>
 
 This post barely touches the surface of all of the amazing capabilities of the pandas library. If you liked this tutorial, please have a look at the example on cleaning and formatting near star catalog data using pandas, which can be found [here](https://sunshinescience.github.io/2019/06/30/pandas-example1_stars.html). 
 
 For in depth knowledge on pandas, please see the documentation [here](https://pandas.pydata.org/pandas-docs/stable/). For some advanced examples using pandas, see the [cookbook](https://pandas.pydata.org/pandas-docs/stable/user_guide/cookbook.html). 
-    
+
+<center>.  .  .<center>
+
