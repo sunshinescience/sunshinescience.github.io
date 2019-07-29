@@ -60,14 +60,24 @@ Along with the data, you can optionally pass index (row labels) and columns (col
 The syntax to create a DataFrame is: `df = pd.DataFrame(data, index, columns)`. Along with the data, you can optionally pass index (row labels) and columns (column labels) arguments. See example below:
 
     df = pd.DataFrame([[1,2,3], [4,4,7], [5,8,9]], index=['a', 'b', 'c'], columns=['A', 'B', 'C'])
-    df
     
 <img src="/assets/img/DataFrame_example.png" width="350" height="200">
 
 ## Reading and writing data
 
 ## Viewing and assessing data
-In the following examples, much of the functionality common to pandas data structures will be applied to DataFrame, but it can also be applied to Series.
+In the following examples, much of the [functionality](https://pandas.pydata.org/pandas-docs/stable/getting_started/basics.html#basics) common to pandas data structures will be applied to DataFrame, but it can also be applied to Series. To view the DataFrame, run the name of the DataFrame: 
+
+    df
+
+<img src="/assets/img/pandas_viewing1.png" width="350" height="200">
+
+The top *n* rows of your DataFrame can be obtained using df.head(*n*), whereas the bottom rows can be viewed using df.tail(*n*). The index and columns can be accessed using `df.index()` and `df.columns()`, repectively. A NumPy representation of the data can be conducted using `df.to_numpy()`. Data can be transposed using [`df.T`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.T.html). A summary of the descriptive statistics can be derived using[`df.describe()`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.describe.html). 
+
+    df.describe().astype(int)
+    df
+
+<img src="/assets/img/pandas_describe.png" width="200" height="350">   
 
 ## Indexing/selecting data
 
@@ -85,7 +95,7 @@ One can obtain which rows and/or columns have NaN values.
     df1.isna().any(axis=0) # Get the columns with NaN
     df1[df1.isna().any(axis=1)] # Get the rows with NaN. See figure below.
 
-<img src="/assets/img/pandas_missing4.png" width="350" height="300">
+<img src="/assets/img/pandas_missing4.png" width="350" height="200">
 
 Drop rows with missing data:
 
@@ -93,7 +103,7 @@ Drop rows with missing data:
 
 <img src="/assets/img/pandas_missing5.png" width="350" height="300">
 
-Next, instead of having a 'one' in column 'D', we shall have a NaN value, in order to show how to replace NaN's with a mean value:
+Next, instead of having the number 1 in column 'D', we shall have a NaN value, in order to show how to replace NaN's with a mean value:
 
 <img src="/assets/img/pandas_missing6.png" width="350" height="300">
 
@@ -108,7 +118,7 @@ Column 'D' in this case has a mean of 1 and NaN values have been filled using [d
 
 <img src="/assets/img/pandas_missing7.png" width="350" height="300">
 
-Values in a DataFrame can also be replaced using [`df.replace()`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.replace.html). For example:
+Values in a DataFrame can also be replaced using [`df.replace()`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.replace.html). For example, the number 1 will be replaced with the number 2 in this DataFrame:
 
     df1.replace(1, 2)
 
