@@ -95,12 +95,14 @@ A reference summary of some of the common functions (found [here](https://pandas
 ## Indexing/selecting data
 Pandas has three ways to [index and select](https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html) data, which include: `[ ]`, `.loc`, and `.iloc`. These can accept a callable as indexer. 
 
-### **.loc** (mainly label based, but can be used with a boolean array) inputs include the following:
--    A single label, e.g. 5 or 'a' (Note that 5 is interpreted as a label of the index. This use is not an integer position along the index.)
--    A list or array of labels ['a', 'b', 'c']
--    A slice object with labels 'a':'f' (Note that contrary to usual python slices, both the start and the stop are included, when present in the index! See Slicing with labels.)
+**.loc** is mainly label based, but can be used with a boolean array. Inputs include the following:
+-    A single label
+-    A list or array of labels
+-    A slice object with labels 
 -    A boolean array
--    A callable, see [Selection By Callable](https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#indexing-callable)
+-    A callable, see [selection by callable](https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#indexing-callable)
+
+Some examples of how to index using `.loc` are as follows:
 
     # Get row by label:
     df.loc['b'[0]]
@@ -114,13 +116,15 @@ Pandas has three ways to [index and select](https://pandas.pydata.org/pandas-doc
     # Get a scalar value:
     df.loc['a'[0], 'A']
   
-### **.iloc** (mainly integer position based, but can be used with a boolean array) inputs include:
+**.iloc** is mainly integer position based, but can be used with a boolean array and the inputs include:
   
--    An integer e.g. 5
--    A list or array of integers [4, 3, 0]
--    A slice object with ints 1:7
+-    An integer 
+-    A list or array of integers 
+-    A slice object with ints 
 -    A boolean array
--    A callable, see [Selection By Callable](https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#indexing-callable)
+-    A callable
+
+Some examples of how to index using `.iloc` are as follows:
 
     # Select via a passed integer:
     df.iloc[2]
@@ -140,8 +144,7 @@ Pandas has three ways to [index and select](https://pandas.pydata.org/pandas-doc
     # Get specific value:
     df.iloc[1,2]
   
-###**[ ]** (the most basic indexing uses square brackets)
-Example code to use square brackets, is as follows:
+Square brackets **[ ]** is the most basic way to index. Example code to use square brackets, is as follows:
 
     #Select a column:
     df['A']
@@ -149,9 +152,9 @@ Example code to use square brackets, is as follows:
     #Select by label (i.e., rows):
     df[0:2] 
 
-For example, selecting by label (see code directly above) could provide the following DataFrame.
+For example, selecting by label (see code directly above) can provide the following DataFrame.
 
-<img src="/assets/img/pandas_indexing1.png" width="350" height="300">
+<img src="/assets/img/pandas_indexing1.png" width="300" height="250">
 
 ## Cleaning data
 Cleaning data is useful and often necessary in conducting analytics. Note that pandas generally uses the value `np.nan` to represent missing data. The handling of [missing data](https://pandas.pydata.org/pandas-docs/stable/user_guide/missing_data.html) can be accomplished via detecting and filling NaN values. Reindexing can change/add/delete the index on a specified axis and it returns a copy of the data:
