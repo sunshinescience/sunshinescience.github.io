@@ -64,6 +64,7 @@ The syntax to create a DataFrame is: `df = pd.DataFrame(data, index, columns)`. 
 <img src="/assets/img/DataFrame_example.png" width="350" height="200">
 
 ## Reading and writing data
+The general syntax used to read a file into a pandas DataFrame is to use a reader function such as pandas.read_file(), where file is the type of file you want to read in as a DataFrame. For example, to read a csv file, the syntax is `pandas.read_csv`.  The reader functions usually return a pandas object (e.g., a DataFrame). The corresponding writer functions are object methods that are accessed via DataFrame.to_file(). For example, to write to a csv file, the syntax would be `DataFrame.to_csv()`. Please see the pandas [documentation](https://pandas.pydata.org/pandas-docs/stable/user_guide/io.html) for the available readers and writers.
 
 ## Viewing and assessing data
 In the following examples, much of the [functionality](https://pandas.pydata.org/pandas-docs/stable/getting_started/basics.html#basics) common to pandas data structures will be applied to DataFrame, but it can also be applied to Series. To view the DataFrame, run the name of the DataFrame: 
@@ -154,7 +155,7 @@ Square brackets **[ ]** is the most basic way to index. Example code to use squa
 
 For example, selecting by label (see code directly above) can provide the following DataFrame.
 
-<img src="/assets/img/pandas_indexing1.png" width="300" height="250">
+<img src="/assets/img/pandas_indexing1.png" width="250" height="200">
 
 ## Cleaning data
 Cleaning data is useful and often necessary in conducting analytics. Note that pandas generally uses the value `np.nan` to represent missing data. The handling of [missing data](https://pandas.pydata.org/pandas-docs/stable/user_guide/missing_data.html) can be accomplished via detecting and filling NaN values. Reindexing can change/add/delete the index on a specified axis and it returns a copy of the data:
@@ -246,10 +247,9 @@ The `append()` function can be used to add a row to the end of a DataFrame, whic
 
 <img src="/assets/img/pandas_join3.png" width="350" height="400">                                                 
 
-.  .  .
+<center>.  .  .<center>
 
+This post barely touches the surface of all of the amazing capabilities of the pandas library. If you liked this tutorial, please have a look at the example on cleaning and formatting near star catalog data using pandas, which can be found [here](https://sunshinescience.github.io/2019/06/30/pandas-example1_stars.html). 
 
-This post barely touches the surface of all of the amazing capabilities of the pandas library. If you liked this tutorial, please have a look at my example on cleaning and formatting near star catalog data using pandas, which can be found [here](https://sunshinescience.github.io/2019/06/30/pandas-example1_stars.html). 
-
-For the pandas documentation, please see [here](https://pandas.pydata.org/pandas-docs/stable/). For some advanced examples using pandas, please see the [cookbook](https://pandas.pydata.org/pandas-docs/stable/user_guide/cookbook.html). 
+For in depth knowledge on pandas, please see the documentation [here](https://pandas.pydata.org/pandas-docs/stable/). For some advanced examples using pandas, see the [cookbook](https://pandas.pydata.org/pandas-docs/stable/user_guide/cookbook.html). 
     
