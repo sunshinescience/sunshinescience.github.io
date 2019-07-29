@@ -70,14 +70,27 @@ In the following examples, much of the [functionality](https://pandas.pydata.org
 
     df
 
-<img src="/assets/img/pandas_viewing1.png" width="350" height="200">
+<img src="/assets/img/pandas_viewing1.png" width="300" height="200">
 
-The top *n* rows of your DataFrame can be obtained using df.head(*n*), whereas the bottom rows can be viewed using df.tail(*n*). The index and columns can be accessed using `df.index()` and `df.columns()`, repectively. A NumPy representation of the data can be conducted using `df.to_numpy()`. Data can be transposed using [`df.T`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.T.html). A summary of the descriptive statistics can be derived using[`df.describe()`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.describe.html). 
+The top *n* rows of your DataFrame can be obtained using df.head(*n*), whereas the bottom rows can be viewed using df.tail(*n*). The index and columns can be accessed using `df.index()` and `df.columns()`, respectively. A NumPy representation of the data can be conducted using `df.to_numpy()`. Data can be transposed using [`df.T`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.T.html). A summary of the descriptive statistics can be derived using[`df.describe()`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.describe.html). 
 
     df.describe().astype(int)
     df
 
-<img src="/assets/img/pandas_describe.png" width="200" height="350">   
+<img src="/assets/img/pandas_describe.png" width="250" height="350">   
+
+A reference summary of some of the common functions (found [here](https://pandas.pydata.org/pandas-docs/stable/getting_started/basics.html)) is as follows:
+
+-   `count` 	Number of non-NA observations
+-   `sum` 	    Sum of values
+-   `mean` 	    Mean of values
+-   `median` 	Arithmetic median of values
+-   `min` 	    Minimum
+-   `max` 	    Maximum
+-   `mode` 	    Mode
+-   `abs` 	    Absolute Value
+-   `std` 	    Bessel-corrected sample standard deviation
+-   `cumsum` 	Cumulative sum
 
 ## Indexing/selecting data
 
