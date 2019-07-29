@@ -227,7 +227,7 @@ The [`concat()`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pand
     pieces = [df[0:2], df[2:3]] # Break up the DataFrame into pieces
     pd.concat(pieces) # Concatinate pandas objects together
 
-The `merge()` function merges and it can join columns or indexes. Let's first split the DataFrame into two, for example:
+The [`merge()`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.merge.html) function merges and it can join columns or indexes. Let's first split the DataFrame into two, for example:
 
     left = df.iloc[:, 0:2]
     right = df.iloc[:, 2:4]
@@ -240,7 +240,7 @@ Next, use `merge()` to join the two DataFrames together.
 
 <img src="/assets/img/pandas_join2.png" width="350" height="300">
 
-The `append()` function can be used to add a row to the end of a DataFrame, which creates a new DataFrame:
+The [`append()`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.append.html) function can be used to add a row to the end of a DataFrame, which creates a new DataFrame:
   
     s = df.iloc[2].astype(int)
     df.append(s)
