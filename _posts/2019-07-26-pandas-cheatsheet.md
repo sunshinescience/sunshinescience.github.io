@@ -106,7 +106,7 @@ The `merge()` function merges and it can join columns or indexes. Let's first sp
     left = df.iloc[:, 0:2]
     right = df.iloc[:, 2:4]
 
-<img src="/assets/img/pandas_join1.png" width="350" height="250">
+<img src="/assets/img/pandas_join1.png" width="350" height="200">
 
 Next, use `merge()` to join the two DataFrames together.
 
