@@ -93,6 +93,65 @@ A reference summary of some of the common functions (found [here](https://pandas
 -   `cumsum` 	Cumulative sum
 
 ## Indexing/selecting data
+Pandas has three ways to [index and select](https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html) data, which include: `[ ]`, `.loc`, and `.iloc`. These can accept a callable as indexer. 
+
+### **.loc** (mainly label based, but can be used with a boolean array) inputs include the following:
+-    A single label, e.g. 5 or 'a' (Note that 5 is interpreted as a label of the index. This use is not an integer position along the index.)
+-    A list or array of labels ['a', 'b', 'c']
+-    A slice object with labels 'a':'f' (Note that contrary to usual python slices, both the start and the stop are included, when present in the index! See Slicing with labels.)
+-    A boolean array
+-    A callable, see [Selection By Callable](https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#indexing-callable)
+
+    # Get row by label:
+    df.loc['b'[0]]
+
+    # Get multi-axis by label:
+    df.loc[:, ['A', 'B']]
+
+    # Slicing with the label:
+    df.loc['b':'c', ['A', 'B']]
+
+    # Get a scalar value:
+    df.loc['a'[0], 'A']
+  
+### **.iloc** (mainly integer position based, but can be used with a boolean array) inputs include:
+  
+-    An integer e.g. 5
+-    A list or array of integers [4, 3, 0]
+-    A slice object with ints 1:7
+-    A boolean array
+-    A callable, see [Selection By Callable](https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#indexing-callable)
+
+    # Select via a passed integer:
+    df.iloc[2]
+
+    # Slice integers:
+    df.iloc[2:3, 0:3]
+
+    # Use lists of integer position locations:
+    df.iloc[[1, 2], [0, 2]]
+
+    # Slice rows:
+    df.iloc[1:3, :]
+
+    # Slice columns:
+    df.iloc[:, 0:2]
+
+    # Get specific value:
+    df.iloc[1,2]
+  
+###**[ ]** (the most basic indexing uses square brackets)
+Example code to use square brackets, is as follows:
+
+    #Select a column:
+    df['A']
+
+    #Select by label (i.e., rows):
+    df[0:2] 
+
+For example, selecting by label (see code directly above) could provide the following DataFrame.
+
+<img src="/assets/img/pandas_indexing1.png" width="350" height="300">
 
 ## Cleaning data
 Cleaning data is useful and often necessary in conducting analytics. Note that pandas generally uses the value `np.nan` to represent missing data. The handling of [missing data](https://pandas.pydata.org/pandas-docs/stable/user_guide/missing_data.html) can be accomplished via detecting and filling NaN values. Reindexing can change/add/delete the index on a specified axis and it returns a copy of the data:
