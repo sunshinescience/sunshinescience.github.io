@@ -3,7 +3,7 @@ layout: post
 title: "A Quick Introduction to Python's pandas library"
 ---
 
-<p align="center"><img src="/assets/img/freestock_55684843.jpg" width="400" height="350"></p>
+<p align="center"><img src="/assets/img/freestock_55684843.jpg" width="400" height="400"></p>
 
 Photo from [https://www.freestock.com/free-photos/3d-business-person-desk-laptop-isolated-55684843](https://www.freestock.com/free-photos/3d-business-person-desk-laptop-isolated-55684843)
 
@@ -72,7 +72,47 @@ In the following examples, much of the functionality common to pandas data struc
 ## Indexing/selecting data
 
 ## Cleaning data
-The handling of [missing data](https://pandas.pydata.org/pandas-docs/stable/user_guide/missing_data.html) can be accomplished using 
+Cleaning data is useful and often necessary in conducting analytics. Note that pandas generally uses the value `np.nan` to represent missing data. The handling of [missing data](https://pandas.pydata.org/pandas-docs/stable/user_guide/missing_data.html) can be accomplished via detecting and filling NaN values. Reindexing can change/add/delete the index on a specified axis and it returns a copy of the data:
+    
+    df1 = df.reindex(index=['a', 'b','c', 'd'], columns=['A', 'B', 'C', 'D'])
+    df1.loc['a':'c', 'D'] = 1 # Setting the value 1 to the first three labels in column D
+    df1 
+
+<img src="/assets/img/pandas_missing1.png" width="350" height="300">
+
+One can obtain which rows and/or columns have NaN values.
+
+    df1.isna().any(axis=0) # Get the columns with NaN
+    df1[df1.isna().any(axis=1)] # Get the rows with NaN. See figure below.
+
+<img src="/assets/img/pandas_missing4.png" width="350" height="300">
+
+Drop rows with missing data:
+
+    df1 = df1.dropna(how='any').astype(int) 
+
+<img src="/assets/img/pandas_missing5.png" width="350" height="300">
+
+Next, instead of having a 'one' in column 'D', we shall have a NaN value, in order to show how to replace NaN's with a mean value:
+
+<img src="/assets/img/pandas_missing6.png" width="350" height="300">
+
+The operation to determine the mean usually skips NaN values, although one can set `skipna = True` if needed. The mean from all columns can be obtained here via `df1.mean(axis=0)`. An attribute can be used in order to only get the mean for column 'D', such as: `df1.mean(axis=0).D`. 
+
+    # Use an attribute, to get only the column 'D' mean value in this case:
+    fill_value = df1.mean(axis = 0, skipna = True).D
+    # Filling missing data with the mean from column 'D'
+    df1.fillna(value=fill_value).astype(int) 
+
+Column 'D' in this case has a mean of 1 and NaN values have been filled using [df.fillna()](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.fillna.html).
+
+<img src="/assets/img/pandas_missing7.png" width="350" height="300">
+
+Values in a DataFrame can also be replaced using [`df.replace()`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.replace.html). For example:
+
+    df1.replace(1, 2)
+
+<img src="/assets/img/pandas_missing8.png" width="350" height="300">
 
 ## Grouping data
 Data can be grouped using [`groupby()`](https://pandas.pydata.org/pandas-docs/stable/user_guide/groupby.html). The documentation refers to a process involving one or more of the following steps:
