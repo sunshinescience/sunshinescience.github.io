@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "A Quick Introduction to Python's pandas library"
+title: "An Illustrated overview of pandas Data Structures"
 ---
 
 <p align="center"><img src="/assets/img/freestock_55684843.jpg" width="400" height="400"></p>
@@ -252,5 +252,5 @@ This post barely touches the surface of all of the amazing capabilities of the p
 
 For in depth knowledge on pandas, please see the documentation [here](https://pandas.pydata.org/pandas-docs/stable/). For some advanced examples using pandas, see the [cookbook](https://pandas.pydata.org/pandas-docs/stable/user_guide/cookbook.html). 
 
-<center>.  .  .<center>
+<center>.    .    .<center>
 
