@@ -7,7 +7,7 @@ The virtual environment (virtualenv) is a copy of an existing version of Python 
 
 Virtualenvs allow you to not affect pre-installed Python system packages, which otherwise could break some of your system tools and scripts. So, it could be beneficial to have one or more Python environments where you can experiment with different combinations of packages, *without* affecting your main installation. 
 
-Using a virtualenv would allow you to install packages normally with pip. Depending on your operating system, you may need to create this in different ways. The installation documentation can be found [here](https://virtualenv.pypa.io/en/stable/installation/). And a user guide can be found in the documentation [here](https://virtualenv.pypa.io/en/stable/userguide/). If pip is not already installed, downloaded it [here](https://pip.pypa.io/en/latest/installing/).
+Using a virtualenv would allow you to install packages normally with pip. Depending on your operating system, you may need to create this in different ways. If pip is not already installed, downloaded it [here](https://pip.pypa.io/en/latest/installing/).
 
 ### Requirements
     [Anaconda Distribution](https://docs.anaconda.com/anaconda/) installed and accessible
@@ -28,14 +28,29 @@ Next, in the terminal run the following code:
 
     conda env create -f 
 
+### Activate an environment
 To activate or switch into this environment, type the following where `environment` here is the name you gave to your environment when you created it:
 
     conda activate environment
 
+In order to install additional Python packages in the environment, enter the following command, where environment is the name of your environment and [package] is the name of the package you want to install:
+
+    conda install -n environment [package]
+
+### Update the environment
+To update the environment, use:
+
+    conda env update -f environment.yml
+
+### Deactivate an environment
 To deactivate an active environment, use:
 
     conda deactivate
 
-To update the environment, use:
+### Delete an environment that is no longer needed
+If you wish to delete an a virtual environment (in this example, the environment is called 'environment') that is no longer needed, type in the command line:
 
-    conda env update -f environment.yml
+    conda remove -n environment -all
+
+### Detailed installation and user guide
+The virtual environment installation documentation can be found [here](https://virtualenv.pypa.io/en/stable/installation/). And a user guide can be found in the documentation [here](https://virtualenv.pypa.io/en/stable/userguide/). 
