@@ -21,7 +21,7 @@ I generally try to find a mnemonic way to remember things. What came to mind whe
 - I  - inheritance
 - E – encapsulation
 
-While it worked for me to remember these concepts, lets look at these concepts in a logical order to better understand them. 
+A notecard with these concepts can be downloaded [here](https://github.com/sunshinescience/tech_notecards/blob/master/note_oop-01.png). While it worked for me to remember these concepts, lets look at these concepts in a logical order to better understand them. 
 
 **Encapsulation** – It wraps up the data and code into a single unit (i.e., a class). This keeps the data and code safe from outside interference and misuse.
 

@@ -7,7 +7,7 @@ The virtual environment (virtualenv) is a copy of an existing version of Python 
 
 Virtualenvs allow you to not affect pre-installed Python system packages, which otherwise could break some of your system tools and scripts. So, it could be beneficial to have one or more Python environments where you can experiment with different combinations of packages, *without* affecting your main installation. 
 
-Using a virtualenv would allow you to install packages normally with Anaconda. Depending on your operating system, you may need to create this in different ways. If Anaconda is not already installed, downloaded it [here](https://docs.conda.io/projects/conda/en/latest/user-guide/install/).
+Using a virtualenv would allow you to install packages normally with Anaconda. Depending on your operating system, you may need to create this in different ways. If Anaconda is not already installed, download it [here](https://docs.conda.io/projects/conda/en/latest/user-guide/install/).
 
 ### Requirements
   [Anaconda Distribution](https://docs.anaconda.com/anaconda/) installed and accessible
