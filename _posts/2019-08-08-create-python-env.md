@@ -1,16 +1,16 @@
 ---
 layout: post
-title: "Creating a Python Virtual Environment for a project - in progress"
+title: "Creating a Python Virtual Environment for a project"
 ---
 
 The virtual environment (virtualenv) is a copy of an existing version of Python that has the option to inherit existing packages. A virtualenv has its its own installation directories, which doesn’t share libraries with other environments (and optionally doesn’t access the globally installed libraries). 
 
 Virtualenvs allow you to not affect pre-installed Python system packages, which otherwise could break some of your system tools and scripts. So, it could be beneficial to have one or more Python environments where you can experiment with different combinations of packages, *without* affecting your main installation. 
 
-Using a virtualenv would allow you to install packages normally with pip. Depending on your operating system, you may need to create this in different ways. If pip is not already installed, downloaded it [here](https://pip.pypa.io/en/latest/installing/).
+Using a virtualenv would allow you to install packages normally with Anaconda. Depending on your operating system, you may need to create this in different ways. If Anaconda is not already installed, downloaded it [here](https://docs.conda.io/projects/conda/en/latest/user-guide/install/).
 
 ### Requirements
-    [Anaconda Distribution](https://docs.anaconda.com/anaconda/) installed and accessible
+  [Anaconda Distribution](https://docs.anaconda.com/anaconda/) installed and accessible
 
 ### Check that conda is installed and in your path
 Open up a terminal. Type the command `conda -V` in the command line and press enter. If conda is installed, you should see the version. To update conda, type `conda update conda` and update any necessary packages by typing `y` to finish.
