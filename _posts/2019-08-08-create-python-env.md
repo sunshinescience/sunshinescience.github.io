@@ -10,7 +10,7 @@ Virtualenvs allow you to not affect pre-installed Python system packages, which 
 Using a virtualenv would allow you to install packages normally with Anaconda. Depending on your operating system, you may need to create this in different ways. If Anaconda is not already installed, download it [here](https://docs.conda.io/projects/conda/en/latest/user-guide/install/).
 
 ### Requirements
-  [Anaconda Distribution](https://docs.anaconda.com/anaconda/) installed and accessible
+  [Anaconda Distribution](https://docs.anaconda.com/anaconda/) should be installed and accessible.
 
 ### Check that conda is installed and in your path
 Open up a terminal. Type the command `conda -V` in the command line and press enter. If conda is installed, you should see the version. To update conda, type `conda update conda` and update any necessary packages by typing `y` to finish.
