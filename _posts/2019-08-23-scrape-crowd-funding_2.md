@@ -71,14 +71,11 @@ In this demonstration, [XPath](https://en.wikipedia.org/wiki/XPath) is used to d
 
 XPath stands for XML Path Language and it uses 'path-like' syntax to identify and navigate nodes in an XML document. XPath expressions can be used in Python. The path expressions to select nodes or node-sets in an XML document look simmilar to path expressions used with traditional computer file systems:
 
-<p align="center"><img src="/assets/img/indiegogo_XPath_folder_example.png" width="300" height="100"></p>
+<p align="center"><img src="/assets/img/indiegogo_XPath_folder_example.png" width="350" height="100"></p>
 
 For example, given source XML that contains:
 
--   <A>
--     <B>
--       <C>
--     <B>
+<p align="center"><img src="/assets/img/indiegogo_XPath_leters_ex.png" width="300" height="400"></p>
   
 The simplest form XPath would take would be:
 /A/B/C
