@@ -22,7 +22,7 @@ A scrapy tutorial can be found in the documentation [here](https://doc.scrapy.or
 Type `y` to proceed with necessary packages. 
 
 ### Create a new project
-Navigate into a directory where you'd like to store your code (here the new project will be called `demo_scrapy`) and type:
+Navigate into a directory where you'd like to store your code (here the new project will be called 'demo_scrapy' and type:
 
     scrapy startproject demo_scrapy
 
@@ -58,26 +58,28 @@ Note that the above image also highlights in blue the selected category (*Audio*
 https://www.indiegogo.com/explore/audio?project_type=campaign&project_timing=all&sort=trending
 
 ### Find individual campaign links
-In firefox, right click on the web page and click 'inspect element.' Firefox then shows you the code that it is executing to generate that page. Here, we'll use Google Chrome, so right click on the individual campaign and click 'inspect' to see where the campaigns are located within the code:
+Here, we'll use Google Chrome, so right click on the individual campaign and click 'inspect' to see where the campaigns are located within the code (see image below).In firefox, right click on the web page and click 'inspect element.' Firefox then shows you the code that it is executing to generate that page. 
 
 <p align="center"><img src="/assets/img/indiegogo_indiv_campaign_lrge.png"></p>
 
-<p align="center"><img src="/assets/img/indiegogo_indiv_campaign.png"></p>
-
 #### XPath
-In this demonstration, [XPath](https://en.wikipedia.org/wiki/XPath) is used to direct our scraper to a specific part of the HTML. For example, we would use XPath to extract a partial URL from the code shown in the image above, such as:
+In this demonstration, [XPath](https://en.wikipedia.org/wiki/XPath) is used to direct our scraper to a specific part of the HTML. For example, we would use XPath to extract a partial URL from the code shown in the image below, such as:
 
 /projects/asivio-one-best-wrieless-earbuds-with-160h-play--3/pica
 
+<p align="center"><img src="/assets/img/indiegogo_indiv_campaign.png"></p>
+
 XPath stands for XML Path Language and it uses 'path-like' syntax to identify and navigate nodes in an XML document. XPath expressions can be used in Python. The path expressions to select nodes or node-sets in an XML document look simmilar to path expressions used with traditional computer file systems:
 
-<p align="center"><img src="/assets/img/indiegogo_XPath_folder_example.png" width="300" height="200"></p>
+<p align="center"><img src="/assets/img/indiegogo_XPath_folder_example.png" width="300" height="100"></p>
 
 For example, given source XML that contains:
-<A>
-  <B>
-    <C>
-  <B>
+
+-   <A>
+-     <B>
+-       <C>
+-     <B>
+  
 The simplest form XPath would take would be:
 /A/B/C
 
