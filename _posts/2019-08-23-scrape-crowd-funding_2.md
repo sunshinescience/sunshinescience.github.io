@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Creating a data set via Web Scraping with Python"
+title: "Creating a data set via Web Scraping with Python - in progress"
 ---
 
 <img src="/assets/img/freestock_56437381.jpg">
@@ -64,11 +64,24 @@ In firefox, right click on the web page and click 'inspect element.' Firefox the
 
 <p align="center"><img src="/assets/img/indiegogo_indiv_campaign.png"></p>
 
-Here, we would use XPath to extract the partial URL from the code (in the image above) as:
+#### XPath
+In this demonstration, [XPath](https://en.wikipedia.org/wiki/XPath) is used to direct our scraper to a specific part of the HTML. For example, we would use XPath to extract a partial URL from the code shown in the image above, such as:
 
 /projects/asivio-one-best-wrieless-earbuds-with-160h-play--3/pica
 
-XPath is used to direct our scraper to a specific part of the HTML.
+XPath stands for XML Path Language and it uses 'path-like' syntax to identify and navigate nodes in an XML document. XPath expressions can be used in Python. The path expressions to select nodes or node-sets in an XML document look simmilar to path expressions used with traditional computer file systems:
+
+<p align="center"><img src="/assets/img/indiegogo_XPath_folder_example.png" width="300" height="200"></p>
+
+For example, given source XML that contains:
+<A>
+  <B>
+    <C>
+  <B>
+The simplest form XPath would take would be:
+/A/B/C
+
+There are several great overviews that go into a lot of detail, such as those found at [scrapy.org](https://docs.scrapy.org/en/xpath-tutorial/topics/xpath-tutorial.html), [tutorialspoint](https://www.tutorialspoint.com/xpath/xpath_expression.htm), [Wikipedia](https://en.wikipedia.org/wiki/XPath), and [w3schools](https://www.w3schools.com/xml/xpath_intro.asp).
 
 ### Create a spider
 Scrapy uses spiders, which are classes that you define, to scrape information from a website (or several websites). They must subclass `scrapy.Spider`.
