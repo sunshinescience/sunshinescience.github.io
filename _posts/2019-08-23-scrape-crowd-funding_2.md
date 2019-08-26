@@ -58,7 +58,7 @@ Note that the above image also highlights in blue the selected category (*Audio*
 https://www.indiegogo.com/explore/audio?project_type=campaign&project_timing=all&sort=trending
 
 ### Find individual campaign links
-Here, we'll use Google Chrome, so right click on the individual campaign and click 'inspect' to see where the campaigns are located within the code (see image below).In firefox, right click on the web page and click 'inspect element.' Firefox then shows you the code that it is executing to generate that page. 
+You can use your browser's [development tools](https://docs.scrapy.org/en/latest/topics/developer-tools.html) for web scraping. Here, we'll use Google Chrome, so right click on the individual campaign and click 'inspect' to see where the campaigns are located within the code (see image below).In firefox, right click on the web page and click 'inspect element.' Firefox then shows you the code that it is executing to generate that page. 
 
 <p align="center"><img src="/assets/img/indiegogo_indiv_campaign_lrge.png"></p>
 
@@ -71,11 +71,11 @@ In this demonstration, [XPath](https://en.wikipedia.org/wiki/XPath) is used to d
 
 XPath stands for XML Path Language and it uses 'path-like' syntax to identify and navigate nodes in an XML document. XPath expressions can be used in Python. The path expressions to select nodes or node-sets in an XML document look simmilar to path expressions used with traditional computer file systems:
 
-<p align="center"><img src="/assets/img/indiegogo_XPath_folder_example.png" width="350" height="100"></p>
+<p align="center"><img src="/assets/img/indiegogo_XPath_folder_example.png" width="350" height="75"></p>
 
 For example, given source XML that contains:
 
-<p align="center"><img src="/assets/img/indiegogo_XPath_leters_ex.png" width="300" height="100"></p>
+<img src="/assets/img/indiegogo_XPath_leters_ex.png" width="150" height="75"></p>
   
 The simplest form XPath would take would be:
 /A/B/C
