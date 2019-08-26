@@ -75,7 +75,7 @@ XPath stands for XML Path Language and it uses 'path-like' syntax to identify an
 
 For example, given source XML that contains:
 
-<img src="/assets/img/indiegogo_XPath_leters_ex.png" width="150" height="75"></p>
+<img src="/assets/img/indiegogo_XPath_leters_ex.png" width="175" height="75">
   
 The simplest form XPath would take would be:
 /A/B/C
