@@ -45,6 +45,40 @@ This created a demo_scrapy directory with the following contents:
             spiders/          # All the spider code goes into this directory (we will be using this)
                 __init__.py
 
+### Inspect the target web page
+Let's first inspect the website that we want to work with. Chrome DevTools is a set of web developer tools that is built directly into the Google Chrome browser. In Chrome's main menu, click in the upper right corner, and click on the 'More Tools' tab, and click on the 'Developer Tools' tab. This opens up the developer tools. 
+
+ <img src="/assets/img/indiegogo_developer_tools.png">
+ **Figure 1.** Open DevTools from Chrome's main menu
+
+The tabs that we're interested in include:
+-   **Elements:** allows us to inspect the DOM and see where things are and how they're positioned. 
+-   **[Console](https://developers.google.com/web/tools/chrome-devtools/console/):** allows us to interact with the page, but its main uses are to view logged messages and run JavaScript. 
+-   **Sources:** helps find the origin of the data. This can help you debug JavaScript code.
+-   **Network:** allow us to see where the data originates from a server perspective. This categorizes and displays detailed information about each related operation on the page.
+-   **Application:** 
+
+
+If you click on the elements tab in DevTools, and click on the inspect tool (see red square in the image below), you can move over the page and inspect different elements. 
+
+<img src="/assets/img/indiegogo_elements_tab.png">
+
+And if you click on something, the HTML markup that is displaying that selection gets highlighted. 
+
+<img src="/assets/img/indiegogo_all_categories_tab.png">
+
+And you can see the HTML's markup path (e.g., in the red rectangle in the below image).
+
+<img src="/assets/img/indiegogo_elemnts_path.png">
+
+Right click on the HTML markup and select copy and copy XPath. If you paste that into the console, you can see what the XPath looks like. If you want to view the network activity that a page has, please see the tutorial found [here](https://developers.google.com/web/tools/chrome-devtools/network/?utm_source=devtools&utm_campaign=2019Q1).
+
+Just as an example, click on a campaign, and in the DevTools, click on the inspect button. Then on the page, right click and click on 'View Page Source' to have a look at the source code.
+
+The sources tab shows the raw state that the data came into the Web browser.
+
+
+For more details and workflows, please see [this](https://developers.google.com/web/tools/chrome-devtools/open) page. 
 
 ### Get a list of start url's
 start_urls is a list of the [URLs](https://en.wikipedia.org/wiki/URL) which the spider will *start* to crawl from. In order to get individual campaign links, we will use each element in this list of the URLs. 
@@ -69,16 +103,24 @@ In this demonstration, [XPath](https://en.wikipedia.org/wiki/XPath) is used to d
 
 <p align="center"><img src="/assets/img/indiegogo_indiv_campaign.png"></p>
 
-XPath stands for XML Path Language and it uses 'path-like' syntax to identify and navigate nodes in an XML document. XPath expressions can be used in Python. The path expressions to select nodes or node-sets in an XML document look simmilar to path expressions used with traditional computer file systems:
+XPath stands for XML Path Language and it uses 'path-like' syntax to identify and navigate nodes in an XML document. The term [node](https://en.wikipedia.org/wiki/Node_(computer_science)) can be used as a generic word that represents any object in the [DOM](https://en.wikipedia.org/wiki/Document_Object_Model) heirarchy. XPath expressions can be used in Python. The path expressions to select nodes or node-sets in an XML document look simmilar to path expressions used with traditional computer file systems:
 
 <p align="center"><img src="/assets/img/indiegogo_XPath_folder_example.png" width="350" height="75"></p>
 
 For example, given source XML that contains:
 
-<img src="/assets/img/indiegogo_XPath_leters_ex.png" width="300" height="150">
+<img src="/assets/img/indiegogo_XPath_leters_ex.png" width="250" height="75">
   
 The simplest form XPath would take would be:
 /A/B/C
+
+When we select our XPath query, we get back one or more nodes (e.g., `//html/body/h1`). The way that we separate the nodes in our path tells the selector what position in the document to look for.
+-   The double "//" (forward slash) means anywhere from the top of the XML tree down (i.e., seach the entire XML document). When  "//"  separates steps in an expression (you can put  "//"  wherever a  "/"  occurs), it means search all descendants from the last step.
+-   When a single "/" (forward slash) is the first symbol of the expression, it is telling the XPath processor to start the search at the top-most element. The single forward slash represents the document info item--also know as the root.  When  "/" is within an XPath expression, the subsequent named "steps" in the path represent children. 
+
+If you want a second step (or child), specify that with a numerator inside of square brackets, for example, if there are two h1's in the body, and you want the child from the second h1, type `//html/body/h1[2]`.
+
+There are other types of nodes, called attributes, that can also be used. Each node can have an id, which are generally unique in the XML document. Styling using CSS, uses the class identifier. You can also query attributes, which can be done using the "@" symbol. The XPaths can also be combined, compared, and etc. An entire node can be selected, or the HTML inside a node can be selected. The text or the value of a particular attribute inside a note can also be selected. Several combinations can be done to select something using XPath.
 
 There are several great overviews that go into a lot of detail, such as those found at [scrapy.org](https://docs.scrapy.org/en/xpath-tutorial/topics/xpath-tutorial.html), [tutorialspoint](https://www.tutorialspoint.com/xpath/xpath_expression.htm), [Wikipedia](https://en.wikipedia.org/wiki/XPath), and [w3schools](https://www.w3schools.com/xml/xpath_intro.asp).
 
