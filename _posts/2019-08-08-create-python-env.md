@@ -24,9 +24,9 @@ If you have a project in a directory, access that directory (e.g., if you have a
 
 Type in the file called environment.yml any needed channels/dependencies, for example, see [here](https://github.com/sunshinescience/dim_red_cluster/blob/master/environment.yml).
 
-Next, in the terminal run the following code:
+Next, in the command line run the following code:
 
-    conda env create -f 
+    conda env create -f environment.yml
 
 ### Activate an environment
 To activate or switch into this environment, type the following where `environment` here is the name you gave to your environment when you created it:
