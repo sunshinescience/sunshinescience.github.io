@@ -76,7 +76,6 @@ Just as an example, click on a campaign, and in the DevTools, click on the inspe
 
 The sources tab shows the raw state that the data came into the Web browser.
 
-
 For more details and workflows, please see [this](https://developers.google.com/web/tools/chrome-devtools/open) page. 
 
 ### Get a list of start url's
@@ -124,13 +123,69 @@ There are other types of nodes, called attributes, that can also be used. Each n
 There are several great overviews that go into a lot of detail, such as those found at [scrapy.org](https://docs.scrapy.org/en/xpath-tutorial/topics/xpath-tutorial.html), [tutorialspoint](https://www.tutorialspoint.com/xpath/xpath_expression.htm), [Wikipedia](https://en.wikipedia.org/wiki/XPath), and [w3schools](https://www.w3schools.com/xml/xpath_intro.asp).
 
 ### Create a spider
-Scrapy uses spiders, which are classes that you define, to scrape information from a website (or several websites). They must subclass `scrapy.Spider`.
+Scrapy uses spiders, which are classes that you define, to scrape information from a website (or several websites). They need to subclass `scrapy.Spider` and define initial requests to make.
 
+In the demo_scrapy/spiders directory in your project, make a file called (for example) `demo1_spider.py`. Save the code below within this file:
 
+    import scrapy
 
+    class CrowdfundSpider(scrapy.Spider): # Use the Spider class provided by Scrapy and make a subclass out of it called CrowdfundSpider
+        name = "indiegogo_audio" # This is the name of the spider, which will be used to run the spider 
+        start_urls = ["https://www.indiegogo.com/explore/audio?project_type=campaign&project_timing=all&sort=trending"] # Giving the scraper a single URL to start from
 
+In the above code, two attributes are defined, which include:
+-   `name`: the name of the spider. Unique names will help keep track of all of the spiders that are made.
+-   `start_urls`: a list of URLs that you start to crawl from. We’ll start with one URL.
 
+Enter the directory that your spider is in (e.g., demo_scrapy/spiders), and in the command line activate the environment that you'll be using (e.g., `conda activate environment_name`). Test out the scraper by typing the following command in the command line: `scrapy runspider demo1_spider.py`
 
+Something similar to the following will be the output (note that some of the output from the command line has been removed, for readability purposes):
+
+    2019-08-30 15:17:38 [scrapy.utils.log] INFO: Scrapy 1.7.3 started (bot: demo_scrapy)
+    2019-08-30 15:17:38 [scrapy.utils.log] INFO: Versions: lxml 4.4.1.0, libxml2 2.9.9, cssselect 1.1.0, parsel 1.5.1, w3lib 1.20.0, Twisted 19.7.0, Python 3.7.3 | packaged by conda-forge | (default, Jul  1 2019, 14:38:56) - [Clang 4.0.1 (tags/RELEASE_401/final)], pyOpenSSL 19.0.0 (OpenSSL 1.1.1c  28 May 2019), cryptography 2.7, Platform Darwin-14.5.0-x86_64-i386-64bit
+    2019-08-30 15:17:38 [scrapy.middleware] INFO: Enabled extensions:
+    ['scrapy.extensions.corestats.CoreStats',
+    'scrapy.extensions.telnet.TelnetConsole',
+    'scrapy.extensions.memusage.MemoryUsage',
+    'scrapy.extensions.logstats.LogStats']
+    2019-08-30 15:17:39 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.indiegogo.com/robots.txt> (referer: None)
+    2019-08-30 15:17:39 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.indiegogo.com/explore/audio?project_type=campaign&project_timing=all&sort=trending> (referer: None)
+    2019-08-30 15:17:39 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.indiegogo.com/explore/audio?project_type=campaign&project_timing=all&sort=trending> (referer: None)
+    Traceback (most recent call last):
+    File "/anaconda3/envs/scenv/lib/python3.7/site-packages/twisted/internet/defer.py", line 654, in _runCallbacks
+        current.result = callback(current.result, *args, **kw)
+    File "/anaconda3/envs/scenv/lib/python3.7/site-packages/scrapy/spiders/__init__.py", line 80, in parse
+        raise NotImplementedError('{}.parse callback is not defined'.format(self.__class__.__name__))
+    NotImplementedError: CrowdfundSpider.parse callback is not defined
+    2019-08-30 15:17:39 [scrapy.core.engine] INFO: Closing spider (finished)
+    2019-08-30 15:17:39 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+    {'downloader/request_bytes': 510,
+    'downloader/request_count': 2,
+    'downloader/request_method_count/GET': 2,
+    'downloader/response_bytes': 9976,
+    'downloader/response_count': 2,
+    'downloader/response_status_count/200': 2,
+    'elapsed_time_seconds': 0.967528,
+    'finish_reason': 'finished',
+    'finish_time': datetime.datetime(2019, 8, 30, 14, 17, 39, 851773),
+    'log_count/DEBUG': 2,
+    'log_count/ERROR': 1,
+    'log_count/INFO': 10,
+    'memusage/max': 46247936,
+    'memusage/startup': 46247936,
+    'response_received_count': 2,
+    'robotstxt/request_count': 1,
+    'robotstxt/response_count': 1,
+    'robotstxt/response_status_count/200': 1,
+    'scheduler/dequeued': 1,
+    'scheduler/dequeued/memory': 1,
+    'scheduler/enqueued': 1,
+    'scheduler/enqueued/memory': 1,
+    'spider_exceptions/NotImplementedError': 1,
+    'start_time': datetime.datetime(2019, 8, 30, 14, 17, 38, 884245)}
+    2019-08-30 15:17:39 [scrapy.core.engine] INFO: Spider closed (finished)
+
+The scraper started and loaded the necessary components and extensions to read data from URLs. It used the URL that was provided in the start_urls list and grabbed the HTML. You can see a NotImplementedError('{}.parse callback is not defined') was raised because. A `parse` method was not written yet, so it passed the HTML to the `parse` method, which doesn't do anything by default, thus the spider finished without doing anything yet.
 
 
 
