@@ -15,14 +15,14 @@ It appears that there are (at least) two ways to accomplish this goal using Pyth
 ### Installing scrapy
 It is recommended that one should install scrapy within a “virtual environment” ([virtualenv](https://virtualenv.pypa.io/en/latest/)). A virtualenv is an environment with its own installation directories, which doesn’t share libraries with other virtualenv environments (and optionally doesn’t access the globally installed libraries). The virtual environment installation documentation can be found [here](https://virtualenv.pypa.io/en/stable/installation/) and a user guide can be found [here](https://virtualenv.pypa.io/en/stable/userguide/). An example of how to set up a virtual environment on a mac can be found in [this](https://sunshinescience.github.io/2019/08/08/create-python-env.html) blog post.
 
-A scrapy tutorial can be found in the documentation [here](https://doc.scrapy.org/en/latest/intro/tutorial.html). To install Scrapy via the conda-forge channel, type in the terminal (mac/linux) or command line (windows):
+A great scrapy tutorial can be found in the documentation [here](https://doc.scrapy.org/en/latest/intro/tutorial.html). To install Scrapy via the conda-forge channel, type in the terminal (mac/linux) or command line (windows):
 
     conda install -c conda-forge scrapy
 
 Type `y` to proceed with necessary packages. 
 
 ### Create a new project
-Navigate into a directory where you'd like to store your code (here the new project will be called 'demo_scrapy' and type:
+Navigate into a directory where you'd like to store your code (here the new project will be called 'demo_scrapy') and type:
 
     scrapy startproject demo_scrapy
 
@@ -46,7 +46,7 @@ This created a demo_scrapy directory with the following contents:
                 __init__.py
 
 ### Inspect the target web page
-Let's first inspect the website that we want to work with. Chrome DevTools is a set of web developer tools that is built directly into the Google Chrome browser. In Chrome's main menu, click in the upper right corner, and click on the 'More Tools' tab, and click on the 'Developer Tools' tab. This opens up the developer tools. 
+Let's first inspect the website. Chrome DevTools is a set of web developer tools that is built directly into the Google Chrome browser. In Chrome's main menu, click in the upper right corner, and click on the 'More Tools' tab, and click on the 'Developer Tools' tab. This opens up the developer tools. 
 
  <img src="/assets/img/indiegogo_developer_tools.png">
  **Figure 1.** Open DevTools from Chrome's main menu
@@ -54,9 +54,9 @@ Let's first inspect the website that we want to work with. Chrome DevTools is a 
 The tabs that we're interested in include:
 -   **Elements:** allows us to inspect the DOM and see where things are and how they're positioned. 
 -   **[Console](https://developers.google.com/web/tools/chrome-devtools/console/):** allows us to interact with the page, but its main uses are to view logged messages and run JavaScript. 
--   **Sources:** helps find the origin of the data. This can help you debug JavaScript code.
+-   **Sources:** helps find the origin of the data. It shows the raw state that the data came into the Web browser. This can help you debug JavaScript code. 
 -   **Network:** allow us to see where the data originates from a server perspective. This categorizes and displays detailed information about each related operation on the page.
--   **Application:** 
+-   **Application:** provides information about what is stored in the browser relative to the site
 
 If you click on the elements tab in DevTools, and click on the inspect tool (see red square in the image below), you can move over the page and inspect different elements. 
 
@@ -72,11 +72,14 @@ And you can see the HTML's markup path (e.g., in the red rectangle in the below 
 
 Right click on the HTML markup and select copy and copy XPath. If you paste that into the console, you can see what the XPath looks like. If you want to view the network activity that a page has, please see the tutorial found [here](https://developers.google.com/web/tools/chrome-devtools/network/?utm_source=devtools&utm_campaign=2019Q1).
 
-Just as an example, click on a campaign, and in the DevTools, click on the inspect button. Then on the page, right click and click on 'View Page Source' to have a look at the source code.
-
-The sources tab shows the raw state that the data came into the Web browser.
+To see the source code (as an example), click on a campaign, and in the DevTools, click on the inspect button. Then on the page, right click and then click on 'View Page Source' to have a look at the source code.
 
 For more details and workflows, please see [this](https://developers.google.com/web/tools/chrome-devtools/open) page. 
+
+The Web page appears to have the following structure:
+-   A header image is on each page.
+-   The categories are shown, with the current page category highlighted.
+-   Several campaigns are shown. Each comprises a similar format that contains an image, title, key information, amount of money raised, and the duration left/funding through InDemand.
 
 ### Get a list of start url's
 start_urls is a list of the [URLs](https://en.wikipedia.org/wiki/URL) which the spider will *start* to crawl from. In order to get individual campaign links, we will use each element in this list of the URLs. 
@@ -107,7 +110,7 @@ XPath stands for XML Path Language and it uses 'path-like' syntax to identify an
 
 For example, given source XML that contains:
 
-<img src="/assets/img/indiegogo_XPath_leters_ex.png" width="250" height="75">
+<img src="/assets/img/indiegogo_XPath_leters_ex.png" width="275" height="75">
   
 The simplest form XPath would take would be:
 /A/B/C
@@ -122,7 +125,7 @@ There are other types of nodes, called attributes, that can also be used. Each n
 
 There are several great overviews that go into a lot of detail, such as those found at [scrapy.org](https://docs.scrapy.org/en/xpath-tutorial/topics/xpath-tutorial.html), [tutorialspoint](https://www.tutorialspoint.com/xpath/xpath_expression.htm), [Wikipedia](https://en.wikipedia.org/wiki/XPath), and [w3schools](https://www.w3schools.com/xml/xpath_intro.asp).
 
-### Create a spider
+### Create a scraper
 Scrapy uses spiders, which are classes that you define, to scrape information from a website (or several websites). They need to subclass `scrapy.Spider` and define initial requests to make.
 
 In the demo_scrapy/spiders directory in your project, make a file called (for example) `demo1_spider.py`. Save the code below within this file:
@@ -139,7 +142,7 @@ In the above code, two attributes are defined, which include:
 
 Enter the directory that your spider is in (e.g., demo_scrapy/spiders), and in the command line activate the environment that you'll be using (e.g., `conda activate environment_name`). Test out the scraper by typing the following command in the command line: `scrapy runspider demo1_spider.py`
 
-Something similar to the following will be the output (note that some of the output from the command line has been removed, for readability purposes):
+Something similar to the following will be the output, but note that some of the output from the command line has been removed for readability:
 
     2019-08-30 15:17:38 [scrapy.utils.log] INFO: Scrapy 1.7.3 started (bot: demo_scrapy)
     2019-08-30 15:17:38 [scrapy.utils.log] INFO: Versions: lxml 4.4.1.0, libxml2 2.9.9, cssselect 1.1.0, parsel 1.5.1, w3lib 1.20.0, Twisted 19.7.0, Python 3.7.3 | packaged by conda-forge | (default, Jul  1 2019, 14:38:56) - [Clang 4.0.1 (tags/RELEASE_401/final)], pyOpenSSL 19.0.0 (OpenSSL 1.1.1c  28 May 2019), cryptography 2.7, Platform Darwin-14.5.0-x86_64-i386-64bit
@@ -185,7 +188,24 @@ Something similar to the following will be the output (note that some of the out
     'start_time': datetime.datetime(2019, 8, 30, 14, 17, 38, 884245)}
     2019-08-30 15:17:39 [scrapy.core.engine] INFO: Spider closed (finished)
 
-The scraper started and loaded the necessary components and extensions to read data from URLs. It used the URL that was provided in the start_urls list and grabbed the HTML. You can see a NotImplementedError('{}.parse callback is not defined') was raised because. A `parse` method was not written yet, so it passed the HTML to the `parse` method, which doesn't do anything by default, thus the spider finished without doing anything yet.
+The scraper started and loaded the necessary components and extensions to read data from URLs. It used the URL that was provided in the start_urls list and grabbed the HTML. A NotImplementedError('{}.parse callback is not defined') was raised. This is because a `parse` method was not written yet, so it passed the HTML to the `parse` method, which doesn't do anything by default, thus the spider finished without doing anything yet.
 
+### Extract data from a Web page
+Scraping the first page involves searching for the regions of the page that contains the data we want to extract. And, grabbing the data from each campaign by pulling the data out of the HTML tags. Scrapy extracts data via using selectors, either CSS or XPath expressions. CSS selectors are actually converted to XPath. XPath expressions not only navigate the structure, but it can also look at the content. 
+For now, we'll start with using CSS selectors to find all of the campaigns on the page. It seems in looking through the HTML, that each campaign is specified with the class `discoverableCard`. We're looking for a class, and the CSS selector we would use is `.class`. In this example, we would use the class attribute `.discoverableCard` to select all elements with class="discoverableCard". 
 
+<img src="/assets/img/indiegogo_class_selector_HTML.png">
+
+A reference for some CSS selectors can be found [here](https://www.w3schools.com/cssref/css_selectors.asp). Let's add this to the code we started above:
+
+    import scrapy
+
+    class CrowdfundSpider(scrapy.Spider): # Use the Spider class provided by Scrapy and make a subclass out of it called CrowdfundSpider
+        name = "indiegogo_audio" # This is the name of the spider, which will be used to run the spider when `scrapy crawl name_of_spider` is used
+        start_urls = ["https://www.indiegogo.com/explore/audio?project_type=campaign&project_timing=all&sort=trending"]
+
+    def parse(self, response):
+        campaign_SELECTOR = '.discoverableCard'
+        for campaign in response.css(campaign_SELECTOR):
+            pass
 
