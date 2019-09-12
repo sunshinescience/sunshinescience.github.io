@@ -21,6 +21,33 @@ A great scrapy tutorial can be found in the documentation [here](https://doc.scr
 
 Type `y` to proceed with necessary packages. 
 
+### Scrapy commands
+Type `scrapy` in the command line and some of the available Scrapy commands will be provided as an output:
+
+    $ scrapy
+    Scrapy 1.7.3 - project: demo_scrapy
+
+    Usage:
+    scrapy <command> [options] [args]
+
+    Available commands:
+    bench         Run quick benchmark test
+    check         Check spider contracts
+    crawl         Run a spider
+    edit          Edit spider
+    fetch         Fetch a URL using the Scrapy downloader
+    genspider     Generate new spider using pre-defined templates
+    list          List available spiders
+    parse         Parse URL (using its spider) and print the results
+    runspider     Run a self-contained spider (without creating a project)
+    settings      Get settings values
+    shell         Interactive scraping console
+    startproject  Create new project
+    version       Print Scrapy version
+    view          Open URL in browser, as seen by Scrapy
+
+    Use "scrapy <command> -h" to see more info about a command
+
 ### Create a new project
 Navigate into a directory where you'd like to store your code (here the new project will be called 'demo_scrapy') and type:
 
@@ -123,7 +150,7 @@ If you want a second step (or child), specify that with a numerator inside of sq
 
 There are other types of nodes, called attributes, that can also be used. Each node can have an id, which are generally unique in the XML document. Styling using CSS, uses the class identifier. You can also query attributes, which can be done using the "@" symbol. The XPaths can also be combined, compared, and etc. An entire node can be selected, or the HTML inside a node can be selected. The text or the value of a particular attribute inside a note can also be selected. A condition can be used (e.g., contains). Several combinations can be done to select something using XPath.
 
-There are several great overviews that go into a lot of detail, such as those found at [scrapy.org](https://docs.scrapy.org/en/xpath-tutorial/topics/xpath-tutorial.html), [tutorialspoint](https://www.tutorialspoint.com/xpath/xpath_expression.htm), [Wikipedia](https://en.wikipedia.org/wiki/XPath), and [w3schools](https://www.w3schools.com/xml/xpath_intro.asp).
+There are several great overviews that go into a lot of detail, such as those found at [scrapy.org](https://docs.scrapy.org/en/xpath-tutorial/topics/xpath-tutorial.html), [tutorialspoint](https://www.tutorialspoint.com/xpath/xpath_expression.htm), [Wikipedia](https://en.wikipedia.org/wiki/XPath), and [w3schools](https://www.w3schools.com/xml/xpath_intro.asp), and a good blog  tutorial found [here](https://blog.scrapinghub.com/2016/10/27/an-introduction-to-xpath-with-examples#comments-listing).
 
 ### Create a scraper
 Scrapy uses spiders, which are classes that you define, to scrape information from a website (or several websites). They need to subclass `scrapy.Spider` and define initial requests to make.
@@ -192,11 +219,13 @@ The scraper started and loaded the necessary components and extensions to read d
 
 ### Extract data from a Web page
 Scraping the first page involves searching for the regions of the page that contains the data we want to extract. And, grabbing the data from each campaign by pulling the data out of the HTML tags. Scrapy extracts data via using selectors, either CSS or XPath expressions. CSS selectors are actually converted to XPath. XPath expressions not only navigate the structure, but it can also look at the content. 
-For now, we'll start with using CSS selectors to find all of the campaigns on the page. It seems in looking through the HTML, that each campaign is specified with the class `discoverableCard`. We're looking for a class, and the CSS selector we would use is `.class`. In this example, we would use the class attribute `.discoverableCard` to select all elements with class="discoverableCard". 
+For now, we'll start with using CSS selectors to find all of the campaigns on the page. It seems in looking through the HTML, that each campaign is specified with the class `discoverableCard`. We're looking for a class, and the CSS selector we would use is `.class`. In this example, we would use the class attribute `.discoverableCard` to select all elements with class="discoverableCard". In this case, the class attribute gave each element an identifying name that can be used to target the elements (i.e., campaigns).
+
+Note that a detailed CSS reference can be found [here](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference) and some CSS selectors can be found [here](https://www.w3schools.com/cssref/css_selectors.asp). An interactive CSS cheatsheet can be found [here](https://htmlcheatsheet.com/css/). And to learn the basics of HTML, see [here](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML). 
 
 <img src="/assets/img/indiegogo_class_selector_HTML.png">
 
-A reference for some CSS selectors can be found [here](https://www.w3schools.com/cssref/css_selectors.asp). Let's add this to the code we started above:
+Let's add the CSS selector `.discoverableCard` to the code we started above:
 
     import scrapy
 
@@ -208,4 +237,27 @@ A reference for some CSS selectors can be found [here](https://www.w3schools.com
         campaign_SELECTOR = '.discoverableCard'
         for campaign in response.css(campaign_SELECTOR):
             pass
+
+You can see below (in the red ractangle) the structure of where an individual campaign link is within the HTML.
+
+<img src="/assets/img/indiegogo_indiv_camp_structure.png">
+
+HOW TO SCRAPE using the shell:
+Step 1: Activate the environment
+In a mac, open up a terminal from the utilities menu. Change directory in the command line (i.e., type `cd` in the command line until you're in your project folder) into the project folder and type in the command line `conda activate scenv`. 
+
+Step 2: Enter the Scrapy shell 
+Type the command `scrapy shell` in the command line.
+Use the command `shelp()` to print Shell help. Use the command `view(response) ` to print Shell help.
+view(response)     View response in a browser
+
+Step 3: Use the fetch function to fetch the URL
+Type in the command line `fetch("http://quotes.toscrape.com/")`
+`fetch("https://www.indiegogo.com/explore/audio?project_type=campaign&project_timing=all&sort=trending")`. The 200 in parentheses (following the words 'DEBUG: crawled' in the output) indicates that the response is successful. If its 200 or 300, then it should be good. The specified URL is also shown in the output following this.
+
+Step 4: Type the XPath selector to extract the data
+For example, type in the command line `response.xpath('/html/head/title').extract_first()`. The output should be:
+
+    '<title>Audio: Hear Hi-Tech Sound at Indiegogo | Indiegogo</title>'
+
 
