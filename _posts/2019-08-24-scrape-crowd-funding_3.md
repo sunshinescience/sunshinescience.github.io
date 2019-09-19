@@ -217,7 +217,7 @@ Use  `response.xpath('//h2//a//@href').extract()` to extract the campaign links.
         start_urls = ["https://fundrazr.com/find?category=Accidents"]
 
     def parse(self, response):
-        campaign_titles = response.xpath('//h2//a[starts-with(@href, "//fund")]/text()').extract( 
+        campaign_titles = response.xpath('//h2//a[starts-with(@href, "//fund")]/text()').extract()
         urls = []
         for href in response.xpath('//h2//a//@href'):
             url = "https:" + href.extract()
@@ -342,6 +342,56 @@ In order to save these data points to a file, type one of the following into the
 
 <p align="center"><img src="/assets/img/fundrazr_first_csv_file.png"></p>
 
-Next, let's expand our spider to include the above selectors. And then we'll go into individual campaigns to get information from them as well. 
+Next, let's expand our spider to include the above selectors. And then we'll go into individual campaigns to get information from them as well. The following data from the campaign projects is what we aim to scrape:
+-   Category
+-   Campaign title – word length
+-   Owner name
+-   Location (*Note: sometimes it is city, followed by country code, but in other campaigns it is city, followed by region, followed by country code)
+-   Campaign description – word length
+
+For the following information, each campaign itself needs to get scraped:
+-   Amount raised
+-   Duration running (i.e., campaign length)
+-   Month launched
+-   Day launched
+-   Time launched
+-   Year launched
+-   Raised progress (percentage of goal raised)
+
+The selector to get all of the category tags is `response.xpath('//a[starts-with(@href, "https://fundrazr.com/find?category=")]/text()').extract()`, but the selector to get the active category tag (which is what category it is scraping from) is `response.xpath('//li[@class="active"]//a[starts-with(@href, "https://fundrazr.com/find?category=")]/text()').extract_first()`.
+
+The spider now consists of the following code, which works:
+
+    import scrapy
+
+    class CrowdfundSpider(scrapy.Spider):
+        name = "fundrazr_campaigns"
+        allowed_domains = ["fundrazr.com"]
+        start_urls = [
+            'https://fundrazr.com/find?category=Accidents'
+        ]
+
+        def parse(self, response):
+            category = response.xpath('//li[@class="active"]//a[starts-with(@href, "https://fundrazr.com/find?category=")]/text()').extract()
+            widget_tall = response.xpath('//*[@class="widget tall"]')
+            for campaign in widget_tall:
+                campaign_message = campaign.xpath('.//@data-message').extract() # Use extract_first() to get only the first campaign
+                owner_name = campaign.xpath('.//@data-ownername').extract()
+                location = campaign.xpath('.//p[@class="location"]/text()').extract()
+                campaign_title = campaign.xpath('.//h2//a[starts-with(@href, "//fund")]/text()').extract()
+
+                yield{'Category': category, 'Campaign title': campaign_title, 'Owner name' : owner_name, 'Location': location, 'Campaign description': campaign_message}
+                
+            next_page_url = response.xpath('//*[@class="next"]/a/@href').extract_first()
+            absolute_next_page_url = response.urljoin(next_page_url)
+            yield scrapy.Request(absolute_next_page_url)
+
+If you type `scrapy crawl fundrazr_campaigns -o fundrazr_items.csv` in the command line, within the spiders directory, a .csv file would be made containing columns for Category, Campaign title, Owner name, Location, and Campaign description.
 
 
+
+Use:
+urls = []
+    for href in response.xpath('//h2//a//@href'):
+        url = "https:" + href.extract()
+        urls.append(url)
