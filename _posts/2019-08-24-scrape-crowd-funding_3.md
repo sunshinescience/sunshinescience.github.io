@@ -228,11 +228,11 @@ Use  `response.xpath('//h2//a//@href').extract()` to extract the campaign links.
 
 In inspecting the code, it can be seen that the campaigns start with a class called 'widget tall'. 
 
-<img src="/assets/img/fundrazr_campaigns_class.png">
+<p align="center"><img src="/assets/img/fundrazr_campaigns_class.png"></p>
 
 Type in the command line the following code: `response.xpath('//*[@class="widget tall"]')`, which will give as an output the selectors:
 
-<img src="/assets/img/fundrazr_class_widgetTall.png">
+<p align="center"><img src="/assets/img/fundrazr_class_widgetTall.png"></p>
 
 Next, in the command line, type: `fundrazr_campaigns = response.xpath('//*[@class="widget tall"]')`. And then type: `campaign = fundrazr_campaigns[0]`, which will be the first campaign on the page:
 
@@ -241,11 +241,11 @@ Next, in the command line, type: `fundrazr_campaigns = response.xpath('//*[@clas
 
 Type in the command line `campaign.extract()`, which would output everything from the first campaign. Now, we have a custom selector, and can type in the command line `campaign.xpath()` and use the XPath selector that we want for this first campaign on the page.  For example, to only get content from an a tag from this campaign (using a dot in front to use this custom selector), type : `campaign.xpath('.//a')` and you can see the a tags or HTML nodes found:
 
-img <src="/assets/img/fundrazr_a_tags_nodes.png">
+<p align="center"><img src="/assets/img/fundrazr_a_tags_nodes.png"></p>
 
 In the HTML, the campaign message is found within `data message` (see red rectangle in the image below):
 
-img <src="/assets/img/fundrazr_data_message.png">
+<p align="center"><img src="/assets/img/fundrazr_data_message.png"></p>
 
 Type in the command line: `campaign.xpath('.//@data-message').extract_first()`, which will output the campaign message, for example, although the campaigns may be different in the near future, currently, this will output: 
 
@@ -283,7 +283,7 @@ Next, open up a new terminal, activate the environment, change directory into th
   
 In order to get the locations of the campaigns, use the following selector: `response.xpath('//p[@class="location"]/text()').extract()`. The image below shows some of the HTML code which is how the amount raised and duration running (see red rectangles) is within the document.
 
-img <src="/assets/img/fundrazr_stats.png">
+<p align="center"><img src="/assets/img/fundrazr_stats.png"></p>
 
 The selector to get the currency symbol and amount raised (note, use `extract()` rather than `extract_first()` in order to get these from all campaigns) is as follows:
 
@@ -305,12 +305,11 @@ In order to obtain the duration running, use:
 
 Now, we have the information from the campaigns for the first page. Let's get more campaigns. Scroll to the bottom of the [page](https://fundrazr.com/find?category=Accidents). Right click on next and click `inspect` from the drop down menu. You can see the href for the next page (red arrow in image below).
 
-img <src="/assets/img/fundrazr_next_inspect.png">
+<p align="center"><img src="/assets/img/fundrazr_next_inspect.png"></p>
 
 While clicking next and going to additional pages, it is observed that the href="find?category=Accidents&amp;page=*n*" where *n* here is a page number that increases as you click through the pages. To get the absolute URLs, use `response.urljoin` the spider we are building should now look like this:
 
     import scrapy
-
 
     class CrowdfundSpider(scrapy.Spider):
         name = "fundrazr_campaigns"
@@ -337,11 +336,11 @@ While clicking next and going to additional pages, it is observed that the href=
 
 If you run the spider again (by typing in the command line, within the folder spiders `scrapy crawl fundrazr_campaigns`), you will get all of the campaign descriptions, followed by each corresponding owner name. Thus, we have now scraped the entire site under the category Accidents & Disasters. Let's replace the Python print functions in the spider above with a yield function (using a dictionary), such as `yield{'Campaign message': campaign_message, 'Owner name' : owner_name}`. In using the yield function, some things get printed out afterwards, such as 'item scraped count', which let's us know how many items were scraped. Here (see image below), it shows 1289, thus we have scraped 1289 campaigns.
 
-img <src="/assets/img/fundrazr_scrape_stats.png">
+<p align="center"><img src="/assets/img/fundrazr_scrape_stats.png"></p>
 
 In order to save these data points to a file, type one of the following into the command line: `scrapy crawl fundrazr_campaigns -o fundrazr_items.csv`, `scrapy crawl fundrazr_campaigns -o fundrazr_items.json`, `scrapy crawl fundrazr_campaigns -o fundrazr_items.xml`. Remember, fundrazr_campaigns is the name of the spider. And fundrazr_items.csv would be the name of the file you want to make. The file format that you choose to put your data into would need to be made one after another. For example, first we made a .csv file:
 
-img <src="/assets/img/fundrazr_first_csv_file.png">
+<p align="center"><img src="/assets/img/fundrazr_first_csv_file.png"></p>
 
 Next, let's expand our spider to include the above selectors. And then we'll go into individual campaigns to get information from them as well. 
 
