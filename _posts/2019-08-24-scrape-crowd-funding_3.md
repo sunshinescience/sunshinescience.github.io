@@ -138,7 +138,7 @@ There are several great overviews that go into a lot of detail, such as those fo
 
 Note that if you prefer using CSS, a detailed CSS reference can be found [here](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference) and some CSS selectors can be found [here](https://www.w3schools.com/cssref/css_selectors.asp). An interactive CSS cheatsheet can be found [here](https://htmlcheatsheet.com/css/). And to learn the basics of HTML, see [here](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML). 
 
-### Create a scraper
+### Create a spider
 Scrapy uses spiders, which are classes that you define, to scrape information from a website (or several websites). They need to subclass `scrapy.Spider` and define initial requests to make.
 
 In the demo_scrapy/spiders directory in your project, make a file called (for example) `demo1_spider.py`. Save the code below within this file:
@@ -185,7 +185,7 @@ Something similar to the following will be the output, but note that some of the
 The scraper started and loaded the necessary components and extensions to read data from URLs. It used the URL that was provided in the start_urls list and grabbed the HTML. A NotImplementedError('{}.parse callback is not defined') was raised. This is because a `parse` method was not written yet, so it passed the HTML to the `parse` method, which doesn't do anything by default, thus the spider finished without doing anything yet.
 
 ### Extract data from a Web page
-Scraping the first page involves searching for the regions of the page that contains the data we want to extract. And, grabbing the data from each campaign by pulling the data out of the HTML tags. Scrapy extracts data via using selectors, either CSS or XPath expressions. CSS selectors are actually converted to XPath. XPath expressions not only navigate the structure, but it can also look at the content. 
+Scraping the first page involves searching for the regions of the page that contains the data we want to extract. And, grabbing the data from each campaign by pulling the data out of the HTML tags. Scrapy extracts data via using selectors, either CSS or XPath expressions. CSS selectors are actually converted to XPath. XPath expressions not only navigate the structure, but they can also look at the content. 
 
 #### How to scrape using the Scrapy shell
 Step 1: Activate the environment
@@ -193,7 +193,7 @@ In a mac, open up a terminal from the utilities menu. Change directory in the co
 
 Step 2: Enter the Scrapy shell 
 Type the command `scrapy shell` in the command line.
-Use the command `shelp()` if you need Shell help. Use the command `view(response) ` to print Shell help.
+Use the command `shelp()` if you need to print Shell help. Use the command `view(response) ` to view response in a browser.
 
 Step 3: Use the fetch function to fetch the URL
 Type in the command line `fetch("https://fundrazr.com/find?category=Accidents")`. The 200 in parentheses (following the words 'DEBUG: crawled' in the output) indicates that the response is successful. If its 200 or 300, then it should be good. The specified URL is also shown in the output following this.
@@ -204,7 +204,7 @@ For example, type in the command line `response.xpath('/html/head/title').extrac
     '<title>Raise money for Accidents, Crisis &amp; Emergencies - FundRazr</title>'
 
 #### Adding to the spider defined above
-For now, we'll start using XPath selectors to find all of the campaigns on the page. For example, we would use the XPath selector `response.xpath('//h2//a[starts-with(@href, "//fund")]/text()').extract()` to extract the campaign titles from the HTML. You can see below the structure of where an individual campaign link is within the HTML.
+For now, we'll be continuing with step 4 as mentioned above. Let's start using XPath selectors to find all of the campaigns on the page. For example, we would use the XPath selector `response.xpath('//h2//a[starts-with(@href, "//fund")]/text()').extract()` to extract the campaign titles from the HTML. You can see below the structure of where an individual campaign link is within the HTML.
 
 <p align="center"><img src="/assets/img/fundrazr_indiv_campaign.png"></p>
 
@@ -226,5 +226,123 @@ Use  `response.xpath('//h2//a//@href').extract()` to extract the campaign links.
         yield {'Campaign titles': campaign_titles, 'URL': urls}
 
 
+In inspecting the code, it can be seen that the campaigns start with a class called 'widget tall'. 
+
+<img src="/assets/img/fundrazr_campaigns_class.png">
+
+Type in the command line the following code: `response.xpath('//*[@class="widget tall"]')`, which will give as an output the selectors:
+
+<img src="/assets/img/fundrazr_class_widgetTall.png">
+
+Next, in the command line, type: `fundrazr_campaigns = response.xpath('//*[@class="widget tall"]')`. And then type: `campaign = fundrazr_campaigns[0]`, which will be the first campaign on the page:
+
+    In [4]: campaign                                                                              
+    Out[4]: <Selector xpath='//*[@class="widget tall"]' data='<div class="widget tall" data-campaignur'>
+
+Type in the command line `campaign.extract()`, which would output everything from the first campaign. Now, we have a custom selector, and can type in the command line `campaign.xpath()` and use the XPath selector that we want for this first campaign on the page.  For example, to only get content from an a tag from this campaign (using a dot in front to use this custom selector), type : `campaign.xpath('.//a')` and you can see the a tags or HTML nodes found:
+
+img <src="/assets/img/fundrazr_a_tags_nodes.png">
+
+In the HTML, the campaign message is found within `data message` (see red rectangle in the image below):
+
+img <src="/assets/img/fundrazr_data_message.png">
+
+Type in the command line: `campaign.xpath('.//@data-message').extract_first()`, which will output the campaign message, for example, although the campaigns may be different in the near future, currently, this will output: 
+
+    In [20]: campaign.xpath('.//@data-message').extract_first()                                   Out[20]: 'Ride to Give is a 501c3 (tax ID 46-2952297) public charity that turns athletic ability into fundraising power for families with children who are disabled, injured, or ill. All donations made here will go to our current and future causes. Thank you!'
+
+We will call this above selector, the `campaign_message` variable. To get the campaign owner name, type in the command line: `campaign.xpath('.//@data-ownername').extract_first()` and assign it to the variable called `owner_name`. This will go in the spider:
+
+    import scrapy
+
+    class CrowdfundSpider(scrapy.Spider): # Use the Spider class provided by Scrapy and make a subclass out of it called CrowdfundSpider
+        name = "fundrazr_campaigns" # This is the name of the spider, which will be used to run the spider when `scrapy crawl name_of_spider` is used
+        start_urls = ["https://fundrazr.com/find?category=Accidents"]
+
+    def parse(self, response):
+    '''    
+        campaign_titles = response.xpath('//h2//a[starts-with(@href, "//fund")]/text()').extract() 
+        urls = []
+        for href in response.xpath('//h2//a//@href'):
+            url = "https:" + href.extract()
+            urls.append(url)
+
+        yield {'Campaign titles': campaign_titles, 'URL': urls}   
+    '''
+        widget_tall = response.xpath('//*[@class="widget tall"]')
+        for campaign in widget_tall:
+            campaign_message = campaign.xpath('.//@data-message').extract_first() 
+            owner_name = campaign.xpath('.//@data-ownername').extract_first()
+
+            print ('\n')
+            print (campaign_message)
+            print (owner_name)
+            print ('\n')
+
+Next, open up a new terminal, activate the environment, change directory into the spiders folder, and type in the command line `scrapy crawl fundrazr_campaigns`. You should see in the terminal the output for all of the campaign messages (each followed by their respective owner name).
+  
+In order to get the locations of the campaigns, use the following selector: `response.xpath('//p[@class="location"]/text()').extract()`. The image below shows some of the HTML code which is how the amount raised and duration running (see red rectangles) is within the document.
+
+img <src="/assets/img/fundrazr_stats.png">
+
+The selector to get the currency symbol and amount raised (note, use `extract()` rather than `extract_first()` in order to get these from all campaigns) is as follows:
+
+    # Currency symbol
+    response.xpath('//div[@class="clearfix stats-entries"]/div[1]/p[@class="stats-value"]/span/text()').extract_first()
+
+    # Amount raised
+    response.xpath('//div[@class="clearfix stats-entries"]/div[1]/p[@class="stats-value"]/text()').extract_first()
+
+Combine the first two selectors above if needed.
+
+In order to obtain the duration running, use:
+    
+    # Duration
+    response.xpath('//div[@class="clearfix stats-entries"]/div[2]/p[@class="stats-value"]/text()').extract_first() 
+
+    # Duration running label
+    response.xpath('//div[@class="clearfix stats-entries"]/div[2]/p[@class="stats-label"]/text()').extract_first()
+
+Now, we have the information from the campaigns for the first page. Let's get more campaigns. Scroll to the bottom of the [page](https://fundrazr.com/find?category=Accidents). Right click on next and click `inspect` from the drop down menu. You can see the href for the next page (red arrow in image below).
+
+img <src="/assets/img/fundrazr_next_inspect.png">
+
+While clicking next and going to additional pages, it is observed that the href="find?category=Accidents&amp;page=*n*" where *n* here is a page number that increases as you click through the pages. To get the absolute URLs, use `response.urljoin` the spider we are building should now look like this:
+
+    import scrapy
+
+
+    class CrowdfundSpider(scrapy.Spider):
+        name = "fundrazr_campaigns"
+        allowed_domains = ["fundrazr.com"]
+        start_urls = [
+            'https://fundrazr.com/find?category=Accidents'
+        ]
+
+        def parse(self, response):
+            widget_tall = response.xpath('//*[@class="widget tall"]')
+            for campaign in widget_tall:
+                campaign_message = campaign.xpath('.//@data-message').extract() # Use extract_first() to get only the first campaign
+                owner_name = campaign.xpath('.//@data-ownername').extract()
+
+                print ('\n')
+                print (campaign_message)
+                print ('\n')
+                print (owner_name)
+                print ('\n')
+
+            next_page_url = response.xpath('//*[@class="next"]/a/@href').extract_first()
+            absolute_next_page_url = response.urljoin(next_page_url)
+            yield scrapy.Request(absolute_next_page_url)
+
+If you run the spider again (by typing in the command line, within the folder spiders `scrapy crawl fundrazr_campaigns`), you will get all of the campaign descriptions, followed by each corresponding owner name. Thus, we have now scraped the entire site under the category Accidents & Disasters. Let's replace the Python print functions in the spider above with a yield function (using a dictionary), such as `yield{'Campaign message': campaign_message, 'Owner name' : owner_name}`. In using the yield function, some things get printed out afterwards, such as 'item scraped count', which let's us know how many items were scraped. Here (see image below), it shows 1289, thus we have scraped 1289 campaigns.
+
+img <src="/assets/img/fundrazr_scrape_stats.png">
+
+In order to save these data points to a file, type one of the following into the command line: `scrapy crawl fundrazr_campaigns -o fundrazr_items.csv`, `scrapy crawl fundrazr_campaigns -o fundrazr_items.json`, `scrapy crawl fundrazr_campaigns -o fundrazr_items.xml`. Remember, fundrazr_campaigns is the name of the spider. And fundrazr_items.csv would be the name of the file you want to make. The file format that you choose to put your data into would need to be made one after another. For example, first we made a .csv file:
+
+img <src="/assets/img/fundrazr_first_csv_file.png">
+
+Next, let's expand our spider to include the above selectors. And then we'll go into individual campaigns to get information from them as well. 
 
 
