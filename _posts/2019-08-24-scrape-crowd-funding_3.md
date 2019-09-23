@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "Creating a data set via Web Scraping Fundrazr with Python - in progress"
+title: "Creating a data set via Web Scraping Fundrazr with Python"
 ---
 
-<img src="/assets/img/freestock_56437381.jpg">
+<p align="center"><img src="/assets/img/freestock_56437381.jpg" width="250" height="250"></p>
 Photo from [https://www.freestock.com/free-photos/3d-laptop-computers-networking-isolated-white-56437381](https://www.freestock.com/free-photos/3d-laptop-computers-networking-isolated-white-56437381)
 
-[Web scraping](https://en.wikipedia.org/wiki/Web_scraping) is a technique that is used to extract data from websites. Sometimes it can be beneficial to gather and copy data from the web. But, if there isn't a direct link to download it, web scraping can be performed to obtain the data. Mostly everything that can be found online is scrape-able. Scraping works by sending a request to a server and it receives a response made up of the HTML, CSS, and etc. that make up that page. Then it finds the information that you want in that response code.
+[Web scraping](https://en.wikipedia.org/wiki/Web_scraping) is a technique that is used to extract data from websites. Sometimes it can be beneficial to gather and copy data from the web. But, if there isn't a direct link to download it, web scraping can be performed to obtain the data. Many things that can be found online are scrape-able. Scraping works by sending a request to a server and it receives a response made up of the HTML, CSS, and etc. that make up that page. Then it finds the information that you want in that response code.
 
-For this demonstration, data from one crowd funding website (called Fundrazr) will be gathered, organized, and cleaned. The main goal of this demonstration is to obtain the unstructured data via web scraping and build a structured data set. Some additional sites might be added later on, which include those mentioned in [this](https://www.investopedia.com/articles/personal-finance/091415/8-best-alternatives-kickstarter.asp) article. 
+For this tutorial, data from one crowd funding website (called [Fundrazr](https://fundrazr.com/)) will be gathered. The main goal of this demonstration is to obtain the unstructured data via web scraping and build a structured data set. 
 
 It appears that there are (at least) two ways to accomplish this goal using Python. [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) is a user-friendly Python library that can be used to parse HTML and XML files. [Scrapy](https://docs.scrapy.org/en/latest/) is a high-level web crawling and web scraping framework. Here, scrapy has been chosen to scrape the website. 
 
@@ -105,14 +105,9 @@ The Web page appears to have the following structure:
 -   Several campaigns are shown. Each comprises a similar format that contains an image, title, key information, amount of money raised, and the duration running.
 
 ### Get a list of start url's
-start_urls is a list of the [URLs](https://en.wikipedia.org/wiki/URL) which the spider will *start* to crawl from. In order to get individual campaign links, we will use each element in this list of the URLs. 
+start_urls is a list of the [URLs](https://en.wikipedia.org/wiki/URL) which the spider will *start* to crawl from. 
 
-On the website [www.fundrazr.com](https://fundrazr.com/find), the find campaigns tab is selected, followed by Accidents & Disasters. You can sort by *Trending* or *Ending soon* or *Newest*. Or, there are several categories to choose from. We'll start with Accidents & Disasters. The first URL in our list of start_urls is this: https://fundrazr.com/find?category=Accidents.
-
-### Find individual campaign links
-You can use your browser's [development tools](https://docs.scrapy.org/en/latest/topics/developer-tools.html) for web scraping. Here, we'll use Google Chrome, so right click on the individual campaign and click 'inspect' to see where the campaigns are located within the code (see image below).In firefox, right click on the web page and click 'inspect element.' Firefox then shows you the code that it is executing to generate that page. 
-
-<p align="center"><img src="/assets/img/fundrazr_indiv_campaign_lrge.png"></p>
+On the website [www.fundrazr.com](https://fundrazr.com/find), the find campaigns tab is selected, followed by Accidents & Disasters. You can sort by *Trending* or *Ending soon* or *Newest*. Or, there are several categories to choose from. We'll begin with the first category, Accidents & Disasters. For this example, we will use one [category](https://fundrazr.com/find?category=Accidents), thus one URL will be in the list `start_urls`.
 
 #### XPath
 In this demonstration, [XPath](https://en.wikipedia.org/wiki/XPath) is used to direct our scraper to a specific part of the HTML. XPath stands for XML Path Language and it uses 'path-like' syntax to identify and navigate nodes in an XML document. The term [node](https://en.wikipedia.org/wiki/Node_(computer_science)) can be used as a generic word that represents any object in the [DOM](https://en.wikipedia.org/wiki/Document_Object_Model) heirarchy. XPath expressions can be used in Python. The path expressions to select nodes or node-sets in an XML document look simmilar to path expressions used with traditional computer file systems:
@@ -347,20 +342,12 @@ Next, let's expand our spider to include the above selectors. And then we'll go 
 -   Campaign title – word length
 -   Owner name
 -   Location (*Note: sometimes it is city, followed by country code, but in other campaigns it is city, followed by region, followed by country code)
+-   URL
 -   Campaign description – word length
 
-For the following information, each campaign itself needs to get scraped:
--   Amount raised
--   Duration running (i.e., campaign length)
--   Month launched
--   Day launched
--   Time launched
--   Year launched
--   Raised progress (percentage of goal raised)
+The selector to get all of the category tags is `response.xpath('//a[starts-with(@href, "https://fundrazr.com/find?category=")]/text()').extract()`, but the selector to get the active category tag (which is what category it is scraping from) is `response.xpath('//li[@class="active"]//a[starts-with(@href, "https://fundrazr.com/find?category=")]/text()').extract_first()`. The URLs for the campaigns are also scraped now (see code below).
 
-The selector to get all of the category tags is `response.xpath('//a[starts-with(@href, "https://fundrazr.com/find?category=")]/text()').extract()`, but the selector to get the active category tag (which is what category it is scraping from) is `response.xpath('//li[@class="active"]//a[starts-with(@href, "https://fundrazr.com/find?category=")]/text()').extract_first()`.
-
-The spider now consists of the following code, which works:
+The spider now consists of the following code:
 
     import scrapy
 
@@ -373,25 +360,39 @@ The spider now consists of the following code, which works:
 
         def parse(self, response):
             category = response.xpath('//li[@class="active"]//a[starts-with(@href, "https://fundrazr.com/find?category=")]/text()').extract()
-            widget_tall = response.xpath('//*[@class="widget tall"]')
+            widget_tall = response.xpath('//*[@class="widget tall"]')   
+
             for campaign in widget_tall:
                 campaign_message = campaign.xpath('.//@data-message').extract() # Use extract_first() to get only the first campaign
                 owner_name = campaign.xpath('.//@data-ownername').extract()
                 location = campaign.xpath('.//p[@class="location"]/text()').extract()
-                campaign_title = campaign.xpath('.//h2//a[starts-with(@href, "//fund")]/text()').extract()
-
-                yield{'Category': category, 'Campaign title': campaign_title, 'Owner name' : owner_name, 'Location': location, 'Campaign description': campaign_message}
+                campaign_title = campaign.xpath('.//h2//a[starts-with(@href, "//fund")]/text()').extract()   
                 
+                currency_symbol = campaign.xpath('.//div[@class="clearfix stats-entries"]/div[1]/p[@class="stats-value"]/span/text()').extract()
+                amount_raised = campaign.xpath('.//div[@class="clearfix stats-entries"]/div[1]/p[@class="stats-value"]/text()').extract()
+                
+                duration_running = campaign.xpath('.//div[@class="clearfix stats-entries"]/div[2]/p[@class="stats-value"]/text()').extract()
+                duration_label = campaign.xpath('.//div[@class="clearfix stats-entries"]/div[2]/p[@class="stats-label"]/text()').extract()
+
+                url = [] # Get the base URL added to each individual campaign URL
+                for href in campaign.xpath('.//@data-campaignurl'):
+                    base_url = "https:" + href.extract()
+                    url.append(base_url)
+
+                yield{'Category': category, 'Campaign title': campaign_title, 'Owner name' : owner_name, 'Location': location, 'Currency symbol': currency_symbol, 'Amount raised': amount_raised, 'Duration running': duration_running, 'Duration running label': duration_label, 'URL': url, 'Campaign description': campaign_message}
+
             next_page_url = response.xpath('//*[@class="next"]/a/@href').extract_first()
             absolute_next_page_url = response.urljoin(next_page_url)
             yield scrapy.Request(absolute_next_page_url)
 
-If you type `scrapy crawl fundrazr_campaigns -o fundrazr_items.csv` in the command line, within the spiders directory, a .csv file would be made containing columns for Category, Campaign title, Owner name, Location, and Campaign description.
+            next_page_url = response.xpath('//*[@class="next"]/a/@href').extract_first()
+            absolute_next_page_url = response.urljoin(next_page_url)
+            yield scrapy.Request(absolute_next_page_url)
 
+#### Save the extracted data to a file
+If you type `scrapy crawl fundrazr_campaigns -o fundrazr_items.csv` in the command line, within the spiders directory, a fundrazr_items.csv file would be made containing columns for category, campaign title, owner name, location, amount raised, duration running, URL, and campaign description. Files can be saved with with different formats (e.g., json) in the same way.
 
+### Final thoughts
+We have created a data set in Python using Scrapy. However, there would still be a lot of work needed to clean up the data before it could be used for analysis. And, if the website were to change, the code in the spider would also need to change. Multiple spiders could be made for each web page you may want to scrape. If anyone finds this information useful, please feel free to share this. Or, should anyone have insight on best practice/implementations, please send me an email. Happy coding!
 
-Use:
-urls = []
-    for href in response.xpath('//h2//a//@href'):
-        url = "https:" + href.extract()
-        urls.append(url)
+<center>.    .    .<center>
