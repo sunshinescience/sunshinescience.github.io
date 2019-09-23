@@ -3,7 +3,7 @@ layout: post
 title: "Creating a data set via Web Scraping Fundrazr with Python"
 ---
 
-<p align="center"><img src="/assets/img/freestock_56437381.jpg" width="250" height="250"></p>
+<p align="center"><img src="/assets/img/freestock_56437381.jpg" width="500" height="500"></p>
 Photo from [https://www.freestock.com/free-photos/3d-laptop-computers-networking-isolated-white-56437381](https://www.freestock.com/free-photos/3d-laptop-computers-networking-isolated-white-56437381)
 
 [Web scraping](https://en.wikipedia.org/wiki/Web_scraping) is a technique that is used to extract data from websites. Sometimes it can be beneficial to gather and copy data from the web. But, if there isn't a direct link to download it, web scraping can be performed to obtain the data. Many things that can be found online are scrape-able. Scraping works by sending a request to a server and it receives a response made up of the HTML, CSS, and etc. that make up that page. Then it finds the information that you want in that response code.
@@ -395,4 +395,4 @@ If you type `scrapy crawl fundrazr_campaigns -o fundrazr_items.csv` in the comma
 ### Final thoughts
 We have created a data set in Python using Scrapy. However, there would still be a lot of work needed to clean up the data before it could be used for analysis. And, if the website were to change, the code in the spider would also need to change. Multiple spiders could be made for each web page you may want to scrape. If anyone finds this information useful, please feel free to share this. Or, should anyone have insight on best practice/implementations, please send me an email. Happy coding!
 
-<center>.    .    .<center>
+<center>.       .       .<center>
