@@ -333,10 +333,6 @@ If you run the spider again (by typing in the command line, within the folder sp
 
 <p align="center"><img src="/assets/img/fundrazr_scrape_stats.png"></p>
 
-In order to save these data points to a file, type one of the following into the command line: `scrapy crawl fundrazr_campaigns -o fundrazr_items.csv`, `scrapy crawl fundrazr_campaigns -o fundrazr_items.json`, `scrapy crawl fundrazr_campaigns -o fundrazr_items.xml`. Remember, fundrazr_campaigns is the name of the spider. And fundrazr_items.csv would be the name of the file you want to make. The file format that you choose to put your data into would need to be made one after another. For example, first we made a .csv file:
-
-<p align="center"><img src="/assets/img/fundrazr_first_csv_file.png"></p>
-
 Next, let's expand our spider to include the above selectors. And then we'll go into individual campaigns to get information from them as well. The following data from the campaign projects is what we aim to scrape:
 -   Category
 -   Campaign title – word length
@@ -390,9 +386,15 @@ The spider now consists of the following code:
             yield scrapy.Request(absolute_next_page_url)
 
 #### Save the extracted data to a file
-If you type `scrapy crawl fundrazr_campaigns -o fundrazr_items.csv` in the command line, within the spiders directory, a fundrazr_items.csv file would be made containing columns for category, campaign title, owner name, location, amount raised, duration running, URL, and campaign description. Files can be saved with with different formats (e.g., json) in the same way.
+In order to save these data points to a file, type one of the following into the command line: `scrapy crawl fundrazr_campaigns -o fundrazr_items.csv`, `scrapy crawl fundrazr_campaigns -o fundrazr_items.json`, `scrapy crawl fundrazr_campaigns -o fundrazr_items.xml`. Remember, fundrazr_campaigns is the name of our spider. And fundrazr_items.csv would be the name of the file to make, in this example. Files can be saved with with other formats in the same way. The file format that you choose to put your data into would need to be made one after another. For example, first we would make a .csv file, then we would make a .json file. 
+
+If you type `scrapy crawl fundrazr_campaigns -o fundrazr_items.csv` in the command line, within the spiders directory, a fundrazr_items.csv file would be made containing columns for category, campaign title, owner name, location, amount raised, duration running, URL, and campaign description. See the image below, which is part of the data set we have made.
+
+<p align="center"><img src="/assets/img/fundrazr_data_set_accidents.png"></p>
 
 ### Final thoughts
-We have created a data set in Python using Scrapy. However, there would still be a lot of work needed to clean up the data before it could be used for analysis. And, if the website were to change, the code in the spider would also need to change. Multiple spiders could be made for each web page you may want to scrape. If anyone finds this information useful, please feel free to share this. Or, should anyone have insight on best practice/implementations, please send me an email. Happy coding!
+We have created a data set in Python using Scrapy. However, there would still be a lot of work needed to clean up the data before it could be used for analysis. And, if the website were to change, the code in the spider would also need to change. Multiple spiders could be made for each web page you may want to scrape. If anyone finds this information useful, please feel free to share this. Or, should anyone have insight on best practice/implementations, please send me an email. 
+
+<center>Happy coding!<center>
 
 <center>.       .       .<center>
