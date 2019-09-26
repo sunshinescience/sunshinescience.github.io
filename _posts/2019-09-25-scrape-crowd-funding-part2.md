@@ -24,7 +24,7 @@ Let's change the spider from [Part 1](https://github.com/sunshinescience/scrape_
 
 <img src="/assets/img/fundrazr_categories.png">
 
-In the Scrapy shell, type `response.xpath('//a[starts-with(@href, "https://fundrazr.com/find?category")]/@href').extract()`. This would give you a list of start URLs to add into the spider. The spider code (saved as demo2_spider_extended.py in this demonstration) is as follows:
+In the Scrapy shell, type `response.xpath('//a[starts-with(@href, "https://fundrazr.com/find?category")]/@href').extract()`. This will give you a list of category start URLs to add into the spider. The spider code (saved as demo2_spider_extended.py in this demonstration) is as follows:
 
     import scrapy
 
@@ -130,7 +130,9 @@ And, we'll make a demo2_spider_architecture.py file, and import two modules. Tha
 
             return l.load_item()
 
-Save this file and open up a terminal, enter your project directory and activate the environment. Type in the command line `scrapy crawl fundrazr_campaigns3`.
+Save this file and open up a terminal, enter your project directory and activate the environment. Type in the command line `scrapy crawl fundrazr_campaigns3`. Currently, information from 53,459 campaigns have been extracted (email me if you would like a copy of that dataset).
 
 The next file that could be used is pipelines.py, which would be used when receiving an item and performing an action on the item (e.g., if you want to do a calculation on the item, or if you want to change the text to upper case). And it also considers whether the item should continue through the pipeline or if it should be dropped and not processed any further.
-        
+
+In the settings.py file, you can activate several options. Here are some tips to be aware of while web scraping:
+
