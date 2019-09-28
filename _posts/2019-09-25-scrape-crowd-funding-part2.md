@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Creating a data set via Web Scraping Fundrazr with Python: Part 2 - expanding the data set"
+title: "Web Scraping Fundrazr with Python: Part 2 - expanding the data set"
 ---
 
 In [part 1](https://sunshinescience.github.io/2019/08/24/scrape-crowd-funding_3.html) of this tutorial, we covered the following steps to create a data set via web scraping:
@@ -97,7 +97,9 @@ In the Scrapy shell, type `response.xpath('//a[starts-with(@href, "https://fundr
             absolute_next_page_url = response.urljoin(next_page_url)
             yield scrapy.Request(absolute_next_page_url)
 
-If you have saved the spider above in a file, type in the command line `scrapy crawl fundrazr_campaigns2 -o fundrazr_items_extended.csv` to save the new data set to a file called 'fundrazr_items_extended.csv'. The updated data set extracts data from each of the categories on the site. However, there may be duplicates. The first page of each category is done first, and then the spider crawls to the next page of each category and so on. The categories are not all in order in the first column of the data set. If one wanted to have the columns set in a specific order in a .csv file, we would need to use Scrapy Item. The main goal in web scraping is to extract *structured data* from web pages. Therefore, to get the data in some specific order (i.e., *structure* the data) in a file, we would need to use [Items](https://doc.scrapy.org/en/1.0/topics/items.html).
+If you have saved the spider above in a file, type in the command line `scrapy crawl fundrazr_campaigns2 -o fundrazr_items_extended.csv` to save the new data set to a file called 'fundrazr_items_extended.csv'. The updated data set extracts data from each of the categories on the site. The first page of each category is done first, and then the spider crawls to the next page of each category and so on. Note that the categories are not all in order in the first column of the data set. And there may be duplicates of some of the campaigns (this would have to be checked, but data cleaning is for another post). 
+
+The main goal in web scraping is to extract *structured data* from web pages. Therefore, to get the data in some specific order (i.e., *structure* the data) in a file, we would need to use Scrapy [Item](https://doc.scrapy.org/en/1.0/topics/items.html).
 
 Let's start adding to the items.py file in the project directory (in this demonstration the directory is called demo_scrapy). Let's start by adding to the class DemoScrapyItem:
 
@@ -135,4 +137,56 @@ Save this file and open up a terminal, enter your project directory and activate
 The next file that could be used is pipelines.py, which would be used when receiving an item and performing an action on the item (e.g., if you want to do a calculation on the item, or if you want to change the text to upper case). And it also considers whether the item should continue through the pipeline or if it should be dropped and not processed any further.
 
 In the settings.py file, you can activate several options. Here are some tips to be aware of while web scraping:
+
+_______________________
+
+The data we have already is:
+Category
+Campaign title
+Owner name
+Location
+Currency symbol
+Amount raised
+Duration running
+Duration running label
+URL
+Campaign description
+
+The data we want to get is:
+Amount raised
+Raised progress
+Project goal
+Campaign length – duration running
+Number of contributers
+Time a project was launched
+Day a project was launched
+Month a project was launched
+Day of the week the project was launched on
+
+Let's now get into individual campaign links and extract data from each one. We are going to continue working on the spider from the code above, and thus create a different data set. The aim is to obtain the following information:
+
+-   Currency symbol
+-   Amount raised
+
+-   Raised progress
+-   Project goal
+
+-   Campaign length – duration running
+-   Number of contributers
+-   Time a project was launched
+-   Day a project was launched
+-   Month a project was launched
+-   Day of the week the project was launched on
+
+
+When attempting to extract the date and time that an example campaign was launched on, using `response.xpath('//span[@class="stats-label"]/a').extract_first()`, the XPath selector did not get the whole element (see image below). 
+
+<p align="center"><img src="/assets/img/fundrazr_missing_element_part.png"></p>
+
+Thus, instead of extracting 'data-original-title' (see red rectangle in the example image below), we will extract the timestamp and convert it using datetime. We'll use the expression `(response.xpath('//span[@class="stats-label"]/a/@data-timestamp').extract_first()).rstrip("0")` to extract the timestamp and remove trailing zeros.
+
+<p align="center"><img src="/assets/img/fundrazr_campaign_launched.png"></p>
+
+
+
 

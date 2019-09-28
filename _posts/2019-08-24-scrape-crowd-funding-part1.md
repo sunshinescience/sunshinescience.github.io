@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Creating a data set via Web Scraping Fundrazr with Python"
+title: "Web Scraping Fundrazr with Python: Part 1 - creating a data set"
 ---
 
-<p align="center"><img src="/assets/img/freestock_56437381.jpg" width="500" height="500"></p>
+<p align="center"><img src="/assets/img/freestock_56437381.jpg" width="500" height="400"></p>
 Photo from [https://www.freestock.com/free-photos/3d-laptop-computers-networking-isolated-white-56437381](https://www.freestock.com/free-photos/3d-laptop-computers-networking-isolated-white-56437381)
 
 [Web scraping](https://en.wikipedia.org/wiki/Web_scraping) is a technique that is used to extract data from websites. Sometimes it can be beneficial to gather and copy data from the web. But, if there isn't a direct link to download it, web scraping can be performed to obtain the data. Many things that can be found online are scrape-able. Scraping works by sending a request to a server and it receives a response made up of the HTML, CSS, and etc. that make up that page. Then it finds the information that you want in that response code.
