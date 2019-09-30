@@ -136,48 +136,32 @@ Save this file and open up a terminal, enter your project directory and activate
 
 The next file that could be used is pipelines.py, which would be used when receiving an item and performing an action on the item (e.g., if you want to do a calculation on the item, or if you want to change the text to upper case). And it also considers whether the item should continue through the pipeline or if it should be dropped and not processed any further.
 
-In the settings.py file, you can activate several options. Here are some tips to be aware of while web scraping:
+In the settings.py file, you can activate several options. 
 
-_______________________
+The data we already have, from Part 1 of this tutorial, is as follows:
 
-The data we have already is:
-Category
-Campaign title
-Owner name
-Location
-Currency symbol
-Amount raised
-Duration running
-Duration running label
-URL
-Campaign description
-
-The data we want to get is:
-Amount raised
-Raised progress
-Project goal
-Campaign length – duration running
-Number of contributers
-Time a project was launched
-Day a project was launched
-Month a project was launched
-Day of the week the project was launched on
-
-Let's now get into individual campaign links and extract data from each one. We are going to continue working on the spider from the code above, and thus create a different data set. The aim is to obtain the following information:
-
+-   Category
+-   Campaign title
+-   Owner name
+-   Location
 -   Currency symbol
 -   Amount raised
+-   Duration running
+-   Duration running label
+-   URL
+-   Campaign description
 
+Let's now get into individual campaign links and extract data from each one. We are going to continue working on the spider from the code above, and thus create a different data set. The aim is to additionally obtain the following data from the site:
+
+-   Amount raised
 -   Raised progress
 -   Project goal
-
--   Campaign length – duration running
+-   Duration running (the amount of time the campaign has been running)
 -   Number of contributers
 -   Time a project was launched
 -   Day a project was launched
 -   Month a project was launched
 -   Day of the week the project was launched on
-
 
 When attempting to extract the date and time that an example campaign was launched on, using `response.xpath('//span[@class="stats-label"]/a').extract_first()`, the XPath selector did not get the whole element (see image below). 
 
@@ -186,6 +170,114 @@ When attempting to extract the date and time that an example campaign was launch
 Thus, instead of extracting 'data-original-title' (see red rectangle in the example image below), we will extract the timestamp and convert it using datetime. We'll use the expression `(response.xpath('//span[@class="stats-label"]/a/@data-timestamp').extract_first()).rstrip("0")` to extract the timestamp and remove trailing zeros.
 
 <p align="center"><img src="/assets/img/fundrazr_campaign_launched.png"></p>
+
+We will get the day of the week the project was launched on (called day_of_week_launched in the spider) using Pandas Timestamp.weekday() function, which returns the day of the week represented by the date in the given Timestamp object. Monday == 0 … Sunday == 6.
+
+For one example campaing, the spider now consists of the following code:
+
+    import scrapy
+    from scrapy.loader import ItemLoader
+    from demo_scrapy.items import DemoScrapyItem
+    from datetime import datetime
+
+    class CrowdfundSpider(scrapy.Spider):
+        name = 'fundrazr_campaigns3'
+        allowed_domains = ["fundrazr.com"]
+        start_urls = [
+                    'https://fundrazr.com/find?category=Accidents'
+                    ]
+
+        def parse_base_page(self, response):
+            category = response.xpath('//li[@class="active"]//a[starts-with(@href, "https://fundrazr.com/find?category=")]/text()').extract()
+            yield{'Category': category}
+
+        def parse(self, response):
+            for href in response.xpath('//a[@class="campaign-link"]/@href'):
+                url = "https:" + href.extract()
+                yield scrapy.Request(url, callback=self.parse_campaign)	
+
+        def parse_campaign(self, response):
+            l = ItemLoader(item=DemoScrapyItem(), repsonse=response)
+
+            # Obtain the campaign description
+            message = response.xpath("//div[contains(@id, 'full-story')]//text()").extract()
+            campaign_msg = []
+            for i in message:
+                if len(i.strip()) > 0:
+                    campaign_msg.append(i.strip())
+            campaign_message = (''.join(campaign_msg))
+
+            raised_progress = response.xpath('//span[@class="raised-progress"]/text()').extract_first()
+            goal = ((response.xpath('//*[@id="campaign-stats"]/div[1]/span[3]/text()[2]').extract_first()).strip()).split(' ')[1]
+            campaign_title = (response.xpath('//div[@id="campaign-title"]/text()').extract_first()).strip()
+            currency_symbol = response.xpath('//span[@class="currency-symbol"]/text()').extract_first()
+            amount_raised = response.xpath('//span[@class="amount-raised"]/text()').extract_first()
+            duration_running = response.xpath('//span[@class="stat"]/text()').extract_first() 
+            duration_label = (response.xpath('//*[@id="campaign-stats"]/div[3]/span/span[2]/text()').extract()[0]).strip()
+            number_contributers = response.xpath('//span[@class="donation-count stat"]/text()').extract_first() 
+            location = response.xpath('//span/a[@class="muted nowrap"]/text()').extract_first()
+            owner_name = response.xpath('//span/a[@class="name subtle-link bold"]/text()').extract_first()
+            timestamp = (response.xpath('//span[@class="stats-label"]/a/@data-timestamp').extract_first()).rstrip("0") # Getting the timestamp and removing trailing zeros
+            datetime_object = datetime.fromtimestamp(int(timestamp))
+            hour_launched = (str(datetime_object.hour))
+            month_launched = (str(datetime_object.month))
+            day_launched = (str(datetime_object.day))
+            day_of_week_launched = (str(datetime_object.weekday()))
+            url = response.xpath('//meta[@property="og:url"]/@content').extract_first()
+
+            l.add_value('campaign_message', campaign_message)
+            l.add_value('raised_progress', raised_progress)
+            l.add_value('goal', goal)
+            l.add_value('campaign_title', campaign_title)
+            l.add_value('currency_symbol', currency_symbol)
+            l.add_value('amount_raised', amount_raised)
+            l.add_value('duration_running', duration_running)
+            l.add_value('duration_label', duration_label)
+            l.add_value('number_contributers', number_contributers)
+            l.add_value('location', location)
+            l.add_value('owner_name', owner_name)
+            #l.add_value('timestamp', timestamp)
+            l.add_value('hour_launched', hour_launched)
+            #l.add_value('datetime_object', datetime_object)
+            l.add_value('month_launched', month_launched)
+            l.add_value('day_launched', day_launched)
+            l.add_value('day_of_week_launched', day_of_week_launched)
+            l.add_value('url', url)
+
+            return l.load_item()
+
+And the items.py file consists of the folowing code:
+
+    # -*- coding: utf-8 -*-
+
+    # Define here the models for your scraped items
+    #
+    # See documentation in:
+    # https://docs.scrapy.org/en/latest/topics/items.html
+
+    import scrapy
+
+
+    class DemoScrapyItem(scrapy.Item):
+        campaign_message = scrapy.Field()
+        #category = scrapy.Field()
+        raised_progress = scrapy.Field()
+        goal = scrapy.Field()
+        campaign_title = scrapy.Field()
+        currency_symbol = scrapy.Field()
+        amount_raised = scrapy.Field()
+        duration_running = scrapy.Field()
+        duration_label = scrapy.Field()
+        number_contributers = scrapy.Field()
+        location = scrapy.Field()
+        owner_name = scrapy.Field()
+        hour_launched = scrapy.Field()
+        month_launched = scrapy.Field()
+        day_launched = scrapy.Field()
+        day_of_week_launched = scrapy.Field()
+        url = scrapy.Field()
+        
+The columns are now in alphabetical order, but let's change the spider above a little bit and put the columns in the order we want. Let's also extend it to scrape information from all campaigns on the website.
 
 
 
