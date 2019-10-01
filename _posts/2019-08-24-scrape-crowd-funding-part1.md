@@ -194,7 +194,7 @@ Step 3: Use the fetch function to fetch the URL
 Type in the command line `fetch("https://fundrazr.com/find?category=Accidents")`. The 200 in parentheses (following the words 'DEBUG: crawled' in the output) indicates that the response is successful. If its 200 or 300, then it should be good. The specified URL is also shown in the output following this.
 
 Step 4: Type the XPath selector to extract the data
-For example, type in the command line `response.xpath('/html/head/title').extract_first()`. The output should be:
+For example, type in the command line `response.xpath('/html/head/title').extract_first()`.  The output should be:
 
     '<title>Raise money for Accidents, Crisis &amp; Emergencies - FundRazr</title>'
 
@@ -393,7 +393,9 @@ If you type `scrapy crawl fundrazr_campaigns -o fundrazr_items.csv` in the comma
 <p align="center"><img src="/assets/img/fundrazr_data_set_accidents.png"></p>
 
 ### Final thoughts
-We have created a data set in Python using Scrapy. However, there would still be a lot of work needed to clean up the data before it could be used for analysis. And, if the website were to change, the code in the spider would also need to change. Multiple spiders could be made for each web page you may want to scrape. If anyone finds this information useful, please feel free to share this. Or, should anyone have insight on best practice/implementations, please send me an email. 
+We have created a data set in Python using Scrapy. However, there would still be a lot of work needed to clean up the data before it could be used for analysis. And, if the website were to change, the code in the spider would also need to change, thus the code could be maintained a little bit better. 
+
+If anyone finds this information useful, please feel free to share this. Or, should anyone have insight on best practice/implementations, please send me an email. 
 
 <center>Happy coding!<center>
 
