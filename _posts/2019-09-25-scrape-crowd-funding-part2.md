@@ -197,9 +197,11 @@ For one example campaing, the spider now consists of the following code:
                 yield scrapy.Request(url, callback=self.parse_campaign)	
 
         def parse_campaign(self, response):
+            url = response.xpath('//meta[@property="og:url"]/@content').extract_first()
+            
             l = ItemLoader(item=DemoScrapyItem(), repsonse=response)
 
-            # Obtain the campaign description
+            # Getting the campaign description
             message = response.xpath("//div[contains(@id, 'full-story')]//text()").extract()
             campaign_msg = []
             for i in message:
@@ -211,9 +213,9 @@ For one example campaing, the spider now consists of the following code:
             goal = ((response.xpath('//*[@id="campaign-stats"]/div[1]/span[3]/text()[2]').extract_first()).strip()).split(' ')[1]
             campaign_title = (response.xpath('//div[@id="campaign-title"]/text()').extract_first()).strip()
             currency_symbol = response.xpath('//span[@class="currency-symbol"]/text()').extract_first()
-            amount_raised = response.xpath('//span[@class="amount-raised"]/text()').extract_first()
+            currency_raised = response.xpath('//span[@class="amount-raised"]/text()').extract_first()
             duration_running = response.xpath('//span[@class="stat"]/text()').extract_first() 
-            duration_label = (response.xpath('//*[@id="campaign-stats"]/div[3]/span/span[2]/text()').extract()[0]).strip()
+            duration_running_label = (response.xpath('//*[@id="campaign-stats"]/div[3]/span/span[2]/text()').extract()[0]).strip()
             number_contributers = response.xpath('//span[@class="donation-count stat"]/text()').extract_first() 
             location = response.xpath('//span/a[@class="muted nowrap"]/text()').extract_first()
             owner_name = response.xpath('//span/a[@class="name subtle-link bold"]/text()').extract_first()
@@ -223,16 +225,15 @@ For one example campaing, the spider now consists of the following code:
             month_launched = (str(datetime_object.month))
             day_launched = (str(datetime_object.day))
             day_of_week_launched = (str(datetime_object.weekday()))
-            url = response.xpath('//meta[@property="og:url"]/@content').extract_first()
 
             l.add_value('campaign_message', campaign_message)
             l.add_value('raised_progress', raised_progress)
             l.add_value('goal', goal)
             l.add_value('campaign_title', campaign_title)
             l.add_value('currency_symbol', currency_symbol)
-            l.add_value('amount_raised', amount_raised)
+            l.add_value('currency_raised', currency_raised)
             l.add_value('duration_running', duration_running)
-            l.add_value('duration_label', duration_label)
+            l.add_value('duration_running_label', duration_running_label)
             l.add_value('number_contributers', number_contributers)
             l.add_value('location', location)
             l.add_value('owner_name', owner_name)
@@ -265,9 +266,9 @@ And the items.py file consists of the folowing code:
         goal = scrapy.Field()
         campaign_title = scrapy.Field()
         currency_symbol = scrapy.Field()
-        amount_raised = scrapy.Field()
+        currency_raised = scrapy.Field()
         duration_running = scrapy.Field()
-        duration_label = scrapy.Field()
+        duration_running_label = scrapy.Field()
         number_contributers = scrapy.Field()
         location = scrapy.Field()
         owner_name = scrapy.Field()
@@ -277,8 +278,109 @@ And the items.py file consists of the folowing code:
         day_of_week_launched = scrapy.Field()
         url = scrapy.Field()
         
-The columns are now in alphabetical order, but let's change the spider above a little bit and put the columns in the order we want. Let's also extend it to scrape information from all campaigns on the website.
+The columns are now in alphabetical order, but let's change the column order to the order we want. We'll use the [`FEED_EXPORT_FIELDS`](https://doc.scrapy.org/en/latest/topics/feed-exports.html#std:setting-FEED_EXPORT_FIELDS) option in order to do this. Thus,in the settings.py file, add the following code:
+
+    FEED_EXPORT_FIELDS = ["campaign_title", "campaign_message", "owner_name", "url",                                "raised_progress", "goal", "currency_symbol", 
+                        "currency_raised", "duration_running", "duration_running_label", "number_contributers", "location", "month_launched", 
+                        "day_launched", "hour_launched", "day_of_week_launched"]
+
+Let's also extend the spider it to scrape information from all campaigns on the website. Some of the campaigns don't have a goal, so the spider skipped those campaigns. Therefore, we've added in a try clause so that we can get the campaign title, campaign message (i.e., description), owner name, and URL from those campaigns, which shows up in the .csv file. 
+
+If you scroll to the bottom of the main [page](https://fundrazr.com/find?category=Accidents), you'll see a `next` tab to get to the [next page](https://fundrazr.com/find?category=Accidents&page=2) (e.g., see red square in the image below). 
+
+<p align="center"><img src="/assets/img/fundrazr_next_page.png"></p>
+
+We've added the code in the spider in order to get the next page:
+
+    next_page_url = response.xpath('//*[@class="next"]/a/@href').extract_first()
+    absolute_next_page_url = response.urljoin(next_page_url)
+    yield scrapy.Request(absolute_next_page_url)
+
+Now, the spider crawls all of the pages within the link provided in the start_urls list. This is the code for the spider:
+
+    import scrapy
+    from scrapy.loader import ItemLoader
+    from demo_scrapy.items import DemoScrapyItem
+    from datetime import datetime
+
+    class CrowdfundSpider(scrapy.Spider):
+        name = 'fundrazr_campaigns3'
+        allowed_domains = ["fundrazr.com"]
+        start_urls = [
+                    'https://fundrazr.com/find?category=Accidents'
+                    ]
+
+        def parse(self, response):
+            for href in response.xpath('//h2//a[@class="campaign-link"]/@href'):
+                url = "https:" + href.extract()
+                yield scrapy.Request(url, callback=self.parse_campaign)
+            
+            next_page_url = response.xpath('//*[@class="next"]/a/@href').extract_first()
+            absolute_next_page_url = response.urljoin(next_page_url)
+            yield scrapy.Request(absolute_next_page_url) # Scrapy uses requests to ask for a page and gets responses from the webserver. 
+            
+            # Here, we could add in another Request with a callback to follow another link (if, for example, there was a link in an individual campaign in this example). And the callback here could go to another function that would then parse that followed link.
+
+        def parse_campaign(self, response):
+            l = ItemLoader(item=DemoScrapyItem(), repsonse=response)
+
+            # Getting the campaign description
+            message = response.xpath("//div[contains(@id, 'full-story')]//text()").extract()
+            campaign_msg = []
+            for i in message:
+                if len(i.strip()) > 0:
+                    campaign_msg.append(i.strip())
+            campaign_message = (''.join(campaign_msg))
+            l.add_value('campaign_message', campaign_message)
+
+            # Getting the campaign title
+            campaign_title = (response.xpath('//div[@id="campaign-title"]/text()').extract_first()).strip()
+            l.add_value('campaign_title', campaign_title)
+
+            # Getting the owner name
+            owner_name = response.xpath('//span/a[@class="name subtle-link bold"]/text()').extract_first()
+            l.add_value('owner_name', owner_name)
+
+            # Getting the url
+            url = response.xpath('//meta[@property="og:url"]/@content').extract_first()
+            l.add_value('url', url)
 
 
+            # Getting the rest of the data from the campaigns
+            try:
+                raised_progress = response.xpath('//span[@class="raised-progress"]/text()').extract_first()
+                goal = ((response.xpath('//*[@id="campaign-stats"]/div[1]/span[3]/text()[2]').extract_first()).strip()).split(' ')[1]
+                currency_symbol = response.xpath('//span[@class="currency-symbol"]/text()').extract_first()
+                currency_raised = response.xpath('//span[@class="amount-raised"]/text()').extract_first()
+                duration_running = response.xpath('//span[@class="stat"]/text()').extract_first() 
+                duration_running_label = (response.xpath('//*[@id="campaign-stats"]/div[3]/span/span[2]/text()').extract()[0]).strip()
+                number_contributers = response.xpath('//span[@class="donation-count stat"]/text()').extract_first() 
+                location = response.xpath('//span/a[@class="muted nowrap"]/text()').extract_first()
+                timestamp = (response.xpath('//span[@class="stats-label"]/a/@data-timestamp').extract_first()).rstrip("0") # Getting the timestamp and removing trailing zeros
+                datetime_object = datetime.fromtimestamp(int(timestamp))
+                hour_launched = (str(datetime_object.hour))
+                month_launched = (str(datetime_object.month))
+                day_launched = (str(datetime_object.day))
+                day_of_week_launched = (str(datetime_object.weekday()))
+                
+                l.add_value('raised_progress', raised_progress)
+                l.add_value('goal', goal)
+                l.add_value('currency_symbol', currency_symbol)
+                l.add_value('currency_raised', currency_raised)
+                l.add_value('duration_running', duration_running)
+                l.add_value('duration_running_label', duration_running_label)
+                l.add_value('number_contributers', number_contributers)
+                l.add_value('location', location)
+                #l.add_value('timestamp', timestamp)
+                l.add_value('hour_launched', hour_launched)
+                #l.add_value('datetime_object', datetime_object)
+                l.add_value('month_launched', month_launched)
+                l.add_value('day_launched', day_launched)
+                l.add_value('day_of_week_launched', day_of_week_launched)
+            except:
+                pass
 
+            return l.load_item()
+
+If you have saved this spider in a .py file, open up a terminal and in your project directory, type: `scrapy crawl fundrazr_campaigns3 -o file_name.csv` in order to get the .csv file of the data. Add more to the start_urls list in order to scrape the entire website if needed.
 
