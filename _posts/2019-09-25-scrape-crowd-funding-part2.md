@@ -3,6 +3,9 @@ layout: post
 title: "Web Scraping Fundrazr with Python: Part 2 - expanding the data set"
 ---
 
+<p align="center"><img src="/assets/img/fundrazr_part_2_blog.png" width="500" height="400"></p>
+Photo modified from [https://www.freestock.com/free-photos/3d-laptop-computers-networking-isolated-white-56437381](https://www.freestock.com/free-photos/3d-laptop-computers-networking-isolated-white-56437381)
+
 In [part 1](https://sunshinescience.github.io/2019/08/24/scrape-crowd-funding_3.html) of this tutorial, we covered the following steps to create a data set via web scraping:
 
 -   Start a project directory and create a [virtual environment](https://sunshinescience.github.io/2019/08/08/create-python-env.html)
@@ -99,6 +102,8 @@ In the Scrapy shell, type `response.xpath('//a[starts-with(@href, "https://fundr
 
 If you have saved the spider above in a file, type in the command line `scrapy crawl fundrazr_campaigns2 -o fundrazr_items_extended.csv` to save the new data set to a file called 'fundrazr_items_extended.csv'. The updated data set extracts data from each of the categories on the site. The first page of each category is done first, and then the spider crawls to the next page of each category and so on. Note that the categories are not all in order in the first column of the data set. And there may be duplicates of some of the campaigns (this would have to be checked, but data cleaning is for another post). 
 
+### Create a spider to scrape individual campaigns
+
 The main goal in web scraping is to extract *structured data* from web pages. Therefore, to get the data in some specific order (i.e., *structure* the data) in a file, we would need to use Scrapy [Item](https://doc.scrapy.org/en/1.0/topics/items.html).
 
 Let's start adding to the items.py file in the project directory (in this demonstration the directory is called demo_scrapy). Let's start by adding to the class DemoScrapyItem:
@@ -109,7 +114,7 @@ Let's start adding to the items.py file in the project directory (in this demons
         campaign_message = scrapy.Field()
         owner_name = scrapy.Field()
 
-And, we'll make a demo2_spider_architecture.py file, and import two modules. That is, ItemLoader from scrapy.loader and a local module. So, from the project directory (here called demo_scrapy) we need to get into items.py and import the class (called DemoScrapyItem) from this module. Let's define ItemLoader as a variable, which would be the class that we have defined in items.py and response will equal response (meaning the start URL). This spider now has the following code:
+And, we'll make a demo2_spider.py file, and import two modules. That is, ItemLoader from scrapy.loader and a local module. So, from the project directory (here called demo_scrapy) we need to get into items.py and import the class (called DemoScrapyItem) from this module. Let's define ItemLoader as a variable, which would be the class that we have defined in items.py and response will equal response (meaning the start URL). This spider now has the following code:
 
     import scrapy
     from scrapy.loader import ItemLoader
@@ -345,7 +350,6 @@ Now, the spider crawls all of the pages within the link provided in the start_ur
             url = response.xpath('//meta[@property="og:url"]/@content').extract_first()
             l.add_value('url', url)
 
-
             # Getting the rest of the data from the campaigns
             try:
                 raised_progress = response.xpath('//span[@class="raised-progress"]/text()').extract_first()
@@ -385,7 +389,7 @@ Now, the spider crawls all of the pages within the link provided in the start_ur
 If you have saved this spider in a .py file, open up a terminal and in your project directory, type: `scrapy crawl fundrazr_campaigns3 -o file_name.csv` in order to get the .csv file of the data. Add more to the start_urls list in order to scrape the entire website if needed. If anyone wants the whole data set, please send me an email and I'll give it to you.
 
 ### Final thoughts
-We have web scraped a whole website to create a data set in Python using Scrapy. The data set would need to be assessed and cleaned before it could be used for analysis. Moreover, if the website were to change, the code in the spider would also need to change, thus the code could be improved a little bit to help with this, but that would be for another post. If anyone finds this information useful, please feel free to share this. Or, should anyone have insight on best practice/implementations, please send me an email. 
+We have extended the web scraping done for a website from Part 1 of this tutorial. We created a data set from all of the individual campaigns from a crowdfunding website, in Python using Scrapy. The data set would need to be assessed and cleaned before it could be used for analysis. Moreover, if the website were to change, the code in the spider would also need to change, thus the code could be improved a little bit to help with this, but that would be for another post. If anyone finds this information useful, please feel free to share this. 
 
 <center>Happy coding!<center>
 
