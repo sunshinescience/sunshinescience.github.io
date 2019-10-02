@@ -386,10 +386,10 @@ Now, the spider crawls all of the pages within the link provided in the start_ur
 
             return l.load_item()
 
-If you have saved this spider in a .py file, open up a terminal and in your project directory, type: `scrapy crawl fundrazr_campaigns3 -o file_name.csv` in order to get the .csv file of the data. Add more to the start_urls list in order to scrape the entire website if needed. If anyone wants the whole data set, please send me an email and I'll give it to you.
+If you were to save this spider in a .py file, open up a terminal and in your project directory, type: `scrapy crawl fundrazr_campaigns3 -o file_name.csv` in order to get the .csv file of the data. Add more to the start_urls list in order to scrape the entire website if needed. 
 
 ### Final thoughts
-We have extended the web scraping done for a website from Part 1 of this tutorial. We created a data set from all of the individual campaigns from a crowdfunding website, in Python using Scrapy. The data set would need to be assessed and cleaned before it could be used for analysis. Moreover, if the website were to change, the code in the spider would also need to change, thus the code could be improved a little bit to help with this, but that would be for another post. If anyone finds this information useful, please feel free to share this. 
+We have extended the web scraping done for a website from Part 1 of this tutorial. We created a data set from all of the individual campaigns from a crowdfunding website, in Python using Scrapy. This provides an example of how to scrape an entire website. The data set would need to be assessed and cleaned before it could be used for analysis. If the website were to change, the code in the spider would also need to change, thus the code could be improved a little bit to help with this, but that would be for another post. 
 
 <center>Happy coding!<center>
 
