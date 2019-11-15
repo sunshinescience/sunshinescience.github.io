@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Neural Network Cloud Classification in the Cloud - in progress"
+title: "Neural Network Cloud Classification in the Cloud - temporarily on hold"
 ---
 
 <p align="center"><img src="/assets/img/blue-clouds-day-fluffy-53594.jpeg" width="500" height="400"></p>
