@@ -108,7 +108,7 @@ It's possible to set something up to run a query if its below a specified size, 
     safe_query_job.to_dataframe()
 
 #### SELECT, FROM, WHERE
-We'll next be using some SQL keywords, which include SELECT, FROM, and WHERE in order to get data from specific columns based on specified conditions. The SELECT statement is used to select data from a database, the FROM statement is used to specify the table, and the WHERE is used for what row quality you're interested in. 
+We'll next be using some SQL keywords, which include SELECT, FROM, and WHERE in order to get data from specific columns based on specified conditions. The SELECT statement is used to select data from a database, the FROM statement is used to specify the table (or database), and the WHERE is used for what row quality you're interested in. 
 
 To write a SQL query that selects a single column from a single table, write the following:
 
@@ -154,7 +154,59 @@ The code below is a reference to a DataFrame object, (the DataFrame was previous
 
 <img src="/assets/img/sql_big_query_chic_crime_val_counts.png">
 
+There are 81089 measurements from robberies on the street, 81050 robberies on the sidewalk, 18595 robberies in an alley and so on.
 
+You can get an estimate of the size of your query without running it, by doing the following:
+
+    # Query to get the date and description column from every row where the type column has value "ROBBERY"
+    query2 = """
+            SELECT location_description
+            FROM `bigquery-public-data.chicago_crime.crime` 
+            WHERE primary_type = 'ROBBERY'
+            """
+            
+    # Create a QueryJobConfig object in order to estimate the size of the query without running it
+    dry_run_config = bigquery.QueryJobConfig(dry_run=True)
+
+    # API request - dry run query  
+    dry_run_query_job = client.query(query2, job_config=dry_run_config)
+    n_bytes = dry_run_query_job.total_bytes_processed
+    n_mega_bytes = n_bytes/1e+6
+    print("This query will process {:.0f} megabytes.".format(n_mega_bytes))
+
+<img src="/assets/img/sql_big_query_chic_crime_query_sz.png">
+
+    # Only run the query if it's less than 1 MB
+    ONE_MB = 1000*1000
+    safe_config = bigquery.QueryJobConfig(maximum_bytes_billed=ONE_MB)
+
+    # Set up the query (will only run if it's < 1 MB)
+    safe_query_job = client.query(query2, job_config=safe_config)
+
+    # API request - try to run the query, and return a pandas DataFrame
+    safe_query_job.to_dataframe()
+
+#### GROUP BY, HAVING, COUNT
+`COUNT()` is one example of an aggregate function, which takes several values and returns one value. The `GROUP BY` statement can be used with aggregate functions (`COUNT`, `MAX`, `MIN`, `SUM`, `AVG`) to *group* the result set by one (or more) column(s). `HAVING` filters things once they've been grouped using `GROUP BY`. `HAVING` is used in combination with `GROUP BY` to ignore groups that don't meet a certain criteria. `HAVING` is similar to `WHERE`, but it is used in conjunction with `GROUP BY`. See the code below for an example.
+
+    # Let's see how many community areas had arrests greater than 10 and let's also count the unique keys
+
+    # Making a text string with a SQL query in it:
+    query3 = """
+            SELECT community_area, COUNT(unique_key)
+            FROM `bigquery-public-data.chicago_crime.crime` 
+            GROUP BY community_area
+            HAVING COUNT(arrest) > 10
+            """
+    
+    # Give the client the above text string
+    query_job3 = client.query(query3)
+
+    # The client takes it to BiqQuery and then BigQuery does the parsing of the SQL query here
+    arrests = query_job3.to_dataframe() # This is now a Pandas DataFrame that you can use Pandas commands with
+    arrests.head()
+
+<img src="/assets/img/sql_big_query_chic_crime_group_by_count.png" width="500" height="300">
 
 
 <center>Happy coding!<center>
