@@ -66,6 +66,31 @@ A partial image of the output looks something like this:
 
 <img src="/assets/img/sql_big_query_chic_crime_5rows.png" width="700" height="500">
 
+### General code template using Kaggle's public dataset BigQuery integration
+Each time when using a BigQuery dataset via Kaggle, the following code will be used - and it will be the same every time. Generally, what will be changed is the specific dataset that you're pointing towards, the name(s) of the tables, and the name(s) of the columns and things that you're interested in.
+
+    from google.cloud import bigquery
+
+    # Create a "Client" object
+    client = bigquery.Client()
+
+    # Construct a reference to the "chicago_crime" dataset
+    dataset_ref = client.dataset("chicago_crime", project="bigquery-public-data")
+
+    # API request - get the dataset
+    dataset = client.get_dataset(dataset_ref)
+
+    # Construct a reference to the "crime" table
+    table_ref = dataset_ref.table("crime")
+
+    # API request - fetch the table
+    table = client.get_table(table_ref)
+
+    # Preview the first five lines of the "crime" table
+    client.list_rows(table, max_results=5).to_dataframe()
+
+Be sure to add the dataset to the kernel you're working with.
+
 ### SQL Statements
 
 The code of SQL that you send to a database to get some information back is called a query. And queries are made up of a variety of clauses.  And the clauses are based on keywords, such as SELECT, FROM, WHERE, etc. The SQL that we write here will be in text strings, and then we'll use a Python wrapper to send it to BigQuery and get it back.
@@ -207,6 +232,71 @@ You can get an estimate of the size of your query without running it, by doing t
     arrests.head()
 
 <img src="/assets/img/sql_big_query_chic_crime_group_by_count.png" width="500" height="300">
+
+Note that using `COUNT(1)`, in the above text string, would count the number of rows in each group. The column resulting from COUNT(unique_key) was given the name `f0__`. The name can be changed by adding `AS name` after specifying the aggregation, which is called aliasing:
+
+<img src="/assets/img/sql_big_query_chic_crime_unique_key.png" width="500" height="300">
+
+Note that your results will not have the exact same order each time you run the code using BigQuery.
+
+#### ORDER BY
+`ORDER BY` is a way to sort things in your returned query. Its usually the last clause in your query. You may want to sort using this because SQL is faster than other languages (e.g., Python) and you can just order things quicker this way. This clause works for columns containing numbers or columns that contain text. For example, let's order robberies by year in this dataset:
+
+    # Use ORDER BY to sort the year in the query
+    query4 = """
+            SELECT location_description, arrest, year  
+            FROM `bigquery-public-data.chicago_crime.crime` 
+            WHERE primary_type = 'ROBBERY' 
+            ORDER BY year
+            """
+    # Give the client the above text string called query4
+    query_job4 = client.query(query4)
+
+    # The client takes it to BiqQuery 
+    arrests = query_job4.to_dataframe() # This is now a Pandas DataFrame 
+    arrests.head()
+
+<img src="/assets/img/sql_big_query_chic_crime_order_by.png " width="500" height="300">
+
+The order can be reversed using the `DESC` argument (short for descending):
+
+    query4 = """
+            SELECT location_description, arrest, year  
+            FROM `bigquery-public-data.chicago_crime.crime` 
+            WHERE primary_type = 'ROBBERY' 
+            ORDER BY year DESC
+            """
+            
+<img src="/assets/img/sql_big_query_chic_crime_order_by_desc.png" width="500" height="300">
+
+
+#### Dates
+Please see the documentation [here](https://cloud.google.com/bigquery/docs/reference/standard-sql/date_functions) for date functions. The two ways that dates can be stored in BigQuery are as a: DATE or DATETIME. The DATE format has the year first, then the month, and then the day. 
+
+`YYYY-[M]M-[D]D`
+
+-    YYYY: Four-digit year
+-    [M]M: One or two digit month
+-    [D]D: One or two digit day
+
+The DATETIME format is similar to the date format, but with time at the end.
+
+`EXTRACT` can be used to get the value corresponding to the specified date part.
+The syntax is `EXTRACT(part FROM date_expression)`. The part needs to be from one of the parts as found [here](https://cloud.google.com/bigquery/docs/reference/standard-sql/date_functions) (e.g., DAYOFWEEK, DAY, etc).
+
+    query_date = """
+            SELECT location_description, EXTRACT(DAY from date) AS day    
+            FROM `bigquery-public-data.chicago_crime.crime` 
+            WHERE primary_type = 'ROBBERY' 
+            """
+    # Give the client the above text string called query4
+    query_job_date = client.query(query_date)
+
+    # The client takes it to BiqQuery 
+    arrests = query_job_date.to_dataframe() # This is now a Pandas DataFrame 
+    arrests.head()
+
+<img src="/assets/img/sql_big_query_chic_crime_day.png" width="500" height="300">
 
 
 <center>Happy coding!<center>
