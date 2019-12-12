@@ -231,11 +231,11 @@ You can get an estimate of the size of your query without running it, by doing t
     arrests = query_job3.to_dataframe() # This is now a Pandas DataFrame that you can use Pandas commands with
     arrests.head()
 
-<img src="/assets/img/sql_big_query_chic_crime_group_by_count.png" width="500" height="300">
+<img src="/assets/img/sql_big_query_chic_crime_group_by_count.png" width="250" height="150">
 
 Note that using `COUNT(1)`, in the above text string, would count the number of rows in each group. The column resulting from COUNT(unique_key) was given the name `f0__`. The name can be changed by adding `AS name` after specifying the aggregation, which is called aliasing:
 
-<img src="/assets/img/sql_big_query_chic_crime_unique_key.png" width="500" height="300">
+<img src="/assets/img/sql_big_query_chic_crime_unique_key.png" width="250" height="150">
 
 Note that your results will not have the exact same order each time you run the code using BigQuery.
 
@@ -256,7 +256,7 @@ Note that your results will not have the exact same order each time you run the 
     arrests = query_job4.to_dataframe() # This is now a Pandas DataFrame 
     arrests.head()
 
-<img src="/assets/img/sql_big_query_chic_crime_order_by.png " width="500" height="300">
+<img src="/assets/img/sql_big_query_chic_crime_order_by.png " width="250" height="150">
 
 The order can be reversed using the `DESC` argument (short for descending):
 
@@ -267,7 +267,7 @@ The order can be reversed using the `DESC` argument (short for descending):
             ORDER BY year DESC
             """
             
-<img src="/assets/img/sql_big_query_chic_crime_order_by_desc.png" width="500" height="300">
+<img src="/assets/img/sql_big_query_chic_crime_order_by_desc.png" width="250" height="150">
 
 
 #### Dates
@@ -296,7 +296,7 @@ The syntax is `EXTRACT(part FROM date_expression)`. The part needs to be from on
     arrests = query_job_date.to_dataframe() # This is now a Pandas DataFrame 
     arrests.head()
 
-<img src="/assets/img/sql_big_query_chic_crime_day.png" width="500" height="300">
+<img src="/assets/img/sql_big_query_chic_crime_day.png" width="250" height="150">
 
 
 <center>Happy coding!<center>
