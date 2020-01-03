@@ -293,8 +293,8 @@ The syntax is `EXTRACT(part FROM date_expression)`. The part needs to be from on
     query_job_date = client.query(query_date)
 
     # The client takes it to BiqQuery 
-    arrests = query_job_date.to_dataframe() # This is now a Pandas DataFrame 
-    arrests.head()
+    robberies = query_job_date.to_dataframe() # This is now a Pandas DataFrame 
+    robberies.head()
 
 <img src="/assets/img/sql_big_query_chic_crime_day.png" width="250" height="150">
 
