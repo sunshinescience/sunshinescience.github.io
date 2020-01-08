@@ -19,7 +19,7 @@ We've chosen to start with Google Colab as the GPU is free. We aren't sure how i
 
 In order to get set up and access the Colab notebook from the course, follow the steps found [here](https://course.fast.ai/start_colab.html). This will iunclude information on accessing Colab, configuring your notebook instance, and how to save your work. 
 
-If your computer doesn't have a GPU, there are several options to try if you wanted to try a different GPU, such as [Crestle](https://crestle.ai/), set up an Azure Virtual Machine [(AVM)](https://azure.microsoft.com/en-gb/free/virtual-machines/search/?&ef_id=Cj0KCQiAxrbwBRCoARIsABEc9si-9bgWZ9YukU-Me3B96lDIb6SzTOHUybG_ZBnA7q0wnjqXjV8gwuwaAjJlEALw_wcB:G:s&OCID=AID2000125_SEM_4QqQWq38&MarinID=4QqQWq38_324561106063_azure%20virtual%20machine_e_c__66077404040_aud-411816020291:kwd-296465860779&lnkd=Google_Azure_Brand&dclid=CMe-yvvd5OYCFdYw0wodGbsAUA) cloud instance, [Paperspace](https://www.paperspace.com/), or you can even build your own deep learning machine (for example blog posts, see [here]https://www.topbots.com/deep-confusion-misadventures-in-building-a-machine-learning-server/, [here](https://medium.com/impactai/setting-up-a-deep-learning-machine-in-a-lazy-yet-quick-way-be2642318850), or [here](https://towardsdatascience.com/building-your-own-deep-learning-box-47b918aea1eb)).
+If your computer doesn't have a GPU, there are several options to try if you wanted to try a different GPU, see [here](https://course.fast.ai/) for a jupyter notebook. You may also want to try a GPU from [Crestle](https://crestle.ai/), or set up an Azure Virtual Machine [(AVM)](https://azure.microsoft.com/en-gb/free/virtual-machines/search/?&ef_id=Cj0KCQiAxrbwBRCoARIsABEc9si-9bgWZ9YukU-Me3B96lDIb6SzTOHUybG_ZBnA7q0wnjqXjV8gwuwaAjJlEALw_wcB:G:s&OCID=AID2000125_SEM_4QqQWq38&MarinID=4QqQWq38_324561106063_azure%20virtual%20machine_e_c__66077404040_aud-411816020291:kwd-296465860779&lnkd=Google_Azure_Brand&dclid=CMe-yvvd5OYCFdYw0wodGbsAUA) cloud instance, or try [Paperspace](https://www.paperspace.com/), or you can even build your own deep learning machine (for example blog posts, see [here]https://www.topbots.com/deep-confusion-misadventures-in-building-a-machine-learning-server/, [here](https://medium.com/impactai/setting-up-a-deep-learning-machine-in-a-lazy-yet-quick-way-be2642318850), or [here](https://towardsdatascience.com/building-your-own-deep-learning-box-47b918aea1eb)).
 
 For our Colab notebook, at the beginning of the notebook, two code cells have been included, the first is:
 
@@ -66,3 +66,37 @@ In order to download and extract the data, we'll use the `untar_data` function, 
 <center>Happy coding!<center>
 
 <center>.           .           .<center>
+
+
+code:
+    !curl -s https://course.fast.ai/setup/colab | bash
+
+    from google.colab import drive
+    drive.mount('/content/gdrive', force_remount=True)
+    root_dir = "/content/gdrive/My Drive/"
+    base_dir = root_dir + 'fastai-v3/'
+
+markdown:
+    Don’t forget to append base_dir before root path(s) in all notebooks.
+
+    For example, in lesson2-download.ipynb 5th cell, make the following changes:
+
+        path = Path(base_dir + 'data/bears')
+        dest = path/folder
+        dest.mkdir(parents=True, exist_ok=True)
+
+markdown:
+    Welcome to lesson 1! For those of you who are using a Jupyter Notebook for the first time, you can learn about this useful tool in a tutorial we prepared specially for you; click File->Open now and click 00_notebook_tutorial.ipynb.
+
+    In this lesson we will build our first image classifier from scratch, and see if we can achieve world-class results. Let's dive in!
+
+    Every notebook starts with the following three lines; they ensure that any edits to libraries you make are reloaded here automatically, and also that any charts or images displayed are shown in this notebook.
+
+code:
+    %reload_ext autoreload
+    %autoreload 2
+    %matplotlib inline
+
+    # Check the version of fastai that you import
+    import fastai
+    fastai.__version__

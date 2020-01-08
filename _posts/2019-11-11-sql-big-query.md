@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Using SQL and BigQuery - in progress"
+title: "Using SQL and BigQuery"
 ---
 
 ### What is SQL?
@@ -269,7 +269,6 @@ The order can be reversed using the `DESC` argument (short for descending):
             
 <img src="/assets/img/sql_big_query_chic_crime_order_by_desc.png" width="250" height="150">
 
-
 #### Dates
 Please see the documentation [here](https://cloud.google.com/bigquery/docs/reference/standard-sql/date_functions) for date functions. The two ways that dates can be stored in BigQuery are as a: DATE or DATETIME. The DATE format has the year first, then the month, and then the day. 
 
@@ -298,6 +297,7 @@ The syntax is `EXTRACT(part FROM date_expression)`. The part needs to be from on
 
 <img src="/assets/img/sql_big_query_chic_crime_day.png" width="250" height="150">
 
+Stay tuned for more SQL statements in a future blog post.
 
 <center>Happy coding!<center>
 
