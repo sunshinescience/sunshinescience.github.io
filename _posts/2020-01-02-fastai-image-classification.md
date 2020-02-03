@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Deep learning image classification using fast.ai - in progress"
+title: "Deep learning image classification using fast.ai - temporarily on hold"
 ---
 
 Python is the most commonly used language for deep learning. Many deep learning libraries have Python options available. There are several libraries available, such as TensorFlow (Google), PyTorch (Facebook), MxNet (University of Washington, adapted by Amazon), CNTK (Microsoft), DeepLearning4j (Skymind), Caffe2 (Facebook), Nnabla (Sony), PaddlePaddle (Baidu), and Keras (a high-level API that runs on top of several libraries in this list). 
@@ -66,37 +66,3 @@ In order to download and extract the data, we'll use the `untar_data` function, 
 <center>Happy coding!<center>
 
 <center>.           .           .<center>
-
-
-code:
-    !curl -s https://course.fast.ai/setup/colab | bash
-
-    from google.colab import drive
-    drive.mount('/content/gdrive', force_remount=True)
-    root_dir = "/content/gdrive/My Drive/"
-    base_dir = root_dir + 'fastai-v3/'
-
-markdown:
-    Don’t forget to append base_dir before root path(s) in all notebooks.
-
-    For example, in lesson2-download.ipynb 5th cell, make the following changes:
-
-        path = Path(base_dir + 'data/bears')
-        dest = path/folder
-        dest.mkdir(parents=True, exist_ok=True)
-
-markdown:
-    Welcome to lesson 1! For those of you who are using a Jupyter Notebook for the first time, you can learn about this useful tool in a tutorial we prepared specially for you; click File->Open now and click 00_notebook_tutorial.ipynb.
-
-    In this lesson we will build our first image classifier from scratch, and see if we can achieve world-class results. Let's dive in!
-
-    Every notebook starts with the following three lines; they ensure that any edits to libraries you make are reloaded here automatically, and also that any charts or images displayed are shown in this notebook.
-
-code:
-    %reload_ext autoreload
-    %autoreload 2
-    %matplotlib inline
-
-    # Check the version of fastai that you import
-    import fastai
-    fastai.__version__
