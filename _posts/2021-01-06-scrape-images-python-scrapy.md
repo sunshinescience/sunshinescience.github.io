@@ -1,7 +1,11 @@
 ---
 layout: post
-title: "How to Webscrape Images using Scrapy"
+title: "How to Webscrape Images using Scrapy - in progress"
 ---
+
+<p align="center"><img src="/assets/img/altumcodecompunsplash.jpg" width="350" height="500"></p>
+Photo by [AltumCode](https://unsplash.com/photos/oZ61KFUQsus) on [Unsplash](https://unsplash.com/)
+
 
 [Web scraping](https://en.wikipedia.org/wiki/Web_scraping) can be used to extract data from websites. Here, we will use [Scrapy](https://docs.scrapy.org/en/0.24/index.html) to extract images from instagram.
 
