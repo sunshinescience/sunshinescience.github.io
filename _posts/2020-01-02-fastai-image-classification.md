@@ -62,6 +62,7 @@ In order to download and extract the data, we'll use the `untar_data` function, 
     path = untar_data(URLs.PETS)
     path
 
+To be completed soon...
 
 <center>Happy coding!<center>
 
